@@ -1,26 +1,50 @@
 % !TEX encoding = UTF-8 Unicode 
 % !TEX root = praca.tex
 
-\chapter*{Wprowadznie}
+\chapter*{Introduction}
 
-Niniejszy szablon jest adaptacją szablonu opracowanego przez Pana Wojciecha Myszkę (patrz https://kmim.wm.pwr.edu.pl/myszka/projekty).
+Computer role playing games are popular ways to spend time for people of all ages.
+They offer a convenient escape from the hardships of everyday life and fullfil the same role as fantasy books, with the added interactivity.
+It is that element of interactivity that adds many new layers of complexity and challenges regarding both design and implementation.
+Giving player the ability to perform actions which influence the state of the game leads to the natural expecation that they will have a meaningful impact.
+That impact can be on the visual representation of the world or through references to particular events in dialogues or maybe other pieces of lore.
+For example if the player's actions cause the death of a king, it will destabilize the kingdom.
+Skirmishes between groups of vagabonds and kingdom's soldiers will happen more often, the people will talk of the circumstances of the death of their king all across the land, the economy will suffer, etc.
+If the player is discovered to have been the culprit, they will be chased by the guards and their poster might appear pinned to walls across the kingdom.
+Another example is an act of stealing an apple from the stall of a local grocer's.
+If the act went unnoticed, the player should face no consequences and it is unrealistic to expect anyone to recognize an apple as being stolen without witnessing the act themselves.
+Even the news of that event should not be as far-reaching as in the previous example.
+These examples apply not only to the actions performed directly by the player by to all plot events in general.
 
-Został przetestowany w następujących narzędziach:
-\begin{itemize}
-\item Overleaf.com -- wersja on-line; nie jest wymagana instalacja
-\item TeXStudio/TeXLive oraz TeXStudio/MiKTeX oraz TeXWorks/MiKTex
-\end{itemize}
+A plot event is any event with influence on the game world and its history.
+Not all game events fullfil these criteria and those that do not are outside the scope of consideration because they are inconsequential.
+A plot event is characterized by both time and place in which it happened.
+These do not need to be precise.
+The time can be "a long time ago" and place can be "in a land far, far away".
+They could also be unknown.
+All plot events that occurred within the game world constitute the plot state which represents a snapshot of history of the represented world.
 
-Użycie pełnej wersji może wymagać (np. dla zestawu TeXWorks/MikTeX):
-\begin{itemize}
-\item instalacji Python 2.7+ wraz z pakietem Pygments; ścieżki do obu narzędzi powinny być ustawione w zmiennej środowiskowej PATH -- pakiet jest używany do kolorowania słów kluczowych w listingach języków programowania
-\item w środowisku Latex należy włączyć opcję -shell-escape  -- jest wymagana dla pakietu ``minted'' Latexa 
-\end{itemize}
+There are two kinds of plot events, absolute and relative.
+Absolute plot events represent an objective description of an event in the world which does not need any observer.
+Relative plot events are tied to the observer or group of observers and can contradict the absolute events.
+The latter represent the perspective of a given person or group and thus are biased and limited.
+A wizard casting telekinesis to move a vase in another room is an absolute event.
+A maid witnessing the vase falling on its own will speak of a ghost haunting the place.
+Upon talking to her, the player will receive information regarding spiritual activity in the mansion as that is the information available to them, an example of relative plot event.
 
-\section*{Cel pracy}
+This distinction is paramount in describing the propagation of plot events as it highlights the importance of information media. While information can exist on its own, knowledge requires interpretation through the lens of previous experiences.
+Events that can not be perceived by a person, will not be propagated through word-of-mouth.
 
-\lipsum[5]
+\section*{Goal}
 
-\section*{Zakres pracy}
+The goal is to analyze both types of plot events (absolute and relative) and model of propagation of plot events in the game world.
 
-\lipsum[6]
+\section*{Scope}
+
+The scope of the work is:
+- compare how selected games handle representation of consequences of player actions
+- describe formal representation of plot event
+- describe formal representation of plot state
+- analyze differences between absolute plot events and relative plot events
+- analyze propagation of absolute events
+- analyze propagation of relative events
