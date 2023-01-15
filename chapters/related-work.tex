@@ -1,13 +1,28 @@
 \Chapter{Related Work}\label{chapter:related}
-W tej sekcji powinny zostać przedstawione powiązane prace z tematem. Przedstaw tło i kontekst badań.
 
-SIR models for propagation, Silva uses CA, perhaps there are others
+In 1989, Ackoff\cite{ackoff1989data} defined the hierarchy of the human mind as consisting of wisdom at the very top and descending into understanding, knowledge, information and further into data.
+The more popularized variant of this hierarchy being DIKW (data, information, knowledge, wisdom), became widespread in literature regarding knowledge management\cite{skyrme2007knowledge}.
+According to Liew\cite{liew2013dikiw} trying to accurately define data, information and knowdlege will result in circular definition.
+To solve that problem he proposes a DIKIW model where "I" stands for "Intelligence".
+Irrespective of chosen framework, everyone agrees that information and knowledge are related but represent different levels of abstraction.
+While data is raw and unprocessed before it can become information, similarly information needs to be retained and assimilated to become knowledge.
+The scope of this thesis covers only information understood as statements of fact and knowledge defined as retained and processed information.
 
-\section{Model Compression}
-
-Dzięki technice X~\cite{nowak2016} uzyskujemy (\dots). Zgodnie ze standardem bibliografia powinna być uszeregowana alfabetycznie według haseł autorskich, dlatego może się zażyć, że wcześniejsze odwołanie ma wyższą cyfrę.
-
-\section{XYZ}
-XYZ używany jest do (\dots). Dzięki tej technice (\dots). Powstało wiele rozwinięć tematu takie jak (\dots)~\cite{nowak2018, w4n2017}, czy (\dots) \cite{babington2008}.
-
-Zauważ, że strona pierwsza rozdziału ma inny styl niż kolejne. Rozdział powinien zawsze rozpoczynać się na nieparzystej stronie. Parzyste strony w nagłówku mają podkreślony wydział: ,,Faculty of Information and Communication Technology''; nieparzyste (z wyjątkiem pierwszych stron tytułowych): ,,Wrocław University of Science and Technology''. Jeśli rozdział kończy się na stronie nieparzystej powinna zostać dodana pusta strona bez formatowania, tak aby kolejny rozdział rozpoczynał się ponownie od strony nieparzystej. Jakkolwiek staramy się unikać pustych stron.
+A population of people can be said to possess knowledge similarly to a single individual.
+To understand how knowledge is gained within a population one should analyze the way information itself is propagated.
+In fact, people have already noticed that certain facts, stories or news share similarities with viral infections in how they spread across the whole population and eventually die out.
+One such example is the work done by Liu et al.\cite{liu2016} where the authors describe how information spread can be explained using epidemiological models.
+Truly, the simplest of such models called SIR\cite{weiss2013sir} can be used to describe in simple terms how a population can be partitioned into groups of \emph{Susceptible} (people who haven't encountered the viral information yet), \emph{Infected} (those who know the news and are willing to share it) and \emph{Removed} (everyone who either lost interest or simply never exhibited it).
+There are however differences between infectious diseases and information.
+For this reason variations of the SIR model became born.
+Zhao et all\cite{zhao2012sihr} have developed the SIHR model where H stands for \emph{Hibernators}.
+The authors stress the importance of forgetting and remembering in trying to model the spread of information.
+Another variation worth noting is the SCIR model consisting of \emph{Susceptible}, \emph{Contacted}, \emph{Infected} and \emph{Refractory}\cite{xiong2012scir}.
+Both models use complex systems in order to simulate information propagation.
+Other attempts at modelling information propagation are networks\cite{rodriguez2013} and cellular automata\cite{silva2020}.
+Most literature dealing with the topic refers to social media, blogs and internet as the main medium of information exchange.
+Relatively few works analyze the mechanisms behind word-of-mouth communication.
+In 2003 at the "Symposium on Applications and the Internet", Takeuchi, S. and Kamahara, J. and Shimojo, S. and Miyahara, H. have presented their work titled "Human-network-based filtering: the information propagation model based on word-of-mouth communication" which deals with simulating how certain information is spread based on the filters of interest\cite{takeuchi1183031}.
+Most authors treat knowledge of information as a binary value.
+In reality the level of knowledge is often more complicated.
+Silva et al.\cite{silva2020} propose the application of cellular automata to model information expressed as a linear value.
