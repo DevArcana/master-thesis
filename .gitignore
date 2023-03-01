@@ -22,3 +22,6 @@ _minted-*
 
 # resulting pdf documents
 main.pdf
+
+# macos
+.DS_Store
