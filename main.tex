@@ -5,6 +5,10 @@
 \input{latex-settings.tex}
 
 \frontmatter
+
+\newenvironment{variables}
+  {\par\vspace{\abovedisplayskip}\noindent\begin{tabular}{>{$}l<{$} @{${}-{}$} l}}
+  {\end{tabular}\par\vspace{\belowdisplayskip}}
 %check the current front page here:
 %https://wiz.pwr.edu.pl/en/students/thesis
 %and generate pdfs, and save in title_page folder.
@@ -28,6 +32,7 @@
 \input{chapters/introduction.tex}
 \input{chapters/related-work.tex}
 \input{chapters/chapter1/chapter1_main.tex}
+\input{chapters/chapter2/chapter2_main.tex}
 \input{chapters/conclusions.tex}
 % Redefine plain for 1st bibliography page style
 \resetformatting

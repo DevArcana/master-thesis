@@ -1,8 +1,30 @@
 \Chapter{Related Work}\label{chapter:related}
 
+% What is data, information, knowledge?
+
+The earliest works discussing information and similar concepts comes from Shannon in 1948\cite{shannon1948mathematical}.
+The author however never defines the term itself and simply proposes models for quantitative analysis.
+Approach described back then was more related to data than it was to information.
+The distinction was made clear by Langefors in 1973\cite{langefors1973theoretical}.
+Langefors proposed an approach putting the users of information first and proposed the following equation to describe the interaction of time, data, knowledge and information:
+$$
+    I = i(D, S,t)
+$$
+where:
+\begin{variables}
+    $I$ & information \\
+    $i$ & interpretation process \\
+    $D$ & data \\
+    $S$ & knowledge \\
+    $t$ & time
+\end{variables}
 In 1989, Ackoff\cite{ackoff1989data} defined the hierarchy of the human mind as consisting of wisdom at the very top and descending into understanding, knowledge, information and further into data.
 The more popularized variant of this hierarchy being DIKW (data, information, knowledge, wisdom), became widespread in literature regarding knowledge management\cite{skyrme2007knowledge}.
-According to Liew\cite{liew2013dikiw} trying to accurately define data, information and knowdlege will result in circular definition.
+There have been many attempts to define the distinction between these terms as well as the terms themselves.
+One notable example was done by Grabowski and Zając in 2009\cite{mariusz2009dane}.
+The authors stress the hardship of definition of such primal terms and highlight the two major science disciplines that are related to them (information theory and knowledge management).
+Both disciplines use the pyramid of knowledge (or information respectively).
+According to Liew\cite{liew2013dikiw} trying to accurately define data, information and knowledge will result in circular definition.
 To solve that problem he proposes a DIKIW model where "I" stands for "Intelligence".
 Irrespective of chosen framework, everyone agrees that information and knowledge are related but represent different levels of abstraction.
 While data is raw and unprocessed before it can become information, similarly information needs to be retained and assimilated to become knowledge.
@@ -28,3 +50,13 @@ In 2003 at the "Symposium on Applications and the Internet", Takeuchi, S. and Ka
 Most authors treat knowledge of information as a binary value.
 In reality the level of knowledge is often more complicated.
 Silva et al.\cite{silva2020} propose the application of cellular automata to model information expressed as a linear value.
+
+When trying to model how information propagates in a given system, it is often helpful to try and list its characteristics.
+Grabowski and Zając followed the steps of Langefors and others while describing the following set of information characteristics:
+\begin{itemize}
+    \item Completedness - information must inlude context necessary for its interpretation
+    \item Versatility - information should be interpretable from multiple viewpoints
+    \item Accuracy - it should not be too vague nor too specific
+    \item Financially viable - it should be useful in business context
+\end{itemize}
+These show clearly how most work done previously in this domain of knowledge related to the business context.
