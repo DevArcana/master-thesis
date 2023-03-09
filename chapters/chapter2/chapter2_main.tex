@@ -1,2 +1,83 @@
-\Chapter{Logical information propagation}
+\Chapter{Representation of information}
 
+Modelling propagation of information itself is possible without looking at how it is represented.
+The same is not true for modelling knowledge and its interaction with the former.
+The ability to express any concept relies on the application of language.
+It is precisely that which enables and also limits everything that is able to be conveyed using it.
+Natural language is very complicated and full of inconsistencies.
+Human brain handles that very well and in fact often is the source of said inconsistencies.
+In order to create a model useful in terms of game development, it needs to have a clearly defined way to represent information.
+One such option is the application of relational algebra.
+To create a language one needs to think about what concepts it should allow expression of.
+For example, in the English language a very simple sentence can be assembled: "The apple is red".
+This sentences implies several things about the state of the described world.
+First and foremost it implies the existence of a specific apple.
+Secondly, it implies that apples have the attribute of color and that this particular one is red.
+Due to its simple nature, both semantically and syntatically, one could write the following mathematical representation of this sentence:
+
+$$
+    \left( apple, is, red \right)
+$$
+
+An ordered set of words that in the right context is understood to mean that there exists an apple and that said apple is red.
+A reasonable assumption is that by having a sufficiently sophisticated representation, it should be possible to tell whether a given pair of such statements are conflicting.
+
+$$
+    \left( apple, is, red \right) \neq \left( apple, is, green \right)
+$$
+
+To a human such an equation will seem correct at first glance.
+However, as previously mentioned, the word "red" carries an impliciation of the described object possessing the attribute of color.
+
+$$
+    \left( apple, is, red \right) \neq \left( apple, is, round \right)
+$$
+
+The above statement is false as it tries to compare two distinct attributes, namely shape and color.
+In order to make these kinds of statements more explicit, a fourth element is added.
+
+$$
+    \left( apple, is, color, red \right)
+$$
+
+This way it is possible to represent any arbitrary statement in the form of: "Object $X$ has attribute $Y$ of value $Z$" in the form of:
+
+$$
+    \left( X, is, Y, Z \right)
+$$
+
+In terms of relational algebra one can think of the word "is" as an operator denoting a binary relation between some object and the value of some attribute.
+Because a language should have more than a single type of expressable relation, the mathematical representation should be more generic to accomodate all kinds of binary relations:
+
+$$
+    \left( operator, first, second \right)
+$$
+
+In the case of the $is$ operator:
+
+$$
+    \left( is, object, \left\{ attribute, value \right\} \right)
+$$
+
+Following the previous example:
+
+$$
+    \left( is, apple, \left\{ color, red \right\} \right)
+$$
+
+Then, one can define a function determining whether two statements $S_a$ and $S_b$ are conflicting:
+
+$$
+    S_a = \left( is, x_a, \left\{ y_a, z_a \right\} \right)
+$$
+
+$$
+    S_b = \left( is, x_b, \left\{ y_b, z_b \right\} \right)
+$$
+
+$$
+    conflict \left( S_a, S_b \right) \iff x_a = x_b \land y_a = y_b \land z_a \neq z_b
+$$
+
+% Identity
+One important aspect of the natural language is ambiguity of subject's identity.
