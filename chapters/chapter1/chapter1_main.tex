@@ -1,4 +1,44 @@
-\Chapter{Information versus Knowledge}
+\Chapter{Storing plot state of a game world}
+
+\section{Introduction}
+
+Plot state of a game world can be represented in a plethora of ways, depending on the defined use cases.
+Plot state can be associated with the state of knowledge in a given region or with an individual actor.
+The first approach is used for spatial modelling where the game world is partitioned into disjoint regions that can be considered to be homogeneus in terms of their reaction to various kinds of plot events.
+The second approach is useful for creation of logical models that may be employed to simulate very precise and complex interactions between individual actors.
+It is worth mentioning that an actor does not necessarily need to be a representation of a person but may as well be a whole region, a city, a town or even an abstract concept.
+Spatial models are well suited for simulating how a given plot even will impact the rest of the game world in terms in terms of information propagation.
+Logical models excel in representing complex interactions and simulating how
+
+\section{Logical models}
+
+A logical model is called an information network.
+It consists of a set of actors and information pathways between them.
+An actor holds limited knowledge about the game world.
+An information pathway is a physical possbility of an actor to exchange information with another actor.
+Activation of an information pathway can be thought of as a conversation between the two interconnected actors.
+An example of an information network can be seen on figure \ref{fig:logical_model_example}.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.6\textwidth]{images/logical_model_example.png}
+    \caption{Example of an information network}\label{fig:logical_model_example}
+\end{figure}
+
+\section{Spatial models}
+
+WIP
+
+\section{Partitioning of actors to form spatial models}
+
+Spatial models can be constructed by partitioning a logical model after assigning each actor its physical location and calculating bounds of each logical network.
+This method requires that actors form disjoint sets of information networks.
+Any plot even propagated to each spatial region can be either made immedietely accessible to all members of the embedded logical model or to a specific subset of actors.
+Similarly an actor may be designated a gateway out of the logical model into the spatial one and gain the ability to propagate information to other spatial regions.
+This way a game world may employ both types of models to essentially store the whole plot state and simulate in detail only the subset of regions that the player is in close proximity to.
+This approach makes usage of the logical model a viable solution for large scale open world games.
+
+\section{Difference between knowledge and information}
 
 % What is information?
 The most important distinction when building information propagation models is the one that differentiates knowledge from information.
@@ -107,3 +147,9 @@ Information can reach its target in a plethora of ways.
 In many models
 % What happens after information reaches the target?
 % What are the sources of information?
+
+% Plot events: 
+% Śmierć władcy rozprzestrzeni się od punktu centralnego wzdłuż dróg
+% Wybuch wulkanu rozprzetrzeni się od każdego miejsca z którego był widoczny
+% Smok będzie widziany na całej jego trasie lotu, uwzględniając czas.
+% Epidemia, każdy nowy chory ma większy priorytet
