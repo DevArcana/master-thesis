@@ -25,6 +25,26 @@ Similarly to the situation calculus, the event calculus uses the concept of acti
 The main difference is that events can be external and happen at specific time points which makes it essential for modelling plot state where a plot event can happen in isolation.
 Event calculus was introduced first in 1986 by Kowalski and Sergot \cite{kowalski1986logic}.
 It was then simplified in 1992 \cite{kakas1992abductive}.
+In general, the ontology of event calculus includes the definitions of fluents and actions.
+In order to utilize event calculus in representation of plot points, one can limit the type of fluents to just propositional fluents.
+The predicates used to model plot state are described in table \ref{tab:event-calculus-predicates}.
+
+\begin{table}[]
+    \centering
+    \begin{tabular}{@{}ll@{}}
+        \toprule
+        Predicate                                       & Meaning                                                            \\ \midrule
+        $Initially \left( \beta \right)$                & Fluent $\beta$ holds from $\tau_0$                                 \\
+        $Initiates \left( \alpha, \beta, \tau \right)$  & Fluent $\beta$ starts to hold after action $\alpha$ at time $\tau$ \\
+        $Terminates \left( \alpha, \beta, \tau \right)$ & Fluent $\beta$ stops holding after action $\alpha$ at time $\tau$  \\
+        $Happens \left( \alpha, \tau \right)$           & Action $\alpha$ occurs at time $\tau$                              \\
+        $HoldsAt \left( \beta, \tau \right)$            & Fluent $\beta$ holds at time $\tau$                                \\
+        $Clipped \left( \tau_1, \beta, \tau_2 \right)$  & Fluent $\beta$ is terminated between times $\tau_1$ and $\tau_2$   \\
+        $\tau_1 < \tau_2$                               & Time point $\tau_1$ is before time point $\tau_2$                  \\ \bottomrule
+    \end{tabular}
+    \caption{Event calculus predicates used to express plot state, based on Shanahan et al.\cite{shanahan2001event}}
+    \label{tab:event-calculus-predicates}
+\end{table}
 
 In general, plot state of a game world can be represented in a plethora of ways, depending on the defined use cases.
 Plot state can be associated with the state of knowledge in a given region or with an individual actor.
