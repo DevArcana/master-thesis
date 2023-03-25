@@ -2,13 +2,37 @@
 
 \section{Plot events}
 
-Plot state of a game world can be represented in a plethora of ways, depending on the defined use cases.
+Saussure introduced the distinction between language (la langue) and meaning (la parole)\cite{gordon2004langue}.
+When thinking about how to represent the plot state of the game world, one should take into account the possible space of expression within it.
+%
+In Saussure's framework, language (la langue) refers to the overall system of rules, conventions, and structures that govern a particular language, while meaning (la parole) refers to the individual utterances or expressions produced by speakers of that language.
+This distinction emphasizes the idea that language is a system that is shared and agreed upon by a community of speakers, and that meaning is not fixed but rather is created through the interaction between the language system and the speaker's intentions and context.
+When representing the plot state of a game world, it is important to consider the language used to describe that world and the range of expressions that are possible within that language.
+%
+In general, plot representation should be able to express a chronological event with some relevance to the story.
+A story is a collection of plots.
+Each plot may be considered in the scope of multiple narratives.
+For the sake of plot representation, the important aspect is in being able to convey the event in an impartial manner without taking into account the narrative within which it can be considered.
+As noted by Lindley, the plot state of the game world does not need to be available and presented to the player in its entirety, as is the case for example in games such as SIM City \cite{lindley2005story}.
+In general, the player only has access to a given subset of the plot state as they discover each individual plot point separately.
+The same can be said about the simulated actors in the game world as limiting their knowledge may increase the realism of the simulation and in turn result in a more immersive experience.
+
+The two most commonly used formalism for representation of plot state in games are situation calculus and event calculus.
+The situation calculus is a logical language for representing changes\cite{lin2008situation}.
+According to Levesque, in situation calculus "the foundational axioms for situations provide a purely qualitative notion of time whose only temporal concept is sequential action occurrence: an action occurs before or after another within"\cite{levesque1998foundations}.
+The event calculus is a formalism for reasoning about action and change \cite{mueller2008event}.
+Similarly to the situation calculus, the event calculus uses the concept of actions (called "events") and fluents.
+The main difference is that events can be external and happen at specific time points which makes it essential for modelling plot state where a plot event can happen in isolation.
+Event calculus was introduced first in 1986 by Kowalski and Sergot \cite{kowalski1986logic}.
+It was then simplified in 1992 \cite{kakas1992abductive}.
+
+In general, plot state of a game world can be represented in a plethora of ways, depending on the defined use cases.
 Plot state can be associated with the state of knowledge in a given region or with an individual actor.
 The first approach is used for spatial modelling where the game world is partitioned into disjoint regions that can be considered to be homogeneus in terms of their reaction to various kinds of plot events.
 The second approach is useful for creation of logical models that may be employed to simulate very precise and complex interactions between individual actors.
 It is worth mentioning that an actor does not necessarily need to be a representation of a person but may as well be a whole region, a city, a town or even an abstract concept.
 Spatial models are well suited for simulating how a given plot even will impact the rest of the game world in terms in terms of information propagation.
-Logical models excel in representing complex interactions and simulating how
+Logical models excel in representing complex interactions and simulating how actors relay information about plot events to each other and thus gain knowledge on the state of the plot state in the game world.
 
 \section{Logical models}
 
