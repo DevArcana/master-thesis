@@ -34,7 +34,7 @@ The predicates used to model plot state are described in table \ref{tab:event-ca
     \begin{tabular}{@{}ll@{}}
         \toprule
         Predicate                                       & Meaning                                                            \\ \midrule
-        $Initially \left( \beta \right)$                & Fluent $\beta$ holds from $\tau_0$                                 \\
+        $Initially_P \left( \beta \right)$              & Fluent $\beta$ holds from $\tau_0$                                 \\
         $Initiates \left( \alpha, \beta, \tau \right)$  & Fluent $\beta$ starts to hold after action $\alpha$ at time $\tau$ \\
         $Terminates \left( \alpha, \beta, \tau \right)$ & Fluent $\beta$ stops holding after action $\alpha$ at time $\tau$  \\
         $Happens \left( \alpha, \tau \right)$           & Action $\alpha$ occurs at time $\tau$                              \\
@@ -45,6 +45,65 @@ The predicates used to model plot state are described in table \ref{tab:event-ca
     \caption{Event calculus predicates used to express plot state, based on Shanahan et al.\cite{shanahan2001event}}
     \label{tab:event-calculus-predicates}
 \end{table}
+
+Additionally some implicit axioms need to be defined to ensure uniqueness of names for fluents and actions as well as the common sense law of inertia for fluents.
+The latter implies that fluents do not change unless given reason to.
+Advanced variants of event calculus allow for releasing of fluents from this constraint and thus effectivelly making them become undefined unless explicitly stated.
+The application of event calculus in representation and simulation of plot state can be divided into two distinct use cases.
+The first use case is to represent the state of the plot at any given time as an array of fluents with their calculated value at the given time.
+The second one is mutation of the plot state via actions that influence the fluents.
+Because the plot state is not global and insted exists only within each individual actor as a very small subset of the whole plot, the actions influence only the fluents known by the actor perciving them.
+It is assumed that an action that happened but was not percived by anyone is of no consequence.
+A king dieing in his bedchambers does not affect the plot unless he is discovered to be dead.
+At that moment, the action that changed the state of the plot was not the death itself but rather its discovery.
+This distinction allows for separation of the concept of global plot which is the sum of all actors' actions and knowledge and the local plot which exists individually for each actor.
+A player is similarly such an actor in a system with the difference that while they may also be used for simulation purposes, the human observer is additionally perceiving the plot and forming their own local plot state in their head.
+Table \ref{tab:event-calculus-plot-predicates} defines additional extensions to event calculus which enable representation of knowledge by the actors.
+
+\begin{table}[]
+    \centering
+    \begin{tabular}{@{}ll@{}}
+        \toprule
+        Predicate                               & Meaning                                                         \\ \midrule
+        $Known_P \left( A, \beta, \tau \right)$ & Actor $A$ knows fluent $\beta$ held at time $\tau$              \\
+        $Known_N \left( A, \beta, \tau \right)$ & Actor $A$ knows fluent $\beta$ did not hold at time $\tau$      \\
+        $Record \left( A, \beta, \tau \right)$  & Actor $A$ records state of fluent $\beta$ at the time of $\tau$ \\ \bottomrule
+    \end{tabular}
+    \caption{Extension to event calculus enabling plot representation}
+    \label{tab:event-calculus-plot-predicates}
+\end{table}
+
+In order to represent an example of a plot event defined within this framework, the death of a king might be used.
+For this, a set of fluents and actions need to be defined first.
+
+\begin{equation}
+    Initially \left( KingAlive \right)
+\end{equation}
+
+\begin{equation}
+    Terminates \left( DrinkPoison, KingAlive, t \right) \Leftarrow HoldsAt \left( KingAlive, t \right)
+\end{equation}
+
+\begin{equation}
+    Known_N \left( A, \lnot \beta, t \right) \Leftarrow Record \left( A, \lnot \beta, t \right)
+\end{equation}
+
+Finally, a narrative looks like so:
+
+\begin{equation}
+    Happens \left( DrinkPoison, T_1 \right)
+\end{equation}
+
+\begin{equation}
+    \label{eqn:servant-saw-kind-dead}
+    Record \left( Servant, \lnot KingAlive, T_2 \right)
+\end{equation}
+
+\begin{equation}
+    T_1 < T_2
+\end{equation}
+
+After \ref{eqn:servant-saw-kind-dead} the fluent $Known_N \left( Servant, KingAlive, T_2 \right)$ holds which means that the servant witnessed the king being dead and knows only as much as to be able to tell that he was dead since $T_2$.
 
 In general, plot state of a game world can be represented in a plethora of ways, depending on the defined use cases.
 Plot state can be associated with the state of knowledge in a given region or with an individual actor.
@@ -139,7 +198,7 @@ Collections of actors able to receive information and process it into knowledge 
 % Complexity of information systems
 An information system is a set of actors possessing knowledge and wishing to spread it in the form of information.
 Because the complexity of real information systems is too great, simplification needs to be made in order to focus on the important aspects of such a system.
-We can identify the key elements of any information system:
+The key elements of any information system can be identified:
 \begin{itemize}
     \item Actor - a person capable of processing information, holds knowledge and can produce new information
     \item Information - statement originating from any information source, ie. an actor
