@@ -17,6 +17,8 @@ As noted by Lindley, the plot state of the game world does not need to be availa
 In general, the player only has access to a given subset of the plot state as they discover each individual plot point separately.
 The same can be said about the simulated actors in the game world as limiting their knowledge may increase the realism of the simulation and in turn result in a more immersive experience.
 
+\section{Event Calculus}
+
 The two most commonly used formalism for representation of plot state in games are situation calculus and event calculus.
 The situation calculus is a logical language for representing changes\cite{lin2008situation}.
 According to Levesque, in situation calculus "the foundational axioms for situations provide a purely qualitative notion of time whose only temporal concept is sequential action occurrence: an action occurs before or after another within"\cite{levesque1998foundations}.
@@ -113,6 +115,89 @@ It is worth mentioning that an actor does not necessarily need to be a represent
 Spatial models are well suited for simulating how a given plot even will impact the rest of the game world in terms in terms of information propagation.
 Logical models excel in representing complex interactions and simulating how actors relay information about plot events to each other and thus gain knowledge on the state of the plot state in the game world.
 
+\section {Inference rules}
+
+While event calculus can model any narrative in a consistent way, its limitations are exposed when one starts to find ways to apply it in a distributed system of actors and interactions.
+Each actor can have their own version of the narrative and thus their own individual system of fluents and their states.
+This means that for one actor the fluent $KingAlive$ may hold while for another actor it may not.
+There can be many reasons for this state of the plot.
+The second actor may have just been a witness to the death of the king or they may simply not be aware of the king's existence in the first place.
+When two actors in such a system interact with eachother, they might share their knowledge and exchange information on the fluents that they are aware of.
+In trivial cases this can mean an actor giving the second actor a predicate $Initiates \left( \alpha, \beta, \tau \right)$ to make the fluent hold since some moment in time $\tau$ or termining an already holding fluent via the predicate $Terminates \left( \alpha, \beta, \tau \right)$.
+This approach has the same pitfalls as distributed systems and event ordering algorithms used therein \cite{lamport2019time}.
+Figure \ref{fig:temporal_conflicts_in_event_exchange} shows how different situations may be handled in a system based solely on event calculus.
+The exact results depend on the exact implementation of the event exchange mechanism for a pair of actors.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.55\textwidth]{images/temporal_conflicts_in_event_exchange.drawio.png}
+    \caption{Selected outcomes of event exchange between two actors with description of possible conflicts}
+    \label{fig:temporal_conflicts_in_event_exchange}
+\end{figure}
+
+The best approach in choosing the framework for representing plot state depends on the type of plot to be represented and the intended game mechanics.
+An RPG game where the player can freely interact with the simulated world will have a different set of requirements than a murder mystery game.
+The latter may be satisfied with a probabilistic or confidence-based approach and have no need for actions and instead require inference rules.
+In such case the player is usually tasked with solving a mystery based on a set of clues.
+In a regular game the solution to the mystery is usually predetermined or semi-random but in general singular per game.
+Using a confidence or probabilistic approach, the game may accept any solution as long as the probability for it being correct is above a certain defined threshold.
+The concepts of fluents may be borrowed from event calculus to represent individual clues.
+For example consider the game as previously described.
+The goal of the game is to aquire the fluent $IsCulprit \left( Suspect_N \right)$ where $N$ is the number of the suspect that committed the crime.
+The clues in the game are $HasWeapon \left( Suspect_N \right)$ and $HasMotive \left( Suspect_N \right)$.
+
+\begin{equation}
+    \label{eqn:weapon_motive_inference}
+    HasWeapon \left( Suspect_N \right) \land HasMotive \left( Suspect_N \right) \Rightarrow  IsCulprit \left( Suspect_N \right)
+\end{equation}
+
+There is one inference rule defined in equation \ref{eqn:weapon_motive_inference}.
+Consider the state of the game where there are three actors $Suspect_A$, $Suspect_B$, $Suspect_C$.
+The player can hold a conversation with each of them.
+Each conversation yields different clues.
+
+\begin{equation}
+    Suspect_A \rightarrow HasWeapon \left( Suspect_B \right) \land HasMotive \left( Suspect_C \right)
+\end{equation}
+
+\begin{equation}
+    Suspect_B \rightarrow HasMotive \left( Suspect_C \right) \land HasWeapon \left( Suspect_A \right)
+\end{equation}
+
+\begin{equation}
+    Suspect_C \rightarrow HasMotive \left( Suspect_B \right)
+\end{equation}
+
+Based on the inference rule defined for $IsCulprit$ one can get:
+
+\begin{equation}
+    HasWeapon \left( Suspect_B \right) \land HasMotive \left( Suspect_B \right) \Rightarrow  IsCulprit \left( Suspect_B \right)
+\end{equation}
+
+This is fine until $Suspect_C$ divulges that $HasMotive \left( Suspect_A \right)$.
+After this the following holds:
+
+\begin{equation}
+    IsCulprit \left( Suspect_A \right) \land IsCulprit \left( Suspect_B \right)
+\end{equation}
+
+Under the assumption that there is exactly a single culprit, the probabilistic approach can be taken.
+Probability function $P(X)$ can be defined for each fluent.
+
+\begin{equation}
+    \label{eqn:is_culprit_probability_pre}
+    P \left( IsCulprit \left( Suspect_A \right) \right) + P \left( IsCulprit \left( Suspect_B \right) \right) + P \left( IsCulprit \left( Suspect_C \right) \right) = 1
+\end{equation}
+
+Because there is no way to attain $IsCulprit \left( Suspect_C \right)$, its probability will be equal to zero and so \ref{eqn:is_culprit_probability_pre} becomes \ref{eqn:is_culprit_probability_post}.
+
+\begin{equation}
+    \label{eqn:is_culprit_probability_post}
+    P \left( IsCulprit \left( Suspect_A \right) \right) + P \left( IsCulprit \left( Suspect_B \right) \right) = 1
+\end{equation}
+
+So far however each outcome is equally probable and there is no way to determine the probability of any suspect being the culprit based on the clues themselves.
+
 \section{Logical models}
 
 A logical model is called an information network.
@@ -125,7 +210,8 @@ An example of an information network can be seen on figure \ref{fig:logical_mode
 \begin{figure}
     \centering
     \includegraphics[width=0.6\textwidth]{images/logical_model_example.png}
-    \caption{Example of an information network}\label{fig:logical_model_example}
+    \caption{Example of an information network}
+    \label{fig:logical_model_example}
 \end{figure}
 
 \section{Spatial models}
