@@ -115,8 +115,6 @@ It is worth mentioning that an actor does not necessarily need to be a represent
 Spatial models are well suited for simulating how a given plot even will impact the rest of the game world in terms in terms of information propagation.
 Logical models excel in representing complex interactions and simulating how actors relay information about plot events to each other and thus gain knowledge on the state of the plot state in the game world.
 
-\section {Inference rules}
-
 While event calculus can model any narrative in a consistent way, its limitations are exposed when one starts to find ways to apply it in a distributed system of actors and interactions.
 Each actor can have their own version of the narrative and thus their own individual system of fluents and their states.
 This means that for one actor the fluent $KingAlive$ may hold while for another actor it may not.
@@ -134,6 +132,13 @@ The exact results depend on the exact implementation of the event exchange mecha
     \caption{Selected outcomes of event exchange between two actors with description of possible conflicts}
     \label{fig:temporal_conflicts_in_event_exchange}
 \end{figure}
+
+The problems described above matter only in the case of games where there will be two actors exchanging plot state simultaneously.
+Not all games have this requirement and those that do not, that is those with unidirectional information exchange mechanisms, will inherently be free from these pitfalls.
+Similarly, some games do not require deterministic state of the plot or the ability for an actor to forget information.
+In these types of games, event calculus might not be applicable and other solutions should be considered.
+
+\section {Probabilistic approach}
 
 The best approach in choosing the framework for representing plot state depends on the type of plot to be represented and the intended game mechanics.
 An RPG game where the player can freely interact with the simulated world will have a different set of requirements than a murder mystery game.
