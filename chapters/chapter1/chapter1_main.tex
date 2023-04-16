@@ -109,7 +109,15 @@ Michael van Lent and John Laird in their work "Developing an Artificial Intellig
 \end{itemize}
 
 This cycle combined with the SOAR architecture allows for creation of a versatile agent capable of processing and propagating plot events in the game.
+The first step allows the agent to modify the state of the working memory.
+It can detect visible objects, including other agents and interactables such as containers, doors or even writings.
+Then, the second step uses the working memory combined with production rules (procedural memory) to propose operators to execute.
+Operators modify the state of the world, for example by moving the agent, taking the contents of a container, opening doors or interacting with another agent.
+This constitutes the last step of the cycle and allows the agent to go back to the first step and update its working memory in preparation for the next step.
 
+This architecture is versatile in that it can be used to model even very complex behaviours.
+In order to avoid conflicts in the proposed operators by production rules that try to solve different goals, a goal token can be inserted into the working memory and used as a dependency in the production rules.
+This way an agent may have a rule that changes the goal of the agent and thus modifies its next sequence of actions.
 
 % \subsection{Event Calculus}
 
