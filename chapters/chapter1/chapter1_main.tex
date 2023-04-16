@@ -1,23 +1,70 @@
 \Chapter{Storing plot state of a game world}
 
-\section{Plot events}
+% 1. Define plot
+\section{Definition of plot state}
+
+All events happening within the game world form the plot of the game.
+The way the plot is presented to the player depends on the narrative.
+In other words the narrative is the plot with added context and presented using a certain storytelling technique.
+The reception of the narrative by the player is often less dependent on the plot than it is on the technique used to present it.
+In this thesis, the focus is not on the narrative but rather just the formal representation of the plot itself.
+The plot consists of all events, characters and their actions in the game, all of which do not need to be available to the player or even exist in any way as separate beings.
+Characters and their actions can be parts of the plot in the form of writing or recordings and events can be referenced in the history of the simulated world even though they were never really represented.
+The actual form of the plot depends on the type of the game and the narrative it tries to establish.
+As noted by Lindley, the plot state of the game world does not need to be available and presented to the player in its entirety, as is the case for example in games such as SIM City \cite{lindley2005story}.
+In many games the player experiences a subset of the available plot and thus forms their own customized narrative.
 
 Saussure introduced the distinction between language (la langue) and meaning (la parole)\cite{gordon2004langue}.
-When thinking about how to represent the plot state of the game world, one should take into account the possible space of expression within it.
-%
+This distinction is similar to the difference between plot and narrative and likewise applicable in the context of plot representation alone.
 In Saussure's framework, language (la langue) refers to the overall system of rules, conventions, and structures that govern a particular language, while meaning (la parole) refers to the individual utterances or expressions produced by speakers of that language.
 This distinction emphasizes the idea that language is a system that is shared and agreed upon by a community of speakers, and that meaning is not fixed but rather is created through the interaction between the language system and the speaker's intentions and context.
 When representing the plot state of a game world, it is important to consider the language used to describe that world and the range of expressions that are possible within that language.
-%
-In general, plot representation should be able to express a chronological event with some relevance to the story.
-A story is a collection of plots.
-Each plot may be considered in the scope of multiple narratives.
-For the sake of plot representation, the important aspect is in being able to convey the event in an impartial manner without taking into account the narrative within which it can be considered.
-As noted by Lindley, the plot state of the game world does not need to be available and presented to the player in its entirety, as is the case for example in games such as SIM City \cite{lindley2005story}.
-In general, the player only has access to a given subset of the plot state as they discover each individual plot point separately.
-The same can be said about the simulated actors in the game world as limiting their knowledge may increase the realism of the simulation and in turn result in a more immersive experience.
 
-\section{Event Calculus}
+Because it is impossible to consider the various approaches to formalize the representation of the game's plot without taking into account the constraints, limitations and requirements of the game in question, evaluation scenarios are defined in regards to which the described methods are evaluated.
+
+% 2. Define evaluation scenarios
+
+\section{Evaluation scenarios}
+
+\subsection{Scenario 1}
+
+The player is tasked with solving a murder mystery in a closed space.
+The gameplay loop consists of talking with non-playable characters and collecting clues.
+There are three suspects, labeled A, B and C respectively.
+The player must first obtain the first clue related to the weapon used by investigating the scene.
+Then, during interviews they should obtain the clues relating to who possesses the weapon and who has a motive.
+After that, the player might make an accusation and win the game.
+
+In this scenario the player and characters are independent agents.
+The scene is a special object that can be interacted with to gain the first clue.
+The communication happens only between each character and the player and is uni-directional.
+The list of possible clues is predefined.
+
+\subsection{Scenario 2}
+
+The player is tasked by a stall owner to steal a ring from the jewelery stall and plant it in another seller's pocket.
+After the player does so, the stall owner yells for the guards to come arrest the thief.
+If the ring is in the other seller's pocket, that seller will be considered the culprit and arrested.
+
+In this scenario the player is able to interact with the task giver, the jeweler and the seller being framed.
+The plot depends on the choices the player makes and the order they make them in.
+If the player never plants the ring, the task giver will be punished for false accusation and will instead accuse the player.
+If the player plants the ring in the pocket of the task giver, they will be the one arrested instead.
+On the other hand, leaving the ring untouched and reporting to the task giver will cause the task giver to not be taken seriously as the jeweler will deny any theft taking place.
+
+% 3. Describe methods
+
+\section{Methods}
+
+All described scenarios are characterized by common elements.
+They all refer to characters and the player as entities making decisions and performing actions.
+In general, both the player and any non-playable characters can be called agents.
+Each agent is independent from the rest and is able to act based on the subset of the plot available to them.
+The actual implementation of each agent's behaviour can be as simple as a hardcoded line of dialogue and as complex as a set of rules enabling emergent behaviour.
+Each method described below relates to the representation of the plot inside of the actor and not in the global sense of the whole game.
+The differences in each method are related to what interactions can be modelled by it.
+
+\subsection{Event Calculus}
 
 The two most commonly used formalism for representation of plot state in games are situation calculus and event calculus.
 The situation calculus is a logical language for representing changes\cite{lin2008situation}.
@@ -138,7 +185,7 @@ Not all games have this requirement and those that do not, that is those with un
 Similarly, some games do not require deterministic state of the plot or the ability for an actor to forget information.
 In these types of games, event calculus might not be applicable and other solutions should be considered.
 
-\section {Probabilistic approach}
+\subsection {Inference rules}
 
 The best approach in choosing the framework for representing plot state depends on the type of plot to be represented and the intended game mechanics.
 An RPG game where the player can freely interact with the simulated world will have a different set of requirements than a murder mystery game.
@@ -186,6 +233,8 @@ After this the following holds:
     IsCulprit \left( Suspect_A \right) \land IsCulprit \left( Suspect_B \right)
 \end{equation}
 
+\subsection{Confidence/probability based inference}
+
 Under the assumption that there is exactly a single culprit, the probabilistic approach can be taken.
 Probability function $P(X)$ can be defined for each fluent.
 
@@ -203,144 +252,8 @@ Because there is no way to attain $IsCulprit \left( Suspect_C \right)$, its prob
 
 So far however each outcome is equally probable and there is no way to determine the probability of any suspect being the culprit based on the clues themselves.
 
-\section{Logical models}
-
-A logical model is called an information network.
-It consists of a set of actors and information pathways between them.
-An actor holds limited knowledge about the game world.
-An information pathway is a physical possbility of an actor to exchange information with another actor.
-Activation of an information pathway can be thought of as a conversation between the two interconnected actors.
-An example of an information network can be seen on figure \ref{fig:logical_model_example}.
-
-\begin{figure}
-    \centering
-    \includegraphics[width=0.6\textwidth]{images/logical_model_example.png}
-    \caption{Example of an information network}
-    \label{fig:logical_model_example}
-\end{figure}
-
-\section{Spatial models}
-
-WIP
-
-\section{Partitioning of actors to form spatial models}
-
-Spatial models can be constructed by partitioning a logical model after assigning each actor its physical location and calculating bounds of each logical network.
-This method requires that actors form disjoint sets of information networks.
-Any plot even propagated to each spatial region can be either made immedietely accessible to all members of the embedded logical model or to a specific subset of actors.
-Similarly an actor may be designated a gateway out of the logical model into the spatial one and gain the ability to propagate information to other spatial regions.
-This way a game world may employ both types of models to essentially store the whole plot state and simulate in detail only the subset of regions that the player is in close proximity to.
-This approach makes usage of the logical model a viable solution for large scale open world games.
-
-\section{Difference between knowledge and information}
-
-% What is information?
-The most important distinction when building information propagation models is the one that differentiates knowledge from information.
-The latter can be propagated while the former cannot.
-This is due to the fact that information represents a statement of fact, irrespective of whether it is true or not.
-A claim that people with axes are walking down the road towards the forest can be an information.
-It should be considered to be fundamentally literal and represent nothing more than the messaging mechanism used to convey it.
-
-% Knowledge
-A person has a mind capable of linking events, seeing connections between facts, identifying patterns and inferring new knowledge from received information.
-Anyone can easily see that such a group of aforementioned people can represent lumberjacks aiming to chop down the trees.
-Note that neither the word lumberjack or the act of chopping down any tree was mentioned before.
-This shows the distinction between what is pure information and what can be considered knowledge.
-After all, how does one come to the conclusion that axes and trees must mean lumberjacks?
-One needs to be aware of the concept of an axe and its function as well as the existence of the trade of forestry to make that connection.
-
-% Propagation
-After realizing the meaning of people with axes going towards a forest, one can decide to tell others of this news by formulating a new statement of fact: "Lumberjacks are going to the forest".
-A more natural example would be a person telling a friend that someone told them about a group of lumberjacks heading to a forest.
-This is an example of information propagation.
-It can be illustrated more clearly by assuming the person who heard about the people heading towards the forest had recently seen a pack of wolves in the area.
-They might get alarmed and wish to warn the unsuspecting workers.
-The information "there are wolves in the forest" has the characteristic of urgency as well as importance.
-It is urgent because telling it after the workers get to the forest misses the whole point of warning them.
-It is important because it influences their safety.
-These two factors lay the foundation for best possible propagation effect.
-One would immedietely embark on a trip to warn the lumberjacks of the dangers lurking in the forest and probably mention the situation to anyone they pass by.
-This particular situation also has the characteristic of being targeted towards a specific group.
-
-% TODO: Find characteristics of information in literature
-% Information characteristics
-Information can be urgent, important and have a target group of receiving people.
-Urgency determines the temporal aspect of propagation.
-Importance influences how much effort one is willing to spend delivering the information.
-A target audience limits the list of potential receivers.
-An information can be urgent and not important, that would simply mean that it will expire after some limited time but if the effort to deliver it on time is too great, it is possible that it won't be done.
-It can be important but not urgent just as well.
-In this case it means that it must be delivered but there are no consequences to doing so later rather than sooner.
-It is worth noting however that importance also influences the temporal element of information propagation as more important messages are going to be propagated faster.
-A target audience can be homogeneus (a group of lumberjacks) or have a variety of different people.
-A person doing the propagation can have a list of intended recipents of a message they are carrying.
-There can also be people who are subscribers of selected kinds of information.
-A mother would like to know if anything happens to her child and as such one can say she subscribes information regarding the health of her children.
-In real life there are many more aspects and characteristcs that are deeper and more nuanced that what was described.
-No artifical model can represent accurately the intricacies of the human mind, much less a group of minds.
-
-% How information and knowledge interact
-Information cannot exist without someone to perceive it and knowledge cannot exist without information.
-Whenever there is some entity that is able to receive information and understand it, it can produce knowledge.
-Information nececessitates a receiver to exist somewhere in the system that can produce knowledge.
-This means that all three must always be present.
-Collections of actors able to receive information and process it into knowledge as well as create new information and share it with other actors will be henceforth reffered to as information systems.
-
-% Complexity of information systems
-An information system is a set of actors possessing knowledge and wishing to spread it in the form of information.
-Because the complexity of real information systems is too great, simplification needs to be made in order to focus on the important aspects of such a system.
-The key elements of any information system can be identified:
-\begin{itemize}
-    \item Actor - a person capable of processing information, holds knowledge and can produce new information
-    \item Information - statement originating from any information source, ie. an actor
-    \item Information source - any source of information, can be an actor or an inanimate source such as a recording or text
-    \item Information pathway - any link between actors through which information can travel, can affect the information causing distortion or impact the propagation
-\end{itemize}
-Actors may be offered information or they might produce information themselves.
-This must always happen through an information pathway.
-Inanimate sources of information, ie a written book, may exist within the same system and are considered to be always producing some (usually constant) information.
-An actor may react differently when offered different kinds of information or even the same one repeatedly.
-To illustrate that one can imagine being interested in buying a new pair of shoes if seeing the advertisment of them for the first time and getting more annoyed each consecutive time the same advertisment is played.
-% TODO: Cite the work modelling marketing strategy effectiveness
-This behaviour is usually the target of marketing strategy analysis as simply increasing the intensiveness of advertisment broadcast will not increase the demand for the shown product.
-Aside from being able to receive information, an actor may decide to share it with other actors.
-They might decide to choose a target group or broadcast it to everyone they can reach.
-Some actors may seek certain types of information and query for it anytime they can.
-In order to do so, actors must possess some knowledge.
-
-% Complexity of knowledge
-Knowledge is a set of statements about the world that are consistent (irrespective of truthfulness).
-One can claim that the planet is flat while another person might disagree and it is valid to say that both possess knowledge about the shape of the world.
-A person can then infer new facts on the basis of what they already know and for instance make a claim that travelling past the edge of the Earth will cause the daring explorer to fall to their demise.
-The second person will then receive such information and basing on their opposing set of known statements will reject it and possibly reduce the opinion of the first person, being less likely to believe anything they might then tell them.
-It is however impossible to model the interactions between information necessary to infer new information the same way that happens in the human mind, at the very least not in any feasible way.
-The complexity of interconnectedness of knowledge and information alike is too great to be represented fully.
-One can however make assumptions and put constraints on the type of statements allowed and the knowledge that can be gained and thus create a simplistic representation of an information system.
-
-% Scope - logical vs spatial
-There are two main types of information systems that can be used to model information propagation:
-% TODO: Add some citation to "podział przestrzeni na abstrakcyjną i fizyczną"
-\begin{itemize}
-    \item spatial - they model information spread across space, usually partitioned into homogeneus segments or tiles
-    \item logical - representing connections between actors without taking into account physical relationships between them
-\end{itemize}
-The first kind of information system, spatial information systems (SIS) can be used to model large scale events happening across the world.
-The most important assumption in these kind of systems is the homogenuity of any given unit of space as defined by the chosen partitioning method.
-They assume that information has some kind of physical propagation characteristic that allows it to travel across space.
-In these systems an actor needs not to be represented individually but rather can be treated as part of a homogeneus group.
-This model might be used to represent how news regarding the death of a ruler might spread from the captial to the most remote villages.
-The second type of information systems, logical information systerms (LIS) work on the basis of individual actors and interactions between them.
-They are ill suited for large scale modelling as the number of actors to be considered would grow considerably.
-Of course, a spatial system can be represented as a logical system if some of the more important regions of the spatial model are chosen and represented as actors in the logical model.
-
-% What does it mean for information to be considered as propagated?
-The process of propagating information from one actor to another can be considered in the scope of physical information receival as well as logical aspect of interpretation.
-The act of knowledge assimilation is inherently present in the process of actor receiving information from any external source.
-% Is it sufficient to transfer information from source to target?
-Information can reach its target in a plethora of ways.
-In many models
-% What happens after information reaches the target?
-% What are the sources of information?
+% 4. Compare methods
+% 5. Present conclusions
 
 % Plot events: 
 % Śmierć władcy rozprzestrzeni się od punktu centralnego wzdłuż dróg
@@ -348,86 +261,124 @@ In many models
 % Smok będzie widziany na całej jego trasie lotu, uwzględniając czas.
 % Epidemia, każdy nowy chory ma większy priorytet
 
-\section{Representation of information}
+% \section{Partitioning of actors to form spatial models}
 
-Modelling propagation of information itself is possible without looking at how it is represented.
-The same is not true for modelling knowledge and its interaction with the former.
-The ability to express any concept relies on the application of language.
-It is precisely that which enables and also limits everything that is able to be conveyed using it.
-Natural language is very complicated and full of inconsistencies.
-Human brain handles that very well and in fact often is the source of said inconsistencies.
-In order to create a model useful in terms of game development, it needs to have a clearly defined way to represent information.
-One such option is the application of relational algebra.
-To create a language one needs to think about what concepts it should allow expression of.
-For example, in the English language a very simple sentence can be assembled: "The apple is red".
-This sentences implies several things about the state of the described world.
-First and foremost it implies the existence of a specific apple.
-Secondly, it implies that apples have the attribute of color and that this particular one is red.
-Due to its simple nature, both semantically and syntatically, one could write the following mathematical representation of this sentence:
+% Spatial models can be constructed by partitioning a logical model after assigning each actor its physical location and calculating bounds of each logical network.
+% This method requires that actors form disjoint sets of information networks.
+% Any plot even propagated to each spatial region can be either made immedietely accessible to all members of the embedded logical model or to a specific subset of actors.
+% Similarly an actor may be designated a gateway out of the logical model into the spatial one and gain the ability to propagate information to other spatial regions.
+% This way a game world may employ both types of models to essentially store the whole plot state and simulate in detail only the subset of regions that the player is in close proximity to.
+% This approach makes usage of the logical model a viable solution for large scale open world games.
 
-$$
-    \left( apple, is, red \right)
-$$
+% \section{Difference between knowledge and information}
 
-An ordered set of words that in the right context is understood to mean that there exists an apple and that said apple is red.
-A reasonable assumption is that by having a sufficiently sophisticated representation, it should be possible to tell whether a given pair of such statements are conflicting.
+% % What is information?
+% The most important distinction when building information propagation models is the one that differentiates knowledge from information.
+% The latter can be propagated while the former cannot.
+% This is due to the fact that information represents a statement of fact, irrespective of whether it is true or not.
+% A claim that people with axes are walking down the road towards the forest can be an information.
+% It should be considered to be fundamentally literal and represent nothing more than the messaging mechanism used to convey it.
 
-$$
-    \left( apple, is, red \right) \neq \left( apple, is, green \right)
-$$
+% % Knowledge
+% A person has a mind capable of linking events, seeing connections between facts, identifying patterns and inferring new knowledge from received information.
+% Anyone can easily see that such a group of aforementioned people can represent lumberjacks aiming to chop down the trees.
+% Note that neither the word lumberjack or the act of chopping down any tree was mentioned before.
+% This shows the distinction between what is pure information and what can be considered knowledge.
+% After all, how does one come to the conclusion that axes and trees must mean lumberjacks?
+% One needs to be aware of the concept of an axe and its function as well as the existence of the trade of forestry to make that connection.
 
-To a human such an equation will seem correct at first glance.
-However, as previously mentioned, the word "red" carries an impliciation of the described object possessing the attribute of color.
+% % Propagation
+% After realizing the meaning of people with axes going towards a forest, one can decide to tell others of this news by formulating a new statement of fact: "Lumberjacks are going to the forest".
+% A more natural example would be a person telling a friend that someone told them about a group of lumberjacks heading to a forest.
+% This is an example of information propagation.
+% It can be illustrated more clearly by assuming the person who heard about the people heading towards the forest had recently seen a pack of wolves in the area.
+% They might get alarmed and wish to warn the unsuspecting workers.
+% The information "there are wolves in the forest" has the characteristic of urgency as well as importance.
+% It is urgent because telling it after the workers get to the forest misses the whole point of warning them.
+% It is important because it influences their safety.
+% These two factors lay the foundation for best possible propagation effect.
+% One would immedietely embark on a trip to warn the lumberjacks of the dangers lurking in the forest and probably mention the situation to anyone they pass by.
+% This particular situation also has the characteristic of being targeted towards a specific group.
 
-$$
-    \left( apple, is, red \right) \neq \left( apple, is, round \right)
-$$
+% % TODO: Find characteristics of information in literature
+% % Information characteristics
+% Information can be urgent, important and have a target group of receiving people.
+% Urgency determines the temporal aspect of propagation.
+% Importance influences how much effort one is willing to spend delivering the information.
+% A target audience limits the list of potential receivers.
+% An information can be urgent and not important, that would simply mean that it will expire after some limited time but if the effort to deliver it on time is too great, it is possible that it won't be done.
+% It can be important but not urgent just as well.
+% In this case it means that it must be delivered but there are no consequences to doing so later rather than sooner.
+% It is worth noting however that importance also influences the temporal element of information propagation as more important messages are going to be propagated faster.
+% A target audience can be homogeneus (a group of lumberjacks) or have a variety of different people.
+% A person doing the propagation can have a list of intended recipents of a message they are carrying.
+% There can also be people who are subscribers of selected kinds of information.
+% A mother would like to know if anything happens to her child and as such one can say she subscribes information regarding the health of her children.
+% In real life there are many more aspects and characteristcs that are deeper and more nuanced that what was described.
+% No artifical model can represent accurately the intricacies of the human mind, much less a group of minds.
 
-The above statement is false as it tries to compare two distinct attributes, namely shape and color.
-In order to make these kinds of statements more explicit, a fourth element is added.
+% % How information and knowledge interact
+% Information cannot exist without someone to perceive it and knowledge cannot exist without information.
+% Whenever there is some entity that is able to receive information and understand it, it can produce knowledge.
+% Information nececessitates a receiver to exist somewhere in the system that can produce knowledge.
+% This means that all three must always be present.
+% Collections of actors able to receive information and process it into knowledge as well as create new information and share it with other actors will be henceforth reffered to as information systems.
 
-$$
-    \left( apple, is, color, red \right)
-$$
+% % Complexity of information systems
+% An information system is a set of actors possessing knowledge and wishing to spread it in the form of information.
+% Because the complexity of real information systems is too great, simplification needs to be made in order to focus on the important aspects of such a system.
+% The key elements of any information system can be identified:
+% \begin{itemize}
+%     \item Actor - a person capable of processing information, holds knowledge and can produce new information
+%     \item Information - statement originating from any information source, ie. an actor
+%     \item Information source - any source of information, can be an actor or an inanimate source such as a recording or text
+%     \item Information pathway - any link between actors through which information can travel, can affect the information causing distortion or impact the propagation
+% \end{itemize}
+% Actors may be offered information or they might produce information themselves.
+% This must always happen through an information pathway.
+% Inanimate sources of information, ie a written book, may exist within the same system and are considered to be always producing some (usually constant) information.
+% An actor may react differently when offered different kinds of information or even the same one repeatedly.
+% To illustrate that one can imagine being interested in buying a new pair of shoes if seeing the advertisment of them for the first time and getting more annoyed each consecutive time the same advertisment is played.
+% % TODO: Cite the work modelling marketing strategy effectiveness
+% This behaviour is usually the target of marketing strategy analysis as simply increasing the intensiveness of advertisment broadcast will not increase the demand for the shown product.
+% Aside from being able to receive information, an actor may decide to share it with other actors.
+% They might decide to choose a target group or broadcast it to everyone they can reach.
+% Some actors may seek certain types of information and query for it anytime they can.
+% In order to do so, actors must possess some knowledge.
 
-This way it is possible to represent any arbitrary statement in the form of: "Object $X$ has attribute $Y$ of value $Z$" in the form of:
+% % Complexity of knowledge
+% Knowledge is a set of statements about the world that are consistent (irrespective of truthfulness).
+% One can claim that the planet is flat while another person might disagree and it is valid to say that both possess knowledge about the shape of the world.
+% A person can then infer new facts on the basis of what they already know and for instance make a claim that travelling past the edge of the Earth will cause the daring explorer to fall to their demise.
+% The second person will then receive such information and basing on their opposing set of known statements will reject it and possibly reduce the opinion of the first person, being less likely to believe anything they might then tell them.
+% It is however impossible to model the interactions between information necessary to infer new information the same way that happens in the human mind, at the very least not in any feasible way.
+% The complexity of interconnectedness of knowledge and information alike is too great to be represented fully.
+% One can however make assumptions and put constraints on the type of statements allowed and the knowledge that can be gained and thus create a simplistic representation of an information system.
 
-$$
-    \left( X, is, Y, Z \right)
-$$
+% % Scope - logical vs spatial
+% There are two main types of information systems that can be used to model information propagation:
+% % TODO: Add some citation to "podział przestrzeni na abstrakcyjną i fizyczną"
+% \begin{itemize}
+%     \item spatial - they model information spread across space, usually partitioned into homogeneus segments or tiles
+%     \item logical - representing connections between actors without taking into account physical relationships between them
+% \end{itemize}
+% The first kind of information system, spatial information systems (SIS) can be used to model large scale events happening across the world.
+% The most important assumption in these kind of systems is the homogenuity of any given unit of space as defined by the chosen partitioning method.
+% They assume that information has some kind of physical propagation characteristic that allows it to travel across space.
+% In these systems an actor needs not to be represented individually but rather can be treated as part of a homogeneus group.
+% This model might be used to represent how news regarding the death of a ruler might spread from the captial to the most remote villages.
+% The second type of information systems, logical information systerms (LIS) work on the basis of individual actors and interactions between them.
+% They are ill suited for large scale modelling as the number of actors to be considered would grow considerably.
+% Of course, a spatial system can be represented as a logical system if some of the more important regions of the spatial model are chosen and represented as actors in the logical model.
 
-In terms of relational algebra one can think of the word "is" as an operator denoting a binary relation between some object and the value of some attribute.
-Because a language should have more than a single type of expressable relation, the mathematical representation should be more generic to accomodate all kinds of binary relations:
+% % What does it mean for information to be considered as propagated?
+% The process of propagating information from one actor to another can be considered in the scope of physical information receival as well as logical aspect of interpretation.
+% The act of knowledge assimilation is inherently present in the process of actor receiving information from any external source.
+% % Is it sufficient to transfer information from source to target?
+% Information can reach its target in a plethora of ways.
+% In many models
+% % What happens after information reaches the target?
+% % What are the sources of information?
 
-$$
-    \left( operator, first, second \right)
-$$
 
-In the case of the $is$ operator:
 
-$$
-    \left( is, object, \left\{ attribute, value \right\} \right)
-$$
-
-Following the previous example:
-
-$$
-    \left( is, apple, \left\{ color, red \right\} \right)
-$$
-
-Then, one can define a function determining whether two statements $S_a$ and $S_b$ are conflicting:
-
-$$
-    S_a = \left( is, x_a, \left\{ y_a, z_a \right\} \right)
-$$
-
-$$
-    S_b = \left( is, x_b, \left\{ y_b, z_b \right\} \right)
-$$
-
-$$
-    conflict \left( S_a, S_b \right) \iff x_a = x_b \land y_a = y_b \land z_a \neq z_b
-$$
-
-% Identity
-One important aspect of the natural language is ambiguity of subject's identity.
