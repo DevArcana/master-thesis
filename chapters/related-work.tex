@@ -1,9 +1,37 @@
 \Chapter{Related Work}\label{chapter:related}
 
+All events happening within the game world form the plot of the game.
+The way the plot is presented to the player depends on the narrative.
+In other words the narrative is the plot with added context and presented using a certain storytelling technique.
+The reception of the narrative by the player is often less dependent on the plot than it is on the technique used to present it.
+In this thesis, the focus is not on the narrative but rather just the formal representation of the plot itself.
+The plot consists of all events, characters and their actions in the game, all of which do not need to be available to the player or even exist in any way as separate beings.
+Characters and their actions can be parts of the plot in the form of writing or recordings and events can be referenced in the history of the simulated world even though they were never really represented.
+The actual form of the plot depends on the type of the game and the narrative it tries to establish.
+As noted by Lindley, the plot state of the game world does not need to be available and presented to the player in its entirety, as is the case for example in games such as SIM City \cite{lindley2005story}.
+In many games the player experiences a subset of the available plot and thus forms their own customized narrative.
 
+Saussure\cite{gordon2004langue} introduced the distinction between language (fr. \emph{la langue}) and meaning (fr. \emph{la parole}).
+This distinction is similar to the difference between plot and narrative and likewise applicable in the context of plot representation alone.
+In Saussure's framework, language refers to the overall system of rules, conventions, and structures that govern a particular language, while meaning refers to the individual utterances or expressions produced by speakers of that language.
+This distinction emphasizes the idea that language is a system that is shared and agreed upon by a community of speakers, and that meaning is not fixed but rather is created through the interaction between the language system and the speaker's intentions and context.
+When representing the plot state of a game world, it is important to consider the language used to describe that world and the range of expressions that are possible within that language.
+
+A plot in a game can be implemented using a script by the game designer or it can emerge naturally during gameplayer based on the interactions between individual elements in game.
+The former approach is usually implemented in role playing games as game designers and writers collaborate to bring to life the creative vision for a given imaginary world.
+On the other hand, games such as Dwarf Fortress use simulation of individual interactions between game elements to formulate a plot \cite{adams2015simulation}.
+This in turn leads to a phenomenon called emergent behavior where an interaction of simple elements produces a complex behaviour \cite{adams2019emergent}.
+Emergence in game design is not a new concept and is used frequently in the game development industry \cite{sweetser2008emergence}.
+While it can increase immersiveness and replayability, it also increases the overall complexity of both gameplay and development.
+
+Games that lean heavily towards utilization of emergent behaviours usually depend on multi-agent simulation where each agent represents either a non-playable character (NPC) or the player themselves.
+Agents that are controlled by the game and not the player have builtin interaction rules and behaviours that allow them to act in a way that is expected and realistic in a given scenario.
+Agent-based simulation (ABS) has been used for a long time already and can be applied to any given game genre including some well known zero-player games such as Game of Life \cite{chan2010simulation}.
+In these simulations agents have their own mememory and ability to process information, eventaully integrating it into knowledge that is used for choosing the response to any situation that can happen within the rules of the game.
 
 % What is data, information, knowledge?
 
+To understand how agents work with information, the concept of information and its relationship to knowledge needs to be explained.
 The earliest work discussing information and similar concepts comes from Shannon in 1948\cite{shannon1948mathematical}.
 The author however never defines the term itself and simply proposes models for quantitative analysis.
 Approach described back then was more related to data than it was to information.
@@ -67,4 +95,15 @@ Grabowski and Zając followed the steps of Langefors and others while describing
     \item Financially viable - it should be useful in business context
 \end{itemize}
 These show clearly how most work done previously in this domain of knowledge related to the business context.
-The domain of information propagation modelling seems to lack any work done in the context of game development.
+
+It is apparent that information as utilized in agent-based simulation games is different than the concept used in information theory and derived works.
+Social agents that interact with each other and simulate conversations, emotional state and organic behaviour have been analyzed since well before the development of artificial intelligence and language models.
+A notable example is the work done by Grey et al. in 2011 titled "Procedural quests: A focus for agent interaction in role-playing-games"\cite{grey2011procedural}.
+The author describes the problems with contemporary games and their shallow plot propagation mechanisms and proposes their approach of modelling plot and its propagation using a social multi-agent system.
+Very recently many articles have been published that utilize the developments in the area of language models and natural language processing in general.
+Park et al.\cite{park2023generative} have used the GPT-4 model\cite{openai2023gpt4} to simulate a small village populated by characters each with individual personality and motivations.
+The characters held conversations, organized meetings and socialized in their free time.
+
+In conclusion it can be seen that the use of agent-based simulation in game development is a growing field of research.
+Artificial intelligence and its derivatives drive the current state of the art in this area.
+Alternative approaches such as proposed back in 2011 by Grey\cite{grey2011procedural} should be explored to compete with the indeterministic nature of language models or perhaps to become the benchmarks against them.
