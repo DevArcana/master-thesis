@@ -103,6 +103,25 @@ This policy means that either the lateral move will be selected by random chance
 This example shows that a virtual agent possesses a limited capacity to learn and build the information bank describing the state of the world around it.
 In some implementations, the immediate position of the agent would be stored as WME while the position of each discovered wall would be put in long-term memory.
 
+\subsection{Simulation constraints and limitations}
+
+The simulatated environment presented in this work was designed to resemble the environment described by Grey et al.\cite{grey2011procedural} which in turn used the implementation done by Prageeth Silva\cite{silva2010shadow}.
+As of the time of writing, the original implementation of Shadow Quest used in evaluation of Grey's model is unavailable and so a custom implementation with modifications was made specifically for the sake of experimentation.
+Each agent may occupy a single tile in a grid-based world.
+The temporal structure used in the design of the simulation is based on the concept of turns.
+Because the interaction with a human player is not necessary to simulate the progression of a procedurally emergent plot, the turns are simply simulatin steps.
+Within a single turn all agents execute the aforementioned decision cycle, starting from receiving information regarding the state of the world around them, deciding on the action to perform and finally executing it.
+The simulation used for evaluation of the model presented in this work is limited to a set of actions that each agent may perform.
+
+\begin{itemize}
+    \item Idle - agent does nothing, stays idle for the whole turn
+    \item Move - agent may decide to move in one of the four cardinal directions by a single tile
+\end{itemize}
+
+Because all agents execute their actions concurrently, conflicts may occur which the simulation engine must resolve.
+For the sake of simplicity, a simple conflict resolution strategy was chosen where a random agent takes priority.
+The second agent is overriden to have been idle for that turn.
+
 % \section{Evaluation scenarios}
 
 % \subsection{Scenario 1}
