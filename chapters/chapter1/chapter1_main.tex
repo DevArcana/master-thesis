@@ -119,6 +119,61 @@ This architecture is versatile in that it can be used to model even very complex
 In order to avoid conflicts in the proposed operators by production rules that try to solve different goals, a goal token can be inserted into the working memory and used as a dependency in the production rules.
 This way an agent may have a rule that changes the goal of the agent and thus modifies its next sequence of actions.
 
+\subsection{Perceive}
+
+The agent is equipped with simulated sensors that feed into its working memory.
+These sensors interact with the simulated world and process the description of the world producing information that is then stored in the working memory of the agent.
+Sensory information might include sight, hearing, sense of smell and other commonly thought of senses as well as abstract and arbitrary information that the agent can somehow perceive.
+The combined information from all the sensors might produce information regarding the agent's awareness of the vicinity and the location of other agents in the simulated system as well as the state of the agent's body and own position in the game world.
+The information is presented to the agent and it is up to the agent to decide what to do with it.
+Sensors may only influence working memory of the agent.
+
+\subsection{Think}
+
+Agents have procedural memory that is represented by a collection of production rules that are executed in parallel.
+Each rule might take as input an arbitrary set of working memory elements (WME), check arbitrary preconditions and produce arbitrary operators that when evaluated will change the state of the simulated world by means the agent's action.
+While working memory is perfect for storing the immediate description of the agent's state, it is perhaps ill suited for storage of event based information elements.
+For this reason the notion of long term memory is used for storage of facts characterized by timestamp of occurrence and description of the event.
+Procedural memory and production rules therein may also utilize this storage to work with temporal data, for example to facilitate the agent remembering its travel trajectory or recording events such as successful executions of certain actions.
+Procedural memory is usually immutable after creation of the agent but it is possible to store a production rule inside of working memory and by means of another production rule, modify the procedural memory adding the new rule to the bank of rules the agent possesses.
+This can simulate agent learning new inference rules and behaviours, for example through reading a book or being taught by other agent.
+
+\subsection{Act}
+
+The act of action when performed by the simulated agent is represented by an operator being evaluated.
+An operator represents an action that an agent wishes to perform.
+The game world is in charge of evaluating the results of the operator and rejecting it in case the agent is not allowed to perform it due to any condition that the agent itself is not aware of.
+Because production rules are executed in parallel and thus output multiple operators, it is possible for conflicts to occur.
+A single agent may think to move forward and back at the same time.
+Because the order in which actions are performed may impact the result, it is important to define a conflict resolution strategy, either for each agent or for the whole game in general.
+Such a strategy does not need to necessarily be deterministic as usually it is impossible to determine which operator should take precedence and defining conflict resolution policies for each possible set of conflicting operators is often not a viable approach.
+One example of a conflict resolution strategy is a strategy that chooses a random order for conflicting operators and executes them until one is accepted.
+This shows the second part of the problem which is conflict detection.
+Any two operators can be conflicting in terms of resulting state of the game world.
+The simplest approach is not allowing the agent to execute multiple operators at the same time and instead force it to choose one specific action instead.
+
+\subsection{Interactions}
+
+An agent might lack the sense of vision and instead start with its known position WME at coordinates $v_0=(0, 0)$.
+It wishes to progress forward (positive $y$ axis) and so proposes the operator $Move(Agent, 0, 1)$ via a production rule with constant output.
+The game world accepts the operator, evaluates it and the agent is then made aware of the operator's successful execution.
+The agent now has the position WME set to $v=(0, 1)$.
+It proposes the same operator again.
+This time the game world rejects the action because of a wall that stands at $v=(0, 2)$.
+The agent did not modify its position WME this time but added a second WME $WallAt(0, 2)$.
+A production rule exists that checks if there is a $WallAt$ WME directly ahead of the current position and if so, produces operator $Move(Agent, 1, 0)$.
+The production rule that produces the constant $Move(Agent, 0, 1)$ operator fires as well and afterwards the agent needs to decide which action to take.
+The agent has a conflict resolution strategy defined as:
+
+\begin{itemize}
+    \item choose random
+    \item fallback when action rejected
+\end{itemize}
+
+This policy means that either the lateral move will be selected by random chance or the previous operator will be selected, evaluated, subsequently rejected and a fallback would occurr to the next one.
+This example shows that a virtual agent possesses a limited capacity to learn and build the information bank describing the state of the world around it.
+In some implementations, the immediate position of the agent would be stored as WME while the position of each discovered wall would be put in long-term memory.
+
 % \subsection{Event Calculus}
 
 % The two most commonly used formalism for representation of plot state in games are situation calculus and event calculus.
