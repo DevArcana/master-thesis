@@ -17,7 +17,7 @@ At its core, SOAR is a symbolic, production-based system that uses rules to guid
 This architecture consists of two major components:
 
 \begin{itemize}
-    \item Procedural memory (production memory) - set of production rules that can modify the state of the world and by extension, the state of the working memory by proposing operators
+    \item Procedural memory (production memory) - set of production rules that take working memory elements and propose operators (behaviours) or modify the state of working memory (inferences)
     \item Working memory - fact based knowledge represented by a symbolic graph structure describing the current state of the world
 \end{itemize}
 
@@ -40,13 +40,20 @@ Michael van Lent and John Laird in their work "Developing an Artificial Intellig
 This cycle combined with the SOAR architecture allows for creation of a versatile agent capable of processing and propagating plot events in the game.
 The first step allows the agent to modify the state of the working memory.
 It can detect visible objects, including other agents and interactables such as containers, doors or even writings.
-Then, the second step uses the working memory combined with production rules (procedural memory) to propose operators to execute.
+The second step is divided into two substeps, the first executes inference rules and modfies the state of the working memory while the other part executes behaviour rules which propose operators.
 Operators modify the state of the world, for example by moving the agent, taking the contents of a container, opening doors or interacting with another agent.
 This constitutes the last step of the cycle and allows the agent to go back to the first step and update its working memory in preparation for the next step.
 
 This architecture is versatile in that it can be used to model even very complex behaviours.
 In order to avoid conflicts in the proposed operators by production rules that try to solve different goals, a goal token can be inserted into the working memory and used as a dependency in the production rules.
 This way an agent may have a rule that changes the goal of the agent and thus modifies its next sequence of actions.
+The general model of an agent can be seen on figure \ref{fig:agent.drawio.png}.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.6\textwidth]{images/chapter1/agent.drawio.png}
+    \caption{Conceptual model of an agent}\label{fig:agent.drawio.png}
+\end{figure}
 
 \subsection{Perceive}
 
@@ -60,6 +67,12 @@ Sensors may only influence working memory of the agent.
 \subsection{Think}
 
 Agents have procedural memory that is represented by a collection of production rules that are executed in parallel.
+Procedural memory is divided into inference rules and behaviour rules.
+The first kind of memory elements are production rules that adjust the working memory of the agent before taking action.
+The inference rules are evaluated sequentially in an undefined order and mutate the state of the working memory.
+For this reason, it is essential that the designer of the agent ensures no conflicting inference rules are present.
+Otherwise undefined behaviour might occurr, usually causing a rule to override the effects of another rule.
+Behaviour rules do not modify the state of the working memory but instead produce operators that are used to evaluate the action the agent wishes to perform.
 Each rule might take as input an arbitrary set of working memory elements (WME), check arbitrary preconditions and produce arbitrary operators that when evaluated will change the state of the simulated world by means the agent's action.
 While working memory is perfect for storing the immediate description of the agent's state, it is perhaps ill suited for storage of event based information elements.
 For this reason the notion of long term memory is used for storage of facts characterized by timestamp of occurrence and description of the event.
@@ -116,12 +129,18 @@ The simulation used for evaluation of the model presented in this work is limite
 \begin{itemize}
     \item Idle - agent does nothing, stays idle for the whole turn
     \item Move - agent may decide to move in one of the four cardinal directions by a single tile
+    \item Attack - agent attacks another agent
+    \item Interact - agent interacts with something such as another agent or world entity
 \end{itemize}
 
 Because all agents execute their actions concurrently, conflicts may occur which the simulation engine must resolve.
 For the sake of simplicity, a simple conflict resolution strategy was chosen where a random agent takes priority.
 The second agent is overriden to have been idle for that turn.
 
+\section{Evaluation}
+
+The proposed framework enables game designers to create complex multi-agent systems that rely on emergent behaviour instead of prescribed scripts.
+In order to evaluate the capabilities of this system, a set of scenarios is used.
 % \section{Evaluation scenarios}
 
 % \subsection{Scenario 1}

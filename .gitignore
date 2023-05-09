@@ -1,5 +1,6 @@
 # out folder
 out
+*.bkp
 
 # intermediate latex files
 *.lop
