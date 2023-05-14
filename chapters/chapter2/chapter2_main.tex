@@ -1,2 +1,38 @@
-\Chapter{WIP}
+\Chapter{Evaluation and experimentation}
 
+\section{Technical aspects of the implementation}
+
+The SOAR cognitive architecture yields itself well to implementation using Entity-Component-System (ECS) approach.
+The ECS pattern is a data-driven approach to game implementation where all logic is implemented as either components or systems \cite{raffaillac2019polyphony}.
+An entity is a collection of components which in turn are containers of data that hold some state but no logic of their own.
+The systems are functions that operate on entities based on some defined queries (such as all entities containing a component representing position and velocity) and then modify the state of the components.
+This approach is performant as it allows for many otherwise impossible optimization techniques to be utilized (such as SIMD instructions and aggresive inlining)\cite{harkonen2019advantages}.
+In the case of the cognitive architecture in question, the components would be working memory elements as well as inference and behaviour rules.
+A sensory system could be designed for feeding the working memory with the state of the world based on other components such as position, state, health or other types of data.
+Another set of systems would run all inference rules and behaviour rules and finally a system would evaluate operators proposed by the previous system and execute their actions.
+
+The actual implementation of all simulations in this thesis is based on the MonoGame framework as described in the book "Introducing 2D Game Development in C\#"\cite{pavleas2013introducing}.
+The ECS implementation used "a high-performance C\# based Archetype and Chunks Entity Component System (ECS) for game development and data-oriented programming" called Arch\cite{matthaeus2023arch}.
+The reason for choosing this project over others is due to the results of performance analysis done by Paillat Laszlo in their ECS benchmark\cite{laszlo2023arch}.
+
+\section{Implementation of infection model}
+
+Modelling the spread of infectious diseases has long been the goal of many scientists\cite{liu2016}.
+The simplest and most popular model is based on the partitioning of a population in three segments of susceptible, infected and removed\cite{weiss2013sir}.
+Variations of this model exist that aim to improve its representativeness in the real world usually by adding another partition group such as hibernator in SIHR\cite{zhao2012sihr}.
+While the origins of these models stems from simulation of infectious diseases spreading across a population, many authors realized that social media and rumors can be modelled exactly the same way.
+The SIHR model for instance is an example of a "rumor spreading model in social networks"\cite{zhao2012sihr}.
+Another variant of the simple SIR model is SCIR, in which the letter 'C' stands for contacted and 'R' stands for refractory.
+This model is used to analyze the impact of the "retweeting mechanism for online social media"\cite{xiong2012scir}.
+Some authors use the concept of cellular automata to implement simulations of the spread of rumors or diseases\cite{silva2020}.
+
+Because the scope of this thesis is limited to application of such models in games, the aim of the proposed model is not to be as accurate in representation of real world disease spread but to be able to represent the idea behind modelling the spread of rumors or diseases in video games.
+The most important aspect of the evaluation is the ability to express the standard SIR model using the cognitive architecture proposed in the preceding chapter.
+For this reason a population is a multi-agent system where each agent can be susceptible or infected.
+The agents have two defined behaviour rules.
+The first one can be summarized as "if not in contact with previously uncontacted agent and possessing message, go towards closest uncontacted agent".
+Whereas second one is "if in contact with previously uncontacted agent and possessing message, make contact".
+The action of contact is modelled using the $Tell$ operator with an arbitrary message.
+The message plays no special role in the simulation and instead represents either a rumor or a disease being spread.
+The condition that checks for the possession of the message is the one that differentiates infected agents from susceptible ones.
+It is worth to note that in order for the simulation to produce any results, at least one agent must be initialized with the possession of the message (infection).
