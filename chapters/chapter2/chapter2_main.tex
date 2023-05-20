@@ -19,12 +19,19 @@ The reason for choosing this project over others is due to the results of perfor
 
 Modelling the spread of infectious diseases has long been the goal of many scientists\cite{liu2016}.
 The simplest and most popular model is based on the partitioning of a population in three segments of susceptible, infected and removed\cite{weiss2013sir}.
+The possible agent state transitions are illustrated on figure \ref{fig:sir.drawio.png}.
 Variations of this model exist that aim to improve its representativeness in the real world usually by adding another partition group such as hibernator in SIHR\cite{zhao2012sihr}.
 While the origins of these models stems from simulation of infectious diseases spreading across a population, many authors realized that social media and rumors can be modelled exactly the same way.
 The SIHR model for instance is an example of a "rumor spreading model in social networks"\cite{zhao2012sihr}.
 Another variant of the simple SIR model is SCIR, in which the letter 'C' stands for contacted and 'R' stands for refractory.
 This model is used to analyze the impact of the "retweeting mechanism for online social media"\cite{xiong2012scir}.
 Some authors use the concept of cellular automata to implement simulations of the spread of rumors or diseases\cite{silva2020}.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.6\textwidth]{images/chapter2/sir.drawio.png}
+    \caption{Agent state transition in SIR model}\label{fig:sir.drawio.png}
+\end{figure}
 
 Because the scope of this thesis is limited to application of such models in games, the aim of the proposed model is not to be as accurate in representation of real world disease spread but to be able to represent the idea behind modelling the spread of rumors or diseases in video games.
 The most important aspect of the evaluation is the ability to express the standard SIR model using the cognitive architecture proposed in the preceding chapter.
@@ -36,3 +43,75 @@ The action of contact is modelled using the $Tell$ operator with an arbitrary me
 The message plays no special role in the simulation and instead represents either a rumor or a disease being spread.
 The condition that checks for the possession of the message is the one that differentiates infected agents from susceptible ones.
 It is worth to note that in order for the simulation to produce any results, at least one agent must be initialized with the possession of the message (infection).
+In general the logic expressed by the combination of previously defined behaviour and inference rules can be illustrated using a flowchart shown in figure \ref{fig:sir_logic.drawio.png}.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.6\textwidth]{images/chapter2/sir_logic.drawio.png}
+    \caption{Flowchart representing logic expressed by agent behaviour rules}\label{fig:sir_logic.drawio.png}
+\end{figure}
+
+The simulation starts with a single agent being infected and the rest of the agents randomly distributed in a rectangular area.
+The initial state is visible on figure \ref{fig:sir_initial_state.png}.
+The first experiment assumes each agent can see other agents that are up to 8 tiles away from it and that no agent can ever become removed.
+Immedietly in the second step of the simulation, the infected agent met up with an adjacent agent and infected them.
+Soon after two clusters of agents formed, each with agents trying to touch each other first before moving on.
+The two clusters are visible on figure \ref{fig:sir_step28.png}.
+After 71 simulation steps nearly all agents have been infected and strong clustering behaviour is clearly visible (figure \ref{fig:sir_step71.png}).
+Figure \ref{fig:sir_end_state.png} shows the final state of the simulation after 85 steps where all agents have become infected and there are no remaining survivors.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.6\textwidth]{images/chapter2/sir_initial_state.png}
+    \caption{Initial state of the simulation}\label{fig:sir_initial_state.png}
+\end{figure}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.6\textwidth]{images/chapter2/sir_step28.png}
+    \caption{Step 28 of the first simulation}\label{fig:sir_step28.png}
+\end{figure}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.6\textwidth]{images/chapter2/sir_step71.png}
+    \caption{Step 71 of the first simulation}\label{fig:sir_step71.png}
+\end{figure}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.6\textwidth]{images/chapter2/sir_end_state.png}
+    \caption{Final state of the first simulation}\label{fig:sir_end_state.png}
+\end{figure}
+
+Due to the behaviour rule specifying that each agent should try to meet with each previously unmet agent that was seen at least once, the agents will form clusters and thus potentially separate themselves further away from other healthly individuals.
+While it might seem like a strange behaviour in an epidemic model, it might make seen to consider it in terms of information propagation as humans have natural tendencies to form groups of interest.
+So far the simulation assumed that agents that were not infected would remain still and do nothing.
+This combined with the limited sight of the agents means that the simulation may stabilize in such a way that a survivor or group of survivors would remain undisturbed because of random distribution of agents.
+An example of this situation is visible in figure \ref{fig:sir_stable_survivor.png}.
+A slight modification of the behaviour rules will make them instead choose a random direction to go which should decrease possibility of the model stabilizing in a state where survivors remain in the simulation because no infected agent came close enough to them.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.6\textwidth]{images/chapter2/sir_stable_survivor.png}
+    \caption{A single remaining survivor}\label{fig:sir_stable_survivor.png}
+\end{figure}
+
+\section{Implementation of scripted sequences}
+
+In game design relying solely on emergent behaviour might prove to be difficult when the designer wishes to express a certain complicated sequence of events which might be hard to define in terms of behaviour and inference rules.
+In that case it is possible to define a special working memory element called $ScriptSequence_N$ where $N$ is the stage of execution, meaning that the agent which is about to execute the scripted sequence of actions will have the WME $ScriptSequence_0$.
+Then, a general guard clause should be built in all the behaviour and inference rules to avoid execution if any WME present is prefixed with $ScriptSequence$.
+Finally, each step of the scripted sequence should be defined as a behavior rule that executed if the $ScriptSequence_N$ matches with the step of the script expressed by said rule.
+The $OnSuccess$ callback should be then used to modify the state of the working memory and advance the sequence by one.
+This makes it possible to embed scripted behaviours in an otherwise emergent behaviour based system of agents.
+
+One can identify two kinds scripted behaviours.
+The first kind are static scripts which assume the state of the world to be known and constant at the moment of execution.
+These could be used to orchestrate cut-scenes and enable cinametic behaviour to be embedded in the game.
+The second kind are behaviour sequences which are simply complex behaviour patterns that are spread across many simulation steps.
+Behaviour patterns are human designed patterns of behaviour as opposed to emergent patterns.
+This kind of scripts should take into consideration the possibility of failure at any moment as the state of the world when such a sequence is triggered is not necessarily known and thus it may be that a proposed operator will fail and be rejected.
+In such a case it is up to the designer to determine whether an alternative path should be taken or the sequence should be abandoned altogether.
+
+In general, scripted sequences are an important aspect of any game and the ability to express them within the constraints of the proposed solution is necessary for it to be considered a viable option to be used in any real game.
