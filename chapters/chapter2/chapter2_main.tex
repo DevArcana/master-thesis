@@ -17,21 +17,51 @@ The reason for choosing this project over others is due to the results of perfor
 
 \section{Implementation of infection model}
 
+Social media and information propagation are similar in nature to epidemiological phenomena.
+It is common to refer to a fast spreading news as being viral, referring to its ability to spread from host to host rapidly.
+In epidemiology the simplest approach to model how a disease spreads is to use a compartmental model that divides the population into compartments or categories and then assigns each compartment a mathematical description of its population size over time.
 Modelling the spread of infectious diseases has long been the goal of many scientists\cite{liu2016}.
-The simplest and most popular model is based on the partitioning of a population in three segments of susceptible, infected and removed\cite{weiss2013sir}.
-The possible agent state transitions are illustrated on figure \ref{fig:sir.drawio.png}.
+The simplest and most popular model is based on the partitioning of a population in three compartments of susceptible, infected and recovered\cite{weiss2013sir}.
+This model is called SIR and consists of three differential equations describing each compartment.
+Figure \ref{fig:sir.drawio.png} illustrates possible state transitions within the SIR model.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\textwidth]{images/chapter2/sir.drawio.png}
+    \caption{Agent state transition in SIR model}\label{fig:sir.drawio.png}
+\end{figure}
+
+\begin{equation} \label{eq:sir1}
+    \frac{{dS}}{{dt}} = -\frac{{\beta \cdot S \cdot I}}{{N}}
+\end{equation}
+
+\begin{equation} \label{eq:sir2}
+    \frac{{dI}}{{dt}} = \frac{{\beta \cdot S \cdot I}}{{N}} - \gamma \cdot I
+\end{equation}
+
+\begin{equation} \label{eq:sir3}
+    \frac{{dR}}{{dt}} = \gamma \cdot I
+\end{equation}
+
+Equations \ref{eq:sir1}, \ref{eq:sir2} and \ref{eq:sir3} describe how each compartment of the population changes over time.
+The parameters of the model are:
+
+\begin{itemize}
+    \item $S$: Number of susceptible individuals in the population
+    \item $I$: Number of infected individuals
+    \item $R$: Number of recovered individuals
+    \item $N$: Total population size ($N = S + I + R$)
+    \item $\beta$: Infection rate, determining the probability of a susceptible individual becoming infected when coming into contact with an infected individual
+    \item $\gamma$: Recovery rate, indicating the average rate at which infected individuals recover and become immune
+\end{itemize}
+
 Variations of this model exist that aim to improve its representativeness in the real world usually by adding another partition group such as hibernator in SIHR\cite{zhao2012sihr}.
 While the origins of these models stems from simulation of infectious diseases spreading across a population, many authors realized that social media and rumors can be modelled exactly the same way.
 The SIHR model for instance is an example of a "rumor spreading model in social networks"\cite{zhao2012sihr}.
 Another variant of the simple SIR model is SCIR, in which the letter 'C' stands for contacted and 'R' stands for refractory.
 This model is used to analyze the impact of the "retweeting mechanism for online social media"\cite{xiong2012scir}.
 Some authors use the concept of cellular automata to implement simulations of the spread of rumors or diseases\cite{silva2020}.
-
-\begin{figure}[h]
-    \centering
-    \includegraphics[width=0.6\textwidth]{images/chapter2/sir.drawio.png}
-    \caption{Agent state transition in SIR model}\label{fig:sir.drawio.png}
-\end{figure}
+Because the name of the last group "recovered" is more strongly associated with diseases and epidemiological modelling, in this thesis a more general naming was adapted and the last group is called "removed" to indicate that the members of the population within that compartment do not take part in the simulation anymore.
 
 Because the scope of this thesis is limited to application of such models in games, the aim of the proposed model is not to be as accurate in representation of real world disease spread but to be able to represent the idea behind modelling the spread of rumors or diseases in video games.
 The most important aspect of the evaluation is the ability to express the standard SIR model using the cognitive architecture proposed in the preceding chapter.
@@ -60,20 +90,7 @@ The two clusters are visible on figure \ref{fig:images/chapter2/sir0/sir_28.png}
 After 71 simulation steps nearly all agents have been infected and strong clustering behaviour is clearly visible (figure \ref{fig:images/chapter2/sir0/sir_71.png}).
 Figure \ref{fig:images/chapter2/sir0/sir_85.png} shows the final state of the simulation after 85 steps where all agents have become infected and there are no remaining survivors.
 
-Due to the behaviour rule specifying that each agent should try to meet with each previously unmet agent that was seen at least once, the agents will form clusters and thus potentially separate themselves further away from other healthly individuals.
-While it might seem like a strange behaviour in an epidemic model, it might make seen to consider it in terms of information propagation as humans have natural tendencies to form groups of interest.
-So far the simulation assumed that agents that were not infected would remain still and do nothing.
-This combined with the limited sight of the agents means that the simulation may stabilize in such a way that a survivor or group of survivors would remain undisturbed because of random distribution of agents.
-An example of this situation is visible in figure \ref{fig:images/chapter2/sir0/sir_255.png}.
-A slight modification of the behaviour rules will make them instead choose a random direction to go which should decrease possibility of the model stabilizing in a state where survivors remain in the simulation because no infected agent came close enough to them.
-
-\begin{figure}[h]
-    \centering
-    \includegraphics[width=1.0\textwidth]{images/chapter2/sir0/sir_255.png}
-    \caption{Experiment 1 - lone survivor}\label{fig:images/chapter2/sir0/sir_255.png}
-\end{figure}
-
-\begin{figure}[h]
+\begin{figure}[H]
     \centering
     \subfigure[Step 1]{\includegraphics[width=0.48\textwidth]{images/chapter2/sir0/sir_1.png}\label{fig:images/chapter2/sir0/sir_1.png}}
     \hspace*{\fill}
@@ -86,13 +103,41 @@ A slight modification of the behaviour rules will make them instead choose a ran
     \caption{Experiment 1} \label{fig:experiment0}
 \end{figure}
 
-\begin{figure}[h]
+Due to the behaviour rule specifying that each agent should try to meet with each previously unmet agent that was seen at least once, the agents will form clusters and thus potentially separate themselves further away from other healthly individuals.
+While it might seem like a strange behaviour in an epidemic model, it might make seen to consider it in terms of information propagation as humans have natural tendencies to form groups of interest.
+So far the simulation assumed that agents that were not infected would remain still and do nothing.
+This combined with the limited sight of the agents means that the simulation may stabilize in such a way that a survivor or group of survivors would remain undisturbed because of random distribution of agents.
+An example of this situation is visible in figure \ref{fig:images/chapter2/sir0/sir_255.png}.
+A slight modification of the behaviour rules will make them instead choose a random direction to go which should decrease possibility of the model stabilizing in a state where survivors remain in the simulation because no infected agent came close enough to them.
+
+\begin{figure}[H]
     \centering
-    \includegraphics[width=1.0\textwidth]{images/chapter2/sir1/sir.png}
-    \caption{Experiment 2 - SIR}\label{fig:images/chapter2/sir1/sir.pn}
+    \includegraphics[width=1.0\textwidth]{images/chapter2/sir0/sir_255.png}
+    \caption{Experiment 1 - lone survivor}\label{fig:images/chapter2/sir0/sir_255.png}
 \end{figure}
 
-\begin{figure}[h]
+After modification of the behaviour rules to make susceptible individuals move around randomly as well as addition of a new rule that prevents the infected agent from targeting other infected agents the clustering behaviour is gone.
+Figure \ref{fig:images/chapter2/sir1/sir_123.png} shows the final state of the experiment with the new ruleset.
+The distribution of the agents is more homogeneous than before, even though slight clustering still occurs.
+The population size plotted against time on figure \ref{fig:images/chapter2/sir1/sir.png} matches with the SIR model plotted on figure \ref{fig:images/chapter2/sir_ref/sir_1.png} with parameters $\beta = 0.07, \gamma = 0.0, N = 40$.
+
+% Experiment 2
+
+\begin{figure}[H]
+    \centering
+    \subfigure[Experiment]{\includegraphics[width=0.48\textwidth]{images/chapter2/sir1/sir.png}\label{fig:images/chapter2/sir1/sir.png}}
+    \hspace*{\fill}
+    \subfigure[$\beta = 0.07, \gamma = 0.0, N = 40$]{\includegraphics[width=0.48\textwidth]{images/chapter2/sir_ref/sir_1.png}\label{fig:images/chapter2/sir_ref/sir_1.png}}
+    \caption{Experiment 2 - SIR vs Experiment} \label{fig:experiment1-diagrams}
+\end{figure}
+
+The initial state of the experiment shown on figure \ref{fig:images/chapter2/sir1/sir_1.png} is the same as with every other experiment.
+The agents are randomly distributed and form three visually identifiable segments.
+After the simulation starts infected agents quickly form a cluster in the bottom right corner as visible on figure \ref{fig:images/chapter2/sir1/sir_33.png}.
+Soon after the cluster disperses and the agents move on to infect the rest of the population.
+Finally, after 128 simulation steps, the whole population is infected and there are no more remaining survivors (figure \ref{fig:images/chapter2/sir1/sir_123.png}).
+
+\begin{figure}[H]
     \centering
     \subfigure[Step 1]{\includegraphics[width=0.3\textwidth]{images/chapter2/sir1/sir_1.png}\label{fig:images/chapter2/sir1/sir_1.png}}
     \hspace*{\fill}
@@ -103,13 +148,44 @@ A slight modification of the behaviour rules will make them instead choose a ran
     \caption{Experiment 2} \label{fig:experiment1}
 \end{figure}
 
-\begin{figure}[h]
+It is worth noting that because the $\gamma$ parameter was set to zero, no agents could recover from being infected and so the equations were simplified to the following.
+
+\begin{equation} \label{eq:sir1_gamma0}
+    \frac{{dS}}{{dt}} = -\frac{{\beta \cdot S \cdot I}}{{N}}
+\end{equation}
+
+\begin{equation} \label{eq:sir2_gamma0}
+    \frac{{dI}}{{dt}} = \frac{{\beta \cdot S \cdot I}}{{N}}
+\end{equation}
+
+\begin{equation} \label{eq:sir3_gamma0}
+    \frac{{dR}}{{dt}} = 0
+\end{equation}
+
+One can easily see that now:
+
+\begin{equation}
+    \frac{{dI}}{{dt}} = -\frac{{dS}}{{dt}}
+\end{equation}
+
+In reality the recovery rate is seldom going to be zero, even in terms of information propagation.
+People receive new information every day and even the most interesting news become old and outdated quickly.
+In terms of information propagation an agent becoming removed from the simulation signifies that they grew bored of the information or that it became outdated and thus that particular agent is no longer going to participate in spreading it.
+
+% Experiment 3
+
+A rather interesting observation made during testing was that because of the random distribution of agents, when the $\gamma$ parameter was greater than zero, it was often the case that a single individual survived.
+Example of this situation is shown on figures \ref{fig:images/chapter2/sir2/sir_1.png}, \ref{fig:images/chapter2/sir2/sir_53.png} and \ref{fig:images/chapter2/sir2/sir_123.png}.
+In this particular example the agents' lifetime upon infection became limited to just 24 simulation steps.
+The population size change in time is shown on figure \ref{fig:images/chapter2/sir2/sir.png}.
+
+\begin{figure}[H]
     \centering
     \includegraphics[width=1.0\textwidth]{images/chapter2/sir2/sir.png}
-    \caption{Experiment 3 - SIR}\label{fig:images/chapter2/sir2/sir.pn}
+    \caption{Experiment 3 - SIR}\label{fig:images/chapter2/sir2/sir.png}
 \end{figure}
 
-\begin{figure}[h]
+\begin{figure}[H]
     \centering
     \subfigure[Step 1]{\includegraphics[width=0.3\textwidth]{images/chapter2/sir2/sir_1.png}\label{fig:images/chapter2/sir2/sir_1.png}}
     \hspace*{\fill}
@@ -120,13 +196,24 @@ A slight modification of the behaviour rules will make them instead choose a ran
     \caption{Experiment 3} \label{fig:experiment2}
 \end{figure}
 
-\begin{figure}[h]
+Normally the recovery rate $\gamma$ is high enough that a disease does not overwhelm the whole population.
+The next experiment shows an example of a simulation where infection rate is balanced with the recovery rate such that the number of infected individuals is on roughly the same level.
+
+% Experiment 4
+
+\begin{figure}[H]
     \centering
-    \includegraphics[width=1.0\textwidth]{images/chapter2/sir3/sir.png}
-    \caption{Experiment 4 - SIR}\label{fig:images/chapter2/sir3/sir.pn}
+    \subfigure[Experiment]{\includegraphics[width=0.48\textwidth]{images/chapter2/sir3/sir.png}\label{fig:images/chapter2/sir3/sir.png}}
+    \hspace*{\fill}
+    \subfigure[$\beta = 0.03, \gamma = 0.01, N = 40$]{\includegraphics[width=0.48\textwidth]{images/chapter2/sir_ref/sir_2.png}\label{fig:images/chapter2/sir_ref/sir_2.png}}
+    \caption{Experiment 4 - SIR vs Experiment} \label{fig:experiment4-diagrams}
 \end{figure}
 
-\begin{figure}[h]
+Figure \ref{fig:images/chapter2/sir3/sir.png} illustrates that the level of infection remains somewhat constant for the whole duration of the simulation.
+It correlates with the SIR model parameters $\beta = 0.03, \gamma = 0.01, N = 40$ as shown on figure \ref{fig:images/chapter2/sir_ref/sir_2.png}.
+Figures \ref{fig:images/chapter2/sir3/sir_1.png}, \ref{fig:images/chapter2/sir3/sir_79.png} and \ref{fig:images/chapter2/sir3/sir_128.png} show the progression of the simulation up until the last susceptible individual changes state.
+
+\begin{figure}[H]
     \centering
     \subfigure[Step 1]{\includegraphics[width=0.3\textwidth]{images/chapter2/sir3/sir_1.png}\label{fig:images/chapter2/sir3/sir_1.png}}
     \hspace*{\fill}
