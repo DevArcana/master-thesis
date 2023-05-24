@@ -1,4 +1,27 @@
 \Chapter{Conclusions and Future}\label{chapter:conclusions}
-Zakończenie, podsumowuje najważniejsze wnioski, podaje możliwości dalszego rozwinięcia wykonanych prac i wskazuje obszar potencjalnego zastosowania pracy. Rezultaty pracy mają charakter poznawczy, mogą mieć charakter użytkowy. Należy dokonać analizy uzyskanych wyników. Rezultaty powinny charakteryzować się oryginalnością, a nawet w pewnym stopniu nowatorstwem. Praca zawiera (\dots). Zostało pokazane (\dots). Eksperymenty wykazały (\dots). Tu piszemy wnioski i obserwacje.
 
-Widzimy, że (\dots). Z tego powodu przyszła praca powinna obejmować (\dots).
+The thesis contains description of the solution for implementation of an epidemiological compartmental model using a multi-agent system with the SOAR cognitive architecture.
+Epidemiological models have application in information propagation as described previously and so they can be used to model how information travels across a population based on a set of parameters such as the rate of spread.
+The results show visible correlation between the mathematical representation of the SIR model and the data obtained from the simulation of the multi-agent system.
+This means that games could utilize multi-agent systems and a cognitive architecture such as SOAR to obtain immersive simulation of each agent.
+The main benefit of the adapted architecture was the composability of the behavior rules which enabled emergent behaviour as opposed to a hierarchical description of decision trees and other similar approaches.
+
+In the thesis objectives three research questions have been proposed.
+The experimentation and research done during the writing of this thesis lead to the following answers to each of the research questions:
+
+\begin{description}
+    \item[RQ1] Can a multi-agent system display emergent behaviour?
+    \item[] A multi-agent system can display emergent behavior by composing simple behavior rules, for example using a cognitive architecture such as SOAR, described in this thesis.
+    \item[RQ2] Can an epidemiological compartmental model be simulated using a mutli-agent system with a cognitive architecture?
+    \item[] Epidemiological compartmental models such as SIR have shown to be possible to simulate with the application of SOAR cognitive architecture. Figures \ref{fig:experiment4-diagrams} and \ref{fig:experiment1-diagrams} clearly show the ability of the proposed solution to match the output the SIR model.
+    \item[RQ3] Can a solution using a multi-agent system with cognitive architecture be used in a game to simulate information propagation?
+    \item[] As described previously, many authors successfuly use compartmental epidemiological models to simulate information propagation. Because the presented solution is capable of simulating a SIR model, it can be used to likewise simulate information propagation in a game where each virtual character is an independent agent.
+\end{description}
+
+It can be seen that the potential of the adapted architecture is still unexplored in full.
+The area of emergent behavior in multi-agent systems is wide and this thesis analyses only the aspect related to propagation of information among a population of agents.
+One aspect that was out of the scope of this thesis was performance considerations of the implementation of the described architecture.
+For this reason future work could be related to stress testing of the approach and analysis of implementation techniques used to improve the viability of adaption of this solution in games where performance concerns stem from the scale of the simulated world and the complexity of desirable agent behaviour.
+Additionally, research related to modelling of scripted behaviour as a set of independent behaviour rules could be done to facilitate transition from scripted to emergent behaviour.
+
+In conclusion, the proposed approach exhibits potential for usage in game development but also great complexity and a new set of challenges that are yet to be solved.

@@ -9,6 +9,11 @@
 \newenvironment{variables}
   {\par\vspace{\abovedisplayskip}\noindent\begin{tabular}{>{$}l<{$} @{${}-{}$} l}}
   {\end{tabular}\par\vspace{\belowdisplayskip}}
+
+  \newcommand\ChapterU[1]{ 
+    \chapter*{#1}
+    \addcontentsline{toc}{chapter}{#1}
+\thispagestyle{chapterBeginStyle}}
 %check the current front page here:
 %https://wiz.pwr.edu.pl/en/students/thesis
 %and generate pdfs, and save in title_page folder.

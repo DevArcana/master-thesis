@@ -1,4 +1,4 @@
-\Chapter{Introduction}\label{chapter:introduction}
+\ChapterU{Introduction}\label{chapter:introduction}
 % Start with stories
 Since ancient times humans loved stories.
 Some stories describe historical events, others are works of fiction.
@@ -117,28 +117,60 @@ The same goes for other player choices and game events.
 People start referencing in-game events in dialogues instantly after they happen as if seemingly everyone became aware of them instantenously.
 This can break immersion and player expectations.
 
-\section{Problem Statement}
-Propagation of knowledge or in general information is often too simplified in games.
-Player actions should generate information that can be perceived, interpreted and propagated naturally by the other agents in the simulated game world.
-Interpretation of received (objective) information produces (subjective) knowledge.
-The distinction allows for effects such as misinterpretation and thus propagation of false information in the system.
-This can lead to interesting mechanics and interactions that simulate reality more closly, increasing player engagement and immersion.
-The main topic of research of this thesis is analysis of the three aspects of information in a game world, namely:
-% Add also representation of knowledge
+Designers can not forsee all the possible actions that a player can wish to perform and thus it is not viable to write a scripted reaction to every potential choice the player makes.
+That is, if the number of choices is not small enough that the player will quickly explore all possible interactions.
+In order to prevent breaking the immersion of the player and maintain a believeable virtual world, all simulated characters need to be independent and believeable themselves.
+
+\section*{Problem Statement}
+\addcontentsline{toc}{section}{Problem Statement}
+
+Scripted behaviour is deterministic and tailored to a specific situation.
+The more situations a character needs to react to, the more work is needed for scripting each interaction individually.
+Generalizations of behaviour help in this instance as some situations can be handled in a general way such as a character getting hurt and fleeing or fighting.
+Others are more subtle and require careful scripting work to be believeable and engaging.
+
+Instead of relying on scripting and handling every possible situation via a predefined reaction, the concept of emergent behaviour can be used.
+In order for emergent behaviour to be possible, an entity exhibiting it needs to be independent and aware of the context in which it exists.
+For this reason a multi-agent system is used to simulate each virtual character as a separate agent with their own behaviours facilitated by a cognitive architecture.
+The main topic of research in this thesis is the application of a multi-agent system with a cognitive architecture in implementation and simulation of an epidemiological compartmental model simulating the propagation of information.
+
+% Propagation of knowledge or in general information is often too simplified in games.
+% Player actions should generate information that can be perceived, interpreted and propagated naturally by the other agents in the simulated game world.
+% Interpretation of received (objective) information produces (subjective) knowledge.
+% The distinction allows for effects such as misinterpretation and thus propagation of false information in the system.
+% This can lead to interesting mechanics and interactions that simulate reality more closly, increasing player engagement and immersion.
+% The main topic of research of this thesis is analysis of the three aspects of information in a game world, namely:
+
+% \begin{description}
+%     \item[perception] how, what and when information is received
+%     \item[interpretation] how information becomes knowledge
+%     \item[propagation] how knowledge becomes information and propagates to other people
+% \end{description}
+
+% The analysis as well as simulations and other research takes into account the overall end goal of the thesis being implementation in games where computing power is limited and real-time performance is paramount.
+% In a world with access to information in real-time across the globe via the use of internet, all models will be inherently different in comparison to a world without any such technology.
+% This thesis takes into account medieval style worlds with fantasy elements such as magic or mythical creatures but no advanced communication techniques.
+
+\section*{Thesis Objectives}
+\addcontentsline{toc}{section}{Thesis Objectives}
+
+The objectives of this thesis include implementation and description of a multi-agent system using a cognitive architecture that can facilitate each agent having their own behaviour.
+For the simulation of information propagation an epidemiological compartmental model is used.
+The implementation of the multi-agent system is compared with the epidemiological model.
+
+The thesis aims to answer the following research questions:
+
 \begin{description}
-    \item[perception] how, what and when information is received
-    \item[interpretation] how information becomes knowledge
-    \item[propagation] how knowledge becomes information and propagates to other people
+    \item[RQ1] Can a multi-agent system display emergent behaviour?
+    \item[RQ2] Can an epidemiological compartmental model be simulated using a multi-agent system with a cognitive architecture?
+    \item[RQ3] Can a solution using a multi-agent system with cognitive architecture be used in a game to simulate information propagation?
 \end{description}
 
-The analysis as well as simulations and other research takes into account the overall end goal of the thesis being implementation in games where computing power is limited and real-time performance is paramount.
-In a world with access to information in real-time across the globe via the use of internet, all models will be inherently different in comparison to a world without any such technology.
-This thesis takes into account medieval style worlds with fantasy elements such as magic or mythical creatures but no advanced communication techniques.
+% To properly understand the three aspects of information previously mentioned, the distinction between information and knowledge needs to be made.
+% Information itself needs to be defined as well.
+% To model the behaviour of different models, a cellular automata approach is chosen.
 
-\section{Thesis Objectives}
-To properly understand the three aspects of information previously mentioned, the distinction between information and knowledge needs to be made.
-Information itself needs to be defined as well.
-To model the behaviour of different models, a cellular automata approach is chosen.
+\section*{Thesis Outline}
+\addcontentsline{toc}{section}{Thesis Outline}
 
-\section{Thesis Outline}
 Zarysuj strukturę swojej pracy dyplomowej. Ogólnie przedstawienie pracy. Przykładowo: ,,Praca dzieli się na $7$ rozdziałów (\dots)''. Rozdział \ref{chapter:politechnika} dotyczy (\dots). Temat został rozwinięty~w~\ref{chapter:podrozdzial}.

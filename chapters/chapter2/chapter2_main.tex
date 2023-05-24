@@ -75,10 +75,12 @@ The condition that checks for the possession of the message is the one that diff
 It is worth to note that in order for the simulation to produce any results, at least one agent must be initialized with the possession of the message (infection).
 In general the logic expressed by the combination of previously defined behaviour and inference rules can be illustrated using a flowchart shown in figure \ref{fig:sir_logic.drawio.png}.
 
+\subsection{Experiment 1}
+
 \begin{figure}[h]
     \centering
     \includegraphics[width=0.6\textwidth]{images/chapter2/sir_logic.drawio.png}
-    \caption{Flowchart representing logic expressed by agent behaviour rules}\label{fig:sir_logic.drawio.png}
+    \caption{Flowchart representing logic expressed by agent behaviour rules, terminal blocks represent operators being proposed by the agent}\label{fig:sir_logic.drawio.png}
 \end{figure}
 
 The simulation starts with a single agent being infected and the rest of the agents randomly distributed in a rectangular area.
@@ -115,6 +117,8 @@ A slight modification of the behaviour rules will make them instead choose a ran
     \includegraphics[width=1.0\textwidth]{images/chapter2/sir0/sir_255.png}
     \caption{Experiment 1 - lone survivor}\label{fig:images/chapter2/sir0/sir_255.png}
 \end{figure}
+
+\subsection{Experiment 2}
 
 After modification of the behaviour rules to make susceptible individuals move around randomly as well as addition of a new rule that prevents the infected agent from targeting other infected agents the clustering behaviour is gone.
 Figure \ref{fig:images/chapter2/sir1/sir_123.png} shows the final state of the experiment with the new ruleset.
@@ -168,6 +172,8 @@ One can easily see that now:
     \frac{{dI}}{{dt}} = -\frac{{dS}}{{dt}}
 \end{equation}
 
+\subsection{Experiment 3}
+
 In reality the recovery rate is seldom going to be zero, even in terms of information propagation.
 People receive new information every day and even the most interesting news become old and outdated quickly.
 In terms of information propagation an agent becoming removed from the simulation signifies that they grew bored of the information or that it became outdated and thus that particular agent is no longer going to participate in spreading it.
@@ -196,6 +202,8 @@ The population size change in time is shown on figure \ref{fig:images/chapter2/s
     \caption{Experiment 3} \label{fig:experiment2}
 \end{figure}
 
+\subsection{Experiment 4}
+
 Normally the recovery rate $\gamma$ is high enough that a disease does not overwhelm the whole population.
 The next experiment shows an example of a simulation where infection rate is balanced with the recovery rate such that the number of infected individuals is on roughly the same level.
 
@@ -223,6 +231,12 @@ Figures \ref{fig:images/chapter2/sir3/sir_1.png}, \ref{fig:images/chapter2/sir3/
 
     \caption{Experiment 4} \label{fig:experiment3}
 \end{figure}
+
+\subsection{Conclusions}
+
+The experiments have shown that a multi-agent system implemented using the SOAR cognitive architecture is capable of simulating epidemiological compartmental models.
+The presented solution correlates closely with mathematical models while relying solely on emergent behaviour that is modelled using independent behaviour rules.
+Epidemiological models have application in information propagation modelling as previously described and so the solution presented here can be used to model human behaviour in games where each agent is independent and composed of individual behavior rules.
 
 \section{Implementation of scripted sequences}
 
