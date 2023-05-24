@@ -90,6 +90,20 @@ The combined information from all the sensors might produce information regardin
 The information is presented to the agent and it is up to the agent to decide what to do with it.
 Sensors may only influence working memory of the agent.
 
+All working memory elements produced as a result of perception of the world override the state of the working memory.
+This process is called memory unification and usually results in loss of previously stored memories.
+Humans in real life do not forget where they have recently been just because they walk.
+To facilitate this another mechanism is needed to keep track of the old values from the overriden working memory elements.
+Not every working memory element is useful to keep historic values of, however and for the sake of practicality and performance, it is up to the author to choose which values are necessary to maintain a track record of.
+Depending on implementation it might make sense to create an inference rule that will save the state of some working memory elements with a prefix to be able to calculate change between the current state of the agent and its previous value.
+It is up to the exact implementation to decide how and what is fed to the agent during the perception phase.
+
+Agent's senses might be limited by factors such as weather, terrain, light level, fog, noise and similar.
+This means that the information stored in the working memory is not a direct representation of the state of the game world and instead should be treated as interpretation of it done by the agent.
+Rules that take into account the state of working memory should always assume that the proposed operator might fail and should use that information to influence the state of the agent's memory.
+A blind agent might map out the terrain by virtue of trying to walk into walls repeatedly and keeping track of its own position (under the assumption that they are not moved externally).
+This mechanism demonstrates perception feedback and shows that the agent's learning mechanisms can also be implemented by carefully crafting a set of behaviour rules.
+
 \subsection{Think}
 
 Agents have procedural memory that is represented by a collection of production rules that are executed in parallel.
@@ -105,13 +119,6 @@ For this reason the notion of long term memory is used for storage of facts char
 Procedural memory and production rules therein may also utilize this storage to work with temporal data, for example to facilitate the agent remembering its travel trajectory or recording events such as successful executions of certain actions.
 Procedural memory is usually immutable after creation of the agent but it is possible to store a production rule inside of working memory and by means of another production rule, modify the procedural memory adding the new rule to the bank of rules the agent possesses.
 This can simulate agent learning new inference rules and behaviours, for example through reading a book or being taught by other agent.
-The process is illustrated in figure \ref{fig:agent_think.drawio.png}.
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=1.0\textwidth]{images/chapter1/agent_think.drawio.png}
-    \caption{Example agent's thinking process}\label{fig:agent_think.drawio.png}
-\end{figure}
 
 \subsection{Act}
 
@@ -170,6 +177,16 @@ The simulation used for evaluation of the model presented in this work is limite
 Because all agents execute their actions concurrently, conflicts may occur which the simulation engine must resolve.
 For the sake of simplicity, a simple conflict resolution strategy was chosen where a random agent takes priority.
 The second agent is overriden to have been idle for that turn.
+
+In terms of an infection model the agent needs to be aware of the position of agents in its field of view as well as their state of infection.
+Agents use inference to choose targets to follow and propose operators such as $Infect$ or $Walk$ dependent on the working memory.
+The whole process starting with percepting and ending with proposed operators is illustrated in figure \ref{fig:agent_think.drawio.png}.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1.0\textwidth]{images/chapter1/agent_think.drawio.png}
+    \caption{Example agent's thinking process}\label{fig:agent_think.drawio.png}
+\end{figure}
 
 \subsection{Conclusions}
 
