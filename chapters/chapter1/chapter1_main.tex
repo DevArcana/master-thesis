@@ -9,11 +9,37 @@ General plot of the game as experienced by the player is the sum of interactions
 Grey et al.\cite{grey2011procedural} proposed a solution using agent-based simulation to create procedural quests.
 This work focuses on extension of the original approach using a SOAR cognitive architecture\cite{rosenbloom1993soar}.
 
-\subsection{SOAR}
+\subsection{Cognitive architecture}
 
-One of the most important developments in the area of multi-agent systems and cognitive modelling was the SOAR (State, Operator, And Representation) cognitive architecture \cite{laird2019soar}.
-It is a cognitive architecture that is designed to simulate human thinking and problem-solving processes.
+According to Langley et al.\cite{langley2009cognitive} a cognitive architecture specifies the underlying infrastructure for an intelligent system.
+The authors describe the distinction between the agent's architecture and its memory and beliefs that can change over time, even proposing an analogy to a building with furniture in it, indicating that while the architecture of the building is constant, the elements within are not.
+Among the architectures described by the authors are the following examples:
+
+\begin{description}
+    \item[ACT] Modular architecture focused on modelling human behaviour. Notable feature of this architecture is that each production rule is associated with a utility function that calculates the potential benefit from execution of the action.
+    \item[SOAR] Architecture consisting of production rules and operators that influence the external or internal state of the agent.
+    \item[ICARUS] ICARUS splits the memory into concepts, percepts and skills. The concepts and percepts describe the situation while skills allow for choosing an action to take. Skills represent goal concepts they aim to achieve. All memories are stored in a hierarchical way.
+    \item[PRODIGY] This architecture defines the concept of domain rules that encode the conditions under which actions can be executed as well as control rules that define which actions are to be selected or rejected.
+\end{description}
+
+Another notable example in the space of cognitive architectures is belief-desire-intention (BDI) described by Georgeff in 1992\cite{georgeff1992abstract}.
+In this architecture the agents hold certain beliefs about its state, has desire to act in a certain way and possesses intention that guarantees that it does not act randomly.
+
+All cognitive architectures can be used to solve similar problems, albeit each with a different approach.
+In this thesis the SOAR (State, Operator, And Representation) architecture was chosen \cite{laird2019soar}.
+It allows the agents to have a set of rules that determine their behaviour as well as represent the state of the world as perceived by the agent in its working memory.
+The simplicity and straightforwardness of SOAR is one of the main reasons for choosing this particular cognitive architecture.
+Additionally, architectures that rely on utility functions that calculate the applicability of a production rule were excluded due to the fact that definition of utility for many aspects of simulation of a virtual character in game is adding extra complexity.
+Another beneficial property of SOAR is the ability to express the production rules as independent and non-hierarchical.
+In some games decision trees are enough to express the range of interactions with an agent\cite{sweetser2002current}.
+The main limitation of this approach is that decision trees are hierarchical and no choice can be made in isolation as well as the fact that they are usually deterministic and thus predictable.
+The latter limitation is avoidable as probabilistic decision trees can be used \cite{saks1986probabilistic}, however the former limitation is a charcteristic of all trees and relational graph structures.
+
+SOAR is a cognitive architecture that is designed to simulate human thinking and problem-solving processes.
 At its core, SOAR is a symbolic, production-based system that uses rules to guide behavior.
+All production rules in this architecture are independent and concerned with a single specific behaviour or inference that the agent can perform.
+The memory can store hierarchical information but the rules that govern the agent's behaviour are not hierarchical themselves.
+
 This architecture consists of two major components:
 
 \begin{itemize}
@@ -49,7 +75,7 @@ In order to avoid conflicts in the proposed operators by production rules that t
 This way an agent may have a rule that changes the goal of the agent and thus modifies its next sequence of actions.
 The general model of an agent can be seen on figure \ref{fig:agent.drawio.png}.
 
-\begin{figure}[h]
+\begin{figure}[H]
     \centering
     \includegraphics[width=0.6\textwidth]{images/chapter1/agent.drawio.png}
     \caption{Conceptual model of an agent}\label{fig:agent.drawio.png}
@@ -81,7 +107,7 @@ Procedural memory is usually immutable after creation of the agent but it is pos
 This can simulate agent learning new inference rules and behaviours, for example through reading a book or being taught by other agent.
 The process is illustrated in figure \ref{fig:agent_think.drawio.png}.
 
-\begin{figure}[h]
+\begin{figure}[H]
     \centering
     \includegraphics[width=1.0\textwidth]{images/chapter1/agent_think.drawio.png}
     \caption{Example agent's thinking process}\label{fig:agent_think.drawio.png}
@@ -128,6 +154,8 @@ In some implementations, the immediate position of the agent would be stored as 
 The simulatated environment presented in this work was designed to resemble the environment described by Grey et al.\cite{grey2011procedural} which in turn used the implementation done by Prageeth Silva\cite{silva2010shadow}.
 As of the time of writing, the original implementation of Shadow Quest used in evaluation of Grey's model is unavailable and so a custom implementation with modifications was made specifically for the sake of experimentation.
 Each agent may occupy a single tile in a grid-based world.
+The major difference between the work doen by Grey et al. and the solution described in this thesis is the focus on information propagation.
+For this reason the agents and their actions are adjusted to be compatible with the epidemiological models that can be used to model the propagation of information.
 The temporal structure used in the design of the simulation is based on the concept of turns.
 Because the interaction with a human player is not necessary to simulate the progression of a procedurally emergent plot, the turns are simply simulatin steps.
 Within a single turn all agents execute the aforementioned decision cycle, starting from receiving information regarding the state of the world around them, deciding on the action to perform and finally executing it.
@@ -136,58 +164,16 @@ The simulation used for evaluation of the model presented in this work is limite
 \begin{itemize}
     \item Idle - agent does nothing, stays idle for the whole turn
     \item Move - agent may decide to move in one of the four cardinal directions by a single tile
-    \item Attack - agent attacks another agent
-    \item Interact - agent interacts with something such as another agent or world entity
+    \item Infect - agent infects another agent
 \end{itemize}
 
 Because all agents execute their actions concurrently, conflicts may occur which the simulation engine must resolve.
 For the sake of simplicity, a simple conflict resolution strategy was chosen where a random agent takes priority.
 The second agent is overriden to have been idle for that turn.
 
-\section{Evaluation}
+\subsection{Conclusions}
 
-The proposed framework enables game designers to create complex multi-agent systems that rely on emergent behaviour instead of prescribed scripts.
-In order to evaluate the capabilities of this system, a set of scenarios is used.
-% \section{Evaluation scenarios}
-
-% \subsection{Scenario 1}
-
-% The player is tasked with solving a murder mystery in a closed space.
-% The gameplay loop consists of talking with non-playable characters and collecting clues.
-% There are three suspects, labeled A, B and C respectively.
-% The player must first obtain the first clue related to the weapon used by investigating the scene.
-% Then, during interviews they should obtain the clues relating to who possesses the weapon and who has a motive.
-% After that, the player might make an accusation and win the game.
-
-% In this scenario the player and characters are independent agents.
-% The scene is a special object that can be interacted with to gain the first clue.
-% The communication happens only between each character and the player and is uni-directional.
-% The list of possible clues is predefined.
-
-% \subsection{Scenario 2}
-
-% The player is tasked by a stall owner to steal a ring from the jewelery stall and plant it in another seller's pocket.
-% After the player does so, the stall owner yells for the guards to come arrest the thief.
-% If the ring is in the other seller's pocket, that seller will be considered the culprit and arrested.
-
-% In this scenario the player is able to interact with the task giver, the jeweler and the seller being framed.
-% The plot depends on the choices the player makes and the order they make them in.
-% If the player never plants the ring, the task giver will be punished for false accusation and will instead accuse the player.
-% If the player plants the ring in the pocket of the task giver, they will be the one arrested instead.
-% On the other hand, leaving the ring untouched and reporting to the task giver will cause the task giver to not be taken seriously as the jeweler will deny any theft taking place.
-
-% \subsection{Scenario 3}
-
-% The player overheard the general of enemy army talking about the plan to invade in three days.
-% They must reach the capital and inform the king of the danger to prepare the defensive.
-
-% This scenario is time sensitive and shows example of uni-directional interaction between the player and the enemy general.
-
-% \subsection{Scenario 4}
-
-% A dragon is seen flying from the mountains towards the forest.
-% The player is tasked with tracking it down.
-
-% Depending on where the player starts, they might or might not have witnessed the dragon themselves.
-% Through talking with the non-playable characters the player may find out who was a witness and who only heard about the dragon.
-% Based on the time of sighting, the player may deduce the direction of the dragon's flight.
+The chosen cognitive architecture and described solution should allow for implementation of an epidemiological model.
+In order to evaluate the approach chosen in this thesis, the results of the simulation will be compared with a mathematical model directly.
+The first of the research questions proposed in the thesis objective can be answered based on the analysis of the cognitive architectures described previously.
+The SOAR cognitive architecture (and others similar to it) can be used for a multi-agent system to display emergent behaviour based on a set of production rules.

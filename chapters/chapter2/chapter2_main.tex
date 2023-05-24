@@ -236,23 +236,6 @@ Figures \ref{fig:images/chapter2/sir3/sir_1.png}, \ref{fig:images/chapter2/sir3/
 
 The experiments have shown that a multi-agent system implemented using the SOAR cognitive architecture is capable of simulating epidemiological compartmental models.
 The presented solution correlates closely with mathematical models while relying solely on emergent behaviour that is modelled using independent behaviour rules.
+This answers the second and third research questions proposed in the thesis objectives.
+The experiments clearly show that the proposed multi-agent system is capable of simulating a compartmental epidemiological model such as SIR.
 Epidemiological models have application in information propagation modelling as previously described and so the solution presented here can be used to model human behaviour in games where each agent is independent and composed of individual behavior rules.
-
-\section{Implementation of scripted sequences}
-
-In game design relying solely on emergent behaviour might prove to be difficult when the designer wishes to express a certain complicated sequence of events which might be hard to define in terms of behaviour and inference rules.
-In that case it is possible to define a special working memory element called $ScriptSequence_N$ where $N$ is the stage of execution, meaning that the agent which is about to execute the scripted sequence of actions will have the WME $ScriptSequence_0$.
-Then, a general guard clause should be built in all the behaviour and inference rules to avoid execution if any WME present is prefixed with $ScriptSequence$.
-Finally, each step of the scripted sequence should be defined as a behavior rule that executed if the $ScriptSequence_N$ matches with the step of the script expressed by said rule.
-The $OnSuccess$ callback should be then used to modify the state of the working memory and advance the sequence by one.
-This makes it possible to embed scripted behaviours in an otherwise emergent behaviour based system of agents.
-
-One can identify two kinds scripted behaviours.
-The first kind are static scripts which assume the state of the world to be known and constant at the moment of execution.
-These could be used to orchestrate cut-scenes and enable cinametic behaviour to be embedded in the game.
-The second kind are behaviour sequences which are simply complex behaviour patterns that are spread across many simulation steps.
-Behaviour patterns are human designed patterns of behaviour as opposed to emergent patterns.
-This kind of scripts should take into consideration the possibility of failure at any moment as the state of the world when such a sequence is triggered is not necessarily known and thus it may be that a proposed operator will fail and be rejected.
-In such a case it is up to the designer to determine whether an alternative path should be taken or the sequence should be abandoned altogether.
-
-In general, scripted sequences are an important aspect of any game and the ability to express them within the constraints of the proposed solution is necessary for it to be considered a viable option to be used in any real game.
