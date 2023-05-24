@@ -2,14 +2,14 @@
 
 \section{Agents and architecture}
 
+In multi-agent simulation agents within the system are trated as independent entities interacting with each other.
 Both the player and any non-playable characters can be called agents.
 Each agent is independent from the rest and is able to act based on the subset of the plot available to them.
 The actual implementation of each agent's behaviour can be as simple as a hardcoded line of dialogue and as complex as a set of rules enabling emergent behaviour.
 General plot of the game as experienced by the player is the sum of interactions and sub-plots of the individual agents in the game.
 Grey et al.\cite{grey2011procedural} proposed a solution using agent-based simulation to create procedural quests.
 This work focuses on extension of the original approach using a SOAR cognitive architecture\cite{rosenbloom1993soar}.
-
-\subsection{Cognitive architecture}
+In order to produce natural interactions between agents, the implementation must not be reliant on user-defined scripts and scenarios and instead should allow expression of the agents' behaviour using a set of independent rules.
 
 According to Langley et al.\cite{langley2009cognitive} a cognitive architecture specifies the underlying infrastructure for an intelligent system.
 The authors describe the distinction between the agent's architecture and its memory and beliefs that can change over time, even proposing an analogy to a building with furniture in it, indicating that while the architecture of the building is constant, the elements within are not.
@@ -113,16 +113,16 @@ The inference rules are evaluated sequentially in an undefined order and mutate 
 For this reason, it is essential that the designer of the agent ensures no conflicting inference rules are present.
 Otherwise undefined behaviour might occurr, usually causing a rule to override the effects of another rule.
 Behaviour rules do not modify the state of the working memory but instead produce operators that are used to evaluate the action the agent wishes to perform.
-Each rule might take as input an arbitrary set of working memory elements (WME), check arbitrary preconditions and produce arbitrary operators that when evaluated will change the state of the simulated world by means the agent's action.
+Each rule might take as input an arbitrary set of working memory elements (WME), check arbitrary preconditions and produce arbitrary operators that when evaluated will change the state of the simulated world.
 While working memory is perfect for storing the immediate description of the agent's state, it is perhaps ill suited for storage of event based information elements.
-For this reason the notion of long term memory is used for storage of facts characterized by timestamp of occurrence and description of the event.
+For this reason the notion of long-term memory is used for storage of facts characterized by timestamp of occurrence and description of the event.
 Procedural memory and production rules therein may also utilize this storage to work with temporal data, for example to facilitate the agent remembering its travel trajectory or recording events such as successful executions of certain actions.
-Procedural memory is usually immutable after creation of the agent but it is possible to store a production rule inside of working memory and by means of another production rule, modify the procedural memory adding the new rule to the bank of rules the agent possesses.
+Procedural memory is usually immutable after creation of the agent but it is possible to store a production rule inside of working memory and, by means of another production rule, modify the procedural memory adding the new rule to the bank of rules the agent possesses.
 This can simulate agent learning new inference rules and behaviours, for example through reading a book or being taught by other agent.
 
 \subsection{Act}
 
-The act of action when performed by the simulated agent is represented by an operator being evaluated.
+Simulated agents perform actions by choosing and proposing one or more operators that when evaluated express the action's effects.
 An operator represents an action that an agent wishes to perform.
 The game world is in charge of evaluating the results of the operator and rejecting it in case the agent is not allowed to perform it due to any condition that the agent itself is not aware of.
 Because production rules are executed in parallel and thus output multiple operators, it is possible for conflicts to occur.
@@ -155,6 +155,8 @@ The agent has a conflict resolution strategy defined as:
 This policy means that either the lateral move will be selected by random chance or the previous operator will be selected, evaluated, subsequently rejected and a fallback would occurr to the next one.
 This example shows that a virtual agent possesses a limited capacity to learn and build the information bank describing the state of the world around it.
 In some implementations, the immediate position of the agent would be stored as WME while the position of each discovered wall would be put in long-term memory.
+Based on the result of the action's execution the agent may store the estimated utility of the action in the memory and use it next time inside of the operator to determine if this action is worth using again.
+This approach could be used in general to facilitate long-term agent's improvement as rules could be written to outright reject actions that bring no results before they are proposed.
 
 \subsection{Simulation constraints and limitations}
 
