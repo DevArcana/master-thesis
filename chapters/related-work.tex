@@ -138,3 +138,59 @@ For this reason and because the first approach can be adapted to the second scen
 In conclusion it can be seen that the use of agent-based simulation in game development is a growing field of research.
 Artificial intelligence and its derivatives drive the current state of the art in this area.
 Alternative approaches such as proposed back in 2011 by Grey\cite{grey2011procedural} should be explored to compete with the indeterministic nature of language models or perhaps to become the benchmarks against them.
+
+In multi-agent simulation agents within the system are trated as independent entities interacting with each other.
+Both the player and any non-playable characters can be called agents.
+Each agent is independent from the rest and is able to act based on the subset of the plot available to them.
+The actual implementation of each agent's behaviour can be as simple as a hardcoded line of dialogue and as complex as a set of rules enabling emergent behaviour.
+General plot of the game as experienced by the player is the sum of interactions and sub-plots of the individual agents in the game.
+Grey et al.\cite{grey2011procedural} proposed a solution using agent-based simulation to create procedural quests.
+This work focuses on extension of the original approach using a SOAR cognitive architecture\cite{rosenbloom1993soar}.
+In order to produce natural interactions between agents, the implementation must not be reliant on user-defined scripts and scenarios and instead should allow expression of the agents' behaviour using a set of independent rules.
+
+According to Langley et al.\cite{langley2009cognitive} a cognitive architecture specifies the underlying infrastructure for an intelligent system.
+The authors describe the distinction between the agent's architecture and its memory and beliefs that can change over time, even proposing an analogy to a building with furniture in it, indicating that while the architecture of the building is constant, the elements within are not.
+Among the architectures described by the authors are the following examples:
+
+\begin{description}
+    \item[ACT] Modular architecture focused on modelling human behaviour. Notable feature of this architecture is that each production rule is associated with a utility function that calculates the potential benefit from execution of the action.
+    \item[SOAR] Architecture consisting of production rules and operators that influence the external or internal state of the agent.
+    \item[ICARUS] ICARUS splits the memory into concepts, percepts and skills. The concepts and percepts describe the situation while skills allow for choosing an action to take. Skills represent goal concepts they aim to achieve. All memories are stored in a hierarchical way.
+    \item[PRODIGY] This architecture defines the concept of domain rules that encode the conditions under which actions can be executed as well as control rules that define which actions are to be selected or rejected.
+\end{description}
+
+Another notable example in the space of cognitive architectures is belief-desire-intention (BDI) described by Georgeff in 1992\cite{georgeff1992abstract}.
+In this architecture the agents hold certain beliefs about its state, has desire to act in a certain way and possesses intention that guarantees that it does not act randomly.
+
+All cognitive architectures can be used to solve similar problems, albeit each with a different approach.
+In this thesis the SOAR (State, Operator, And Representation) architecture was chosen \cite{laird2019soar}.
+It allows the agents to have a set of rules that determine their behaviour as well as represent the state of the world as perceived by the agent in its working memory.
+The simplicity and straightforwardness of SOAR is one of the main reasons for choosing this particular cognitive architecture.
+Additionally, architectures that rely on utility functions that calculate the applicability of a production rule were excluded due to the fact that definition of utility for many aspects of simulation of a virtual character in game is adding extra complexity.
+Another beneficial property of SOAR is the ability to express the production rules as independent and non-hierarchical.
+In some games decision trees are enough to express the range of interactions with an agent\cite{sweetser2002current}.
+The main limitation of this approach is that decision trees are hierarchical and no choice can be made in isolation as well as the fact that they are usually deterministic and thus predictable.
+The latter limitation is avoidable as probabilistic decision trees can be used \cite{saks1986probabilistic}, however the former limitation is a characteristic of all trees and relational graph structures.
+
+SOAR is a cognitive architecture that is designed to simulate human thinking and problem-solving processes.
+At its core, SOAR is a symbolic, production-based system that uses rules to guide behavior.
+All production rules in this architecture are independent and concerned with a single specific behaviour or inference that the agent can perform.
+The memory can store hierarchical information but the rules that govern the agent's behaviour are not hierarchical themselves.
+
+This architecture consists of two major components:
+
+\begin{itemize}
+    \item Procedural memory (production memory) - set of production rules that take working memory elements and propose operators (behaviours) or modify the state of working memory (inferences)
+    \item Working memory - fact based knowledge represented by a symbolic graph structure describing the current state of the world
+\end{itemize}
+
+Many implementations of this architecture additionally include the concept of long-term memory structure that accumulates knowledge during the whole lifetime of the agent.
+In general, implementation of the SOAR architecture can be called a production system.
+Unlike many traditional production systems however, all rules that match against the current state of the world will fire (execute actions) in parallel.
+This means that the list of rules is not ordered and conflicting operators may be proposed.
+In such cases the usual strategy is to create a substate of the working memory with a new goal of conflict resolution.
+
+The SOAR architecture has been successfuly utilized in creation of video game AI agents.
+Examples include the application of this architecture to create an autonomous agent designed for playing Quake\cite{laird2001knows}, StarCraft\cite{turner2013soar-sc} and Descent 3\cite{van1999developing}.
+Michael van Lent and John Laird in their work "Developing an Artificial Intelligence Engine"\cite{van1999developing} describe a decision cycle in an inference machine:
+Based on this fact, the SOAR architecture was chosen as the basis for implementation of the multi-agent system.

@@ -1,59 +1,7 @@
-\Chapter{Multi-agent systems and cognitive architectures}\label{chapter:chapter1}
+\Chapter{SOAR based multi-agent system description}\label{chapter:chapter1}
 
-In multi-agent simulation agents within the system are trated as independent entities interacting with each other.
-Both the player and any non-playable characters can be called agents.
-Each agent is independent from the rest and is able to act based on the subset of the plot available to them.
-The actual implementation of each agent's behaviour can be as simple as a hardcoded line of dialogue and as complex as a set of rules enabling emergent behaviour.
-General plot of the game as experienced by the player is the sum of interactions and sub-plots of the individual agents in the game.
-Grey et al.\cite{grey2011procedural} proposed a solution using agent-based simulation to create procedural quests.
-This work focuses on extension of the original approach using a SOAR cognitive architecture\cite{rosenbloom1993soar}.
-In order to produce natural interactions between agents, the implementation must not be reliant on user-defined scripts and scenarios and instead should allow expression of the agents' behaviour using a set of independent rules.
-
-According to Langley et al.\cite{langley2009cognitive} a cognitive architecture specifies the underlying infrastructure for an intelligent system.
-The authors describe the distinction between the agent's architecture and its memory and beliefs that can change over time, even proposing an analogy to a building with furniture in it, indicating that while the architecture of the building is constant, the elements within are not.
-Among the architectures described by the authors are the following examples:
-
-\begin{description}
-    \item[ACT] Modular architecture focused on modelling human behaviour. Notable feature of this architecture is that each production rule is associated with a utility function that calculates the potential benefit from execution of the action.
-    \item[SOAR] Architecture consisting of production rules and operators that influence the external or internal state of the agent.
-    \item[ICARUS] ICARUS splits the memory into concepts, percepts and skills. The concepts and percepts describe the situation while skills allow for choosing an action to take. Skills represent goal concepts they aim to achieve. All memories are stored in a hierarchical way.
-    \item[PRODIGY] This architecture defines the concept of domain rules that encode the conditions under which actions can be executed as well as control rules that define which actions are to be selected or rejected.
-\end{description}
-
-Another notable example in the space of cognitive architectures is belief-desire-intention (BDI) described by Georgeff in 1992\cite{georgeff1992abstract}.
-In this architecture the agents hold certain beliefs about its state, has desire to act in a certain way and possesses intention that guarantees that it does not act randomly.
-
-All cognitive architectures can be used to solve similar problems, albeit each with a different approach.
-In this thesis the SOAR (State, Operator, And Representation) architecture was chosen \cite{laird2019soar}.
-It allows the agents to have a set of rules that determine their behaviour as well as represent the state of the world as perceived by the agent in its working memory.
-The simplicity and straightforwardness of SOAR is one of the main reasons for choosing this particular cognitive architecture.
-Additionally, architectures that rely on utility functions that calculate the applicability of a production rule were excluded due to the fact that definition of utility for many aspects of simulation of a virtual character in game is adding extra complexity.
-Another beneficial property of SOAR is the ability to express the production rules as independent and non-hierarchical.
-In some games decision trees are enough to express the range of interactions with an agent\cite{sweetser2002current}.
-The main limitation of this approach is that decision trees are hierarchical and no choice can be made in isolation as well as the fact that they are usually deterministic and thus predictable.
-The latter limitation is avoidable as probabilistic decision trees can be used \cite{saks1986probabilistic}, however the former limitation is a charcteristic of all trees and relational graph structures.
-
-SOAR is a cognitive architecture that is designed to simulate human thinking and problem-solving processes.
-At its core, SOAR is a symbolic, production-based system that uses rules to guide behavior.
-All production rules in this architecture are independent and concerned with a single specific behaviour or inference that the agent can perform.
-The memory can store hierarchical information but the rules that govern the agent's behaviour are not hierarchical themselves.
-
-This architecture consists of two major components:
-
-\begin{itemize}
-    \item Procedural memory (production memory) - set of production rules that take working memory elements and propose operators (behaviours) or modify the state of working memory (inferences)
-    \item Working memory - fact based knowledge represented by a symbolic graph structure describing the current state of the world
-\end{itemize}
-
-Many implementations of this architecture additionally include the concept of long-term memory structure that accumulates knowledge during the whole lifetime of the agent.
-In general, implementation of the SOAR architecture can be called a production system.
-Unlike many traditional production systems however, all rules that match against the current state of the world will fire (execute actions) in parallel.
-This means that the list of rules is not ordered and conflicting operators may be proposed.
-In such cases the usual strategy is to create a substate of the working memory with a new goal of conflict resolution.
-
-The SOAR architecture has been successfuly utilized in creation of video game AI agents.
-Examples include the application of this architecture to create an autonomous agent designed for playing Quake\cite{laird2001knows}, StarCraft\cite{turner2013soar-sc} and Descent 3\cite{van1999developing}.
-Michael van Lent and John Laird in their work "Developing an Artificial Intelligence Engine"\cite{van1999developing} describe a decision cycle in an inference machine:
+The SOAR cognitive architecture is based on the three stage processing model.
+The model consists of the following stages:
 
 \begin{itemize}
     \item Perceive: Accept sensor information from the game
@@ -104,93 +52,99 @@ This mechanism demonstrates perception feedback and shows that the agent's learn
 
 \section{Think}
 
-Agents have procedural memory that is represented by a collection of production rules that are executed in parallel.
-Procedural memory is divided into inference rules and behaviour rules.
-The first kind of memory elements are production rules that adjust the working memory of the agent before taking action.
-The inference rules are evaluated sequentially in an undefined order and mutate the state of the working memory.
-For this reason, it is essential that the designer of the agent ensures no conflicting inference rules are present.
+Agents have procedural memory that is represented by a collection of production rules that are executed in parallel or sequentially but without respect or guarantees to the exact execution order.
+The production rules can be further classified as either inference rules or behaviour rules.
+Because the rules reside within and form part of the procedural memory, they can be referred to as memory elements.
+Irrespective of their type, all production rules influecne the working memory of the agent.
+
+Inference rules mutate the state of the working memory but do not propose operators.
+They exist for the sake of providing the agent's ability to process and organize their knowledge before attempting to take action.
+Because the execution order of the production rules is undefined, it is essential that the designer of the agent ensures no conflicting inference rules are present.
 Otherwise undefined behaviour might occurr, usually causing a rule to override the effects of another rule.
+
 Behaviour rules do not modify the state of the working memory but instead produce operators that are used to evaluate the action the agent wishes to perform.
-Each rule might take as input an arbitrary set of working memory elements (WME), check arbitrary preconditions and produce arbitrary operators that when evaluated will change the state of the simulated world.
+The first restriction is necessary because the system might reject the proposed operators from the executed production rule and thus cause the agent to transition into an inconsistent state.
+The operators proposed by each rule are evaluted in an undefined order and when the system accepts the first operator, the rest are not evaluated further.
+
+Each rule might take as input an arbitrary set of working memory elements (WME), check arbitrary preconditions, and in case of behaviour rules, produce arbitrary operators that when evaluated will change the state of the simulated world.
+Both behaviour and inference rules can be simple as well as arbitrarily complex.
+A rule can be reactive if its execution depends on the result of the previous execution's evaluation result.
+
 While working memory is perfect for storing the immediate description of the agent's state, it is perhaps ill suited for storage of event based information elements.
 For this reason the notion of long-term memory is used for storage of facts characterized by timestamp of occurrence and description of the event.
 Procedural memory and production rules therein may also utilize this storage to work with temporal data, for example to facilitate the agent remembering its travel trajectory or recording events such as successful executions of certain actions.
 Procedural memory is usually immutable after creation of the agent but it is possible to store a production rule inside of working memory and, by means of another production rule, modify the procedural memory adding the new rule to the bank of rules the agent possesses.
 This can simulate agent learning new inference rules and behaviours, for example through reading a book or being taught by other agent.
 
+In general, procedural memory stores the inferences and behaviours of the agent.
+Working memory stores the immediate state of the world as known and perceived by the agent.
+Long-term memory should be used to store memory elements that are either seldom changing or represent a specific snapshot of time, such as the attitude towards another agent or all the times when the agent was attacked.
+
 \section{Act}
 
 Simulated agents perform actions by choosing and proposing one or more operators that when evaluated express the action's effects.
 An operator represents an action that an agent wishes to perform.
+
 The game world is in charge of evaluating the results of the operator and rejecting it in case the agent is not allowed to perform it due to any condition that the agent itself is not aware of.
 Because production rules are executed in parallel and thus output multiple operators, it is possible for conflicts to occur.
 A single agent may think to move forward and back at the same time.
+
 Because the order in which actions are performed may impact the result, it is important to define a conflict resolution strategy, either for each agent or for the whole game in general.
 Such a strategy does not need to necessarily be deterministic as usually it is impossible to determine which operator should take precedence and defining conflict resolution policies for each possible set of conflicting operators is often not a viable approach.
+
 One example of a conflict resolution strategy is a strategy that chooses a random order for conflicting operators and executes them until one is accepted.
 This shows the second part of the problem which is conflict detection.
 Any two operators can be conflicting in terms of resulting state of the game world.
 The simplest approach is not allowing the agent to execute multiple operators at the same time and instead force it to choose one specific action instead.
 
-\section{Interactions}
+Another more complex idea is to introduce the concept of operator's utility score.
+The idea comes from utility based AI, a common technique for modelling agent's behaviour without introducing a cognitive architecture \cite{dill2012design}.
+This strategy would require the ability to estimate the utility of each operator and choose to order all proposed operators by the utility score.
+The score could be calculated either based on the projection of the operator's effect or through retrospection of previous execution.
+The second approach should also be supplemented with context of the previous execution to prevent situations where the agent will fail to attack another agent because that agent is too far away and thus calculate that the attack operator does not do anything and thus provide zero utility.
 
-An agent might lack the sense of vision and instead start with its known position WME at coordinates $v_0=(0, 0)$.
-It wishes to progress forward (positive $y$ axis) and so proposes the operator $Move(Agent, 0, 1)$ via a production rule with constant output.
-The game world accepts the operator, evaluates it and the agent is then made aware of the operator's successful execution.
-The agent now has the position WME set to $v=(0, 1)$.
-It proposes the same operator again.
-This time the game world rejects the action because of a wall that stands at $v=(0, 2)$.
-The agent did not modify its position WME this time but added a second WME $WallAt(0, 2)$.
-A production rule exists that checks if there is a $WallAt$ WME directly ahead of the current position and if so, produces operator $Move(Agent, 1, 0)$.
-The production rule that produces the constant $Move(Agent, 0, 1)$ operator fires as well and afterwards the agent needs to decide which action to take.
-The agent has a conflict resolution strategy defined as:
+Providing the context of execution for the operator and comparing it to the current context provides yet another challenge of being able to express the difference in situation in a deterministic way to determine if the utility of the previous situation should influence the utility of the current proposition.
+Because of the complexity of this approach exceeding the scope of this thesis, for the sake of experiments a simple random choice strategy was chosen for conflict resolution.
 
-\begin{itemize}
-    \item choose random
-    \item fallback when action rejected
-\end{itemize}
+\section{Expected system behaviour}
 
-This policy means that either the lateral move will be selected by random chance or the previous operator will be selected, evaluated, subsequently rejected and a fallback would occurr to the next one.
-This example shows that a virtual agent possesses a limited capacity to learn and build the information bank describing the state of the world around it.
-In some implementations, the immediate position of the agent would be stored as WME while the position of each discovered wall would be put in long-term memory.
-Based on the result of the action's execution the agent may store the estimated utility of the action in the memory and use it next time inside of the operator to determine if this action is worth using again.
-This approach could be used in general to facilitate long-term agent's improvement as rules could be written to outright reject actions that bring no results before they are proposed.
-
-\section{Simulation constraints and limitations}
-
-The simulatated environment presented in this work was designed to resemble the environment described by Grey et al.\cite{grey2011procedural} which in turn used the implementation done by Prageeth Silva\cite{silva2010shadow}.
-As of the time of writing, the original implementation of Shadow Quest used in evaluation of Grey's model is unavailable and so a custom implementation with modifications was made specifically for the sake of experimentation.
-Each agent may occupy a single tile in a grid-based world.
-The major difference between the work doen by Grey et al. and the solution described in this thesis is the focus on information propagation.
-For this reason the agents and their actions are adjusted to be compatible with the epidemiological models that can be used to model the propagation of information.
-The temporal structure used in the design of the simulation is based on the concept of turns.
-Because the interaction with a human player is not necessary to simulate the progression of a procedurally emergent plot, the turns are simply simulatin steps.
-Within a single turn all agents execute the aforementioned decision cycle, starting from receiving information regarding the state of the world around them, deciding on the action to perform and finally executing it.
-The simulation used for evaluation of the model presented in this work is limited to a set of actions that each agent may perform.
+Because the multi-agent system described in this thesis needs to be able to simulate propagation of information in a virtual population of simulated game characters (represented by individual agents), the system needs to be able to express the possible interactions between agents.
+For the sake of modelling information propagation, an epidemiological model was chosen.
+For this reason the list of possible agent interactions is constrainted to the following list:
 
 \begin{itemize}
-    \item Idle - agent does nothing, stays idle for the whole turn
-    \item Move - agent may decide to move in one of the four cardinal directions by a single tile
-    \item Infect - agent infects another agent
+    \item infect
+    \item walk
 \end{itemize}
 
-Because all agents execute their actions concurrently, conflicts may occur which the simulation engine must resolve.
-For the sake of simplicity, a simple conflict resolution strategy was chosen where a random agent takes priority.
-The second agent is overriden to have been idle for that turn.
+The system should be able to represent an agent possessing limited field of vision expressed by the maximum sight distance under which it becomes aware of other agents.
+The state of infection of another agent should also be available to the agent when it is able to visually perceive the other agent.
 
-In terms of an infection model the agent needs to be aware of the position of agents in its field of view as well as their state of infection.
-Agents use inference to choose targets to follow and propose operators such as $Infect$ or $Walk$ dependent on the working memory.
-The whole process starting with percepting and ending with proposed operators is illustrated in figure \ref{fig:agent_think.drawio.png}.
+An example scenario could start with an agent initialized at some randomly chosen coordinates.
+During the first stage of simulation, the agent will see other adjacent agents within its sight distance.
+For the sake of illustration, let them be labeled as $A_1$, $A_2$ and $A_3$.
+The agent is not infected and thus proposes random direction walk operators causing it to roam.
+$A_1$ is infected and reaches the agent, infecting it.
+Then, because agent now has the rule governing its behaviour under infection, it remembers the position of all the previously seen agents and wishes to infect them.
+It knows that $A_1$ is already infected.
+The agent does not see agent $A_2$ anymore but can still see agent $A_3$.
+It walks towards the position of agent $A_3$ and infects it.
+It still does not see agent $A_2$ but remembers that its last known position.
+It walks towards it and eventually notices agent $A_2$ which means it now knows it updated location and changes direction to head towards it.
+After infecting the second agent, it is left with no more susceptible agents that it knows the position of and thus roams around randomly again.
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=1.0\textwidth]{images/chapter1/agent_think.drawio.png}
-    \caption{Example agent's thinking process}\label{fig:agent_think.drawio.png}
-\end{figure}
+It should be worth noting that at each moment the infected agent should be proposing the $Infect$ operator which during evaluation will be rejected if there are no adjacent agents to infect.
+This means that the behaviour rule does not need to take into account the actual position of the other agents to try and infect them.
+
+Because this operator will be rejected, another operator proposed by the same rule will be evaluated.
+In this example the second operator would be the $Walk$ operator with the direction that the agent should head during the particular simulation step.
+
+This shows that the agent is capable of accumulating experience during its lifetime and thus react to both the state of the simulation it is perceiving at any given moment but also to information it retained.
+It shows also the memory elements of the agent are not lost when they are not continuously provided at each simulation step, meaning that the agent does not forget the last seen position of each agent even if it stopped being able to see them anymore.
 
 \section{Conclusions}
 
 The chosen cognitive architecture and described solution should allow for implementation of an epidemiological model.
 In order to evaluate the approach chosen in this thesis, the results of the simulation will be compared with a mathematical model directly.
 The first of the research questions proposed in the thesis objective can be answered based on the analysis of the cognitive architectures described previously.
-The SOAR cognitive architecture (and others similar to it) can be used for a multi-agent system to display emergent behaviour based on a set of production rules.
+The SOAR cognitive architecture (and others similar to it) can be used for a multi-agent system to implement information propagation in games based on a collection of production rules defining the agents' behaviours.

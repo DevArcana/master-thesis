@@ -12,17 +12,25 @@ In the thesis objectives three research questions have been proposed.
 The experimentation and research done during the writing of this thesis lead to the following answers to each of the research questions:
 
 \begin{description}
-    \item[RQ1] Can a multi-agent system display emergent behaviour?
-    \item[] A multi-agent system can display emergent behavior by composing simple behavior rules, for example using a cognitive architecture such as SOAR, described in this thesis.
-    \item[RQ2] Can an epidemiological compartmental model be simulated using a mutli-agent system with a cognitive architecture?
-    \item[] Epidemiological compartmental models such as SIR have shown to be possible to simulate with the application of SOAR cognitive architecture. Figures \ref{fig:experiment4-diagrams} and \ref{fig:experiment1-diagrams} clearly show the ability of the proposed solution to match the output the SIR model.
-    \item[RQ3] Can a solution using a multi-agent system with cognitive architecture be used in a game to simulate information propagation?
-    \item[] As described previously, many authors successfuly use compartmental epidemiological models to simulate information propagation. Because the presented solution is capable of simulating a SIR model, it can be used to likewise simulate information propagation in a game where each virtual character is an independent agent.
+    \item[RQ1] Can a solution using a multi-agent system with cognitive architecture be used in a game to simulate information propagation?
+    \item[] A multi-agent system using cognitive architecture can be used in a game to simulate information propagation as each agent can have their own state of knowledge and by interacting with other agents can share parts of it and receive new information in return. The independence of each agent additionally yields itself well to scalability of the simulation as on a larger scale emergent behaviours of the whole system can be seen. In this thesis it was proven that such a simulated population follows the dynamics of the chosen epidemiological model which is also used in modelling of information propagation.
+    \item[RQ2] Are the resulting information propagation dynamics consistent with the dynamics of the epidemiological model?
+    \item[] The results of experiments performed in the previous chapter indicate that the simulated population follows the dynamics of SIR epidemiological compartmental model in terms of information propagation. It was shown that the system's parameters correlate with the SIR model's parameters.
 \end{description}
 
 \section{Future work}
 
 It can be seen that the potential of the adapted architecture is still unexplored in full.
+The experiments do not take into account intricacies of social networks and how people would cluster naturally around topics of interest and interact differently with agents they hold different dispositions towards.
+Agents that are part of a social network can be influenced by the opinions and actions of other agents within the same network.
+If an agent in the network receives a particular information, it may spread it within the network much sooner than outside it.
+Its adoption rate within the network would possibly higher as well.
+This process can lead to the amplification or suppression of certain information within the system, depending on the network structure and the influences of agents within it.
+Social networks can also introduce filter bubbles and biases in the propagation of information.
+People tend to establish connections with like-minded individuals, forming echo chambers or interest groups also called filter bubbles where certain perspectives or ideas dominate.
+This could lead to reinforcement of certain ideas that are well adopted and accepted within the system as well as limiting the controversial ideas that are seldom accepted.
+In general, the introduction of social networks would greatly increase the complexity of the simulation and affect the results.
+
 The area of emergent behavior in multi-agent systems is wide and this thesis analyses only the aspect related to propagation of information among a population of agents.
 One aspect that was out of the scope of this thesis was performance considerations of the implementation of the described architecture.
 For this reason future work could be related to stress testing of the approach and analysis of implementation techniques used to improve the viability of adaption of this solution in games where performance concerns stem from the scale of the simulated world and the complexity of desirable agent behaviour.

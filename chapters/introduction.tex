@@ -132,7 +132,11 @@ Others are more subtle and require careful scripting work to be believeable and 
 Instead of relying on scripting and handling every possible situation via a predefined reaction, the concept of emergent behaviour can be used.
 In order for emergent behaviour to be possible, an entity exhibiting it needs to be independent and aware of the context in which it exists.
 For this reason a multi-agent system is used to simulate each virtual character as a separate agent with their own behaviours facilitated by a cognitive architecture.
-The main topic of research in this thesis is the application of a multi-agent system with a cognitive architecture in implementation and simulation of an epidemiological compartmental model simulating the propagation of information.
+% The main topic of research in this thesis is the applicability of a multi-agent system with cognitive architecture in implementation and simulation of an epidemiological compartmental model simulating the propagation of information.
+The main goal of the thesis is design and implementation of an information propagation model in games.
+For this reason a multi-agent system is used.
+Each agent is implemented using cognitive architecture.
+The information propagation is simulated using an epidemiological model.
 
 % Propagation of knowledge or in general information is often too simplified in games.
 % Player actions should generate information that can be perceived, interpreted and propagated naturally by the other agents in the simulated game world.
@@ -164,9 +168,8 @@ The plot event is the act of an an agent transferring the information (infecting
 The thesis aims to answer the following research questions:
 
 \begin{description}
-    \item[RQ1] Can a multi-agent system display emergent behaviour?
-    \item[RQ2] Can an epidemiological compartmental model be simulated using a multi-agent system with a cognitive architecture?
-    \item[RQ3] Can a solution using a multi-agent system with cognitive architecture be used in a game to simulate information propagation?
+    \item[RQ1] Can a solution using a multi-agent system with cognitive architecture be used in a game to simulate information propagation?
+    \item[RQ2] Are the resulting information propagation dynamics consistent with the dynamics of the epidemiological model?
 \end{description}
 
 % To properly understand the three aspects of information previously mentioned, the distinction between information and knowledge needs to be made.

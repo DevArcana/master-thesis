@@ -1,5 +1,35 @@
 \Chapter{Evaluation and experimentation}\label{chapter:chapter2}
 
+The simulatated environment presented in this work was designed to resemble the environment described by Grey et al.\cite{grey2011procedural} which in turn used the implementation done by Prageeth Silva\cite{silva2010shadow}.
+As of the time of writing, the original implementation of Shadow Quest used in evaluation of Grey's model is unavailable and so a custom implementation with modifications was made specifically for the sake of experimentation.
+Each agent may occupy a single tile in a grid-based world.
+The major difference between the work doen by Grey et al. and the solution described in this thesis is the focus on information propagation.
+For this reason the agents and their actions are adjusted to be compatible with the epidemiological models that can be used to model the propagation of information.
+The temporal structure used in the design of the simulation is based on the concept of turns.
+Because the interaction with a human player is not necessary to simulate the progression of a procedurally emergent plot, the turns are simply simulatin steps.
+Within a single turn all agents execute the aforementioned decision cycle, starting from receiving information regarding the state of the world around them, deciding on the action to perform and finally executing it.
+The simulation used for evaluation of the model presented in this work is limited to a set of actions that each agent may perform.
+
+\begin{itemize}
+    \item Idle - agent does nothing, stays idle for the whole turn
+    \item Move - agent may decide to move in one of the four cardinal directions by a single tile
+    \item Infect - agent infects another agent
+\end{itemize}
+
+Because all agents execute their actions concurrently, conflicts may occur which the simulation engine must resolve.
+For the sake of simplicity, a simple conflict resolution strategy was chosen where a random agent takes priority.
+The second agent is overriden to have been idle for that turn.
+
+In terms of an infection model the agent needs to be aware of the position of agents in its field of view as well as their state of infection.
+Agents use inference to choose targets to follow and propose operators such as $Infect$ or $Walk$ dependent on the working memory.
+The whole process starting with percepting and ending with proposed operators is illustrated in figure \ref{fig:agent_think.drawio.png}.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1.0\textwidth]{images/chapter1/agent_think.drawio.png}
+    \caption{Example agent's thinking process}\label{fig:agent_think.drawio.png}
+\end{figure}
+
 \section{Technical aspects of the implementation}
 
 The SOAR cognitive architecture yields itself well to implementation using Entity-Component-System (ECS) approach.
@@ -75,11 +105,15 @@ The condition that checks for the possession of the message is the one that diff
 It is worth to note that in order for the simulation to produce any results, at least one agent must be initialized with the possession of the message (infection).
 In general the logic expressed by the combination of previously defined behaviour and inference rules can be illustrated using a flowchart shown in figure \ref{fig:sir_logic.drawio.png}.
 
-\subsection{Experiment 1}
+The configuration of the system for each experiment is possible by either changing the numerical values of system's parameters or modifying the list of behaviour and inference rules that each agent possesses.
+The numerical parameters include the sight distance of the agents, their lifetime once infected and the size of the population which influences the density of agent's random distribution.
+For experiments 1-4 the sight of the agents is set at 8 tiles of distance and the population size is 40 agents.
+
+\subsection{Experiment 1 - semi-static agents}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.33\textwidth]{images/chapter2/sir_logic.drawio.png}
+    \includegraphics[width=0.3\textwidth]{images/chapter2/sir_logic.drawio.png}
     \caption{Flowchart representing logic expressed by agent behaviour rules, terminal blocks represent operators being proposed by the agent}\label{fig:sir_logic.drawio.png}
 \end{figure}
 
@@ -106,7 +140,7 @@ Figure \ref{fig:images/chapter2/sir0/sir_85.png} shows the final state of the si
 \end{figure}
 
 Due to the behaviour rule specifying that each agent should try to meet with each previously unmet agent that was seen at least once, the agents will form clusters and thus potentially separate themselves further away from other healthly individuals.
-While it might seem like a strange behaviour in an epidemic model, it might make seen to consider it in terms of information propagation as humans have natural tendencies to form groups of interest.
+While it might seem like a strange behaviour in an epidemic model, it might make sense to consider it in terms of information propagation as humans have natural tendencies to form groups of interest.
 So far the simulation assumed that agents that were not infected would remain still and do nothing.
 This combined with the limited sight of the agents means that the simulation may stabilize in such a way that a survivor or group of survivors would remain undisturbed because of random distribution of agents.
 An example of this situation is visible in figure \ref{fig:images/chapter2/sir0/sir_255.png}.
@@ -118,12 +152,12 @@ A slight modification of the behaviour rules will make them instead choose a ran
     \caption{Experiment 1 - lone survivor}\label{fig:images/chapter2/sir0/sir_255.png}
 \end{figure}
 
-\subsection{Experiment 2}
+\subsection{Experiment 2 - roaming agents without recovery}
 
 After modification of the behaviour rules to make susceptible individuals move around randomly as well as addition of a new rule that prevents the infected agent from targeting other infected agents the clustering behaviour is gone.
 Figure \ref{fig:images/chapter2/sir1/sir_123.png} shows the final state of the experiment with the new ruleset.
 The distribution of the agents is more homogeneous than before, even though slight clustering still occurs.
-The population size plotted against time on figure \ref{fig:images/chapter2/sir1/sir.png} matches with the SIR model plotted on figure \ref{fig:images/chapter2/sir_ref/sir_1.png} with parameters $\beta = 0.07, \gamma = 0.0, N = 40$.
+The population size plotted against time on figure \ref{fig:images/chapter2/sir1/sir.png} matches with the SIR model plotted on figure \ref{fig:images/chapter2/experiment2.png} with parameters $\beta = 0.1, \gamma = 0.0, N = 40$.
 The new rules produce behaviour as illustrated by flowchart shown on figure \ref{fig:sir_logic2.drawio.png}.
 
 \begin{figure}[H]
@@ -134,15 +168,21 @@ The new rules produce behaviour as illustrated by flowchart shown on figure \ref
 
 % Experiment 2
 
+% \begin{figure}[H]
+%     \centering
+%     \subfigure[Experiment]{\includegraphics[width=0.48\textwidth]{images/chapter2/sir1/sir.png}\label{fig:images/chapter2/sir1/sir.png}}
+%     \hspace*{\fill}
+%     \subfigure[$\beta = 0.07, \gamma = 0.0, N = 40$]{\includegraphics[width=0.48\textwidth]{images/chapter2/sir_ref/sir_1.png}\label{fig:images/chapter2/sir_ref/sir_1.png}}
+%     \caption{Experiment 2 - SIR vs Experiment} \label{fig:experiment1-diagrams}
+% \end{figure}
+
 \begin{figure}[H]
     \centering
-    \subfigure[Experiment]{\includegraphics[width=0.48\textwidth]{images/chapter2/sir1/sir.png}\label{fig:images/chapter2/sir1/sir.png}}
-    \hspace*{\fill}
-    \subfigure[$\beta = 0.07, \gamma = 0.0, N = 40$]{\includegraphics[width=0.48\textwidth]{images/chapter2/sir_ref/sir_1.png}\label{fig:images/chapter2/sir_ref/sir_1.png}}
-    \caption{Experiment 2 - SIR vs Experiment} \label{fig:experiment1-diagrams}
+    \includegraphics[width=1.0\textwidth]{images/chapter2/experiment2.png}
+    \caption{Experiment 2 - population size over time}\label{fig:images/chapter2/experiment2.png}
 \end{figure}
 
-The initial state of the experiment shown on figure \ref{fig:images/chapter2/sir1/sir_1.png} is the same as with every other experiment.
+The initial state of the experiment shown on figure \ref{fig:images/chapter2/experiment2.png} is the same as with every other experiment.
 The agents are randomly distributed and form three visually identifiable segments.
 After the simulation starts infected agents quickly form a cluster in the bottom right corner as visible on figure \ref{fig:images/chapter2/sir1/sir_33.png}.
 Soon after the cluster disperses and the agents move on to infect the rest of the population.
@@ -179,7 +219,7 @@ One can easily see that now:
     \frac{{dI}}{{dt}} = -\frac{{dS}}{{dt}}
 \end{equation}
 
-\subsection{Experiment 3}
+\subsection{Experiment 3 - surviving agents}
 
 In reality the recovery rate is seldom going to be zero, even in terms of information propagation.
 People receive new information every day and even the most interesting news become old and outdated quickly.
@@ -192,11 +232,11 @@ Example of this situation is shown on figures \ref{fig:images/chapter2/sir2/sir_
 In this particular example the agents' lifetime upon infection became limited to just 24 simulation steps.
 The population size change in time is shown on figure \ref{fig:images/chapter2/sir2/sir.png}.
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=1.0\textwidth]{images/chapter2/sir2/sir.png}
-    \caption{Experiment 3 - SIR}\label{fig:images/chapter2/sir2/sir.png}
-\end{figure}
+% \begin{figure}[H]
+%     \centering
+%     \includegraphics[width=1.0\textwidth]{images/chapter2/sir2/sir.png}
+%     \caption{Experiment 3 - SIR}\label{fig:images/chapter2/sir2/sir.png}
+% \end{figure}
 
 \begin{figure}[H]
     \centering
@@ -209,7 +249,7 @@ The population size change in time is shown on figure \ref{fig:images/chapter2/s
     \caption{Experiment 3} \label{fig:experiment2}
 \end{figure}
 
-\subsection{Experiment 4}
+\subsection{Experiment 4 - stable infection rate}
 
 Normally the recovery rate $\gamma$ is high enough that a disease does not overwhelm the whole population.
 The next experiment shows an example of a simulation where infection rate is balanced with the recovery rate such that the number of infected individuals is on roughly the same level.
@@ -218,17 +258,24 @@ The next experiment shows an example of a simulation where infection rate is bal
 
 \begin{figure}[H]
     \centering
-    \subfigure[Experiment]{\includegraphics[width=0.48\textwidth]{images/chapter2/sir3/sir.png}\label{fig:images/chapter2/sir3/sir.png}}
-    \hspace*{\fill}
-    \subfigure[$\beta = 0.03, \gamma = 0.01, N = 40$]{\includegraphics[width=0.48\textwidth]{images/chapter2/sir_ref/sir_2.png}\label{fig:images/chapter2/sir_ref/sir_2.png}}
-    \caption{Experiment 4 - SIR vs Experiment} \label{fig:experiment4-diagrams}
+    \includegraphics[width=1.0\textwidth]{images/chapter2/experiment3.png}
+    \caption{Experiment 4 - population size over time}\label{fig:images/chapter2/experiment3.png}
 \end{figure}
 
-Figure \ref{fig:images/chapter2/sir3/sir.png} illustrates that the level of infection remains somewhat constant for the whole duration of the simulation.
-It correlates with the SIR model parameters $\beta = 0.03, \gamma = 0.01, N = 40$ as shown on figure \ref{fig:images/chapter2/sir_ref/sir_2.png}.
+% \begin{figure}[H]
+%     \centering
+%     \subfigure[Experiment]{\includegraphics[width=0.48\textwidth]{images/chapter2/sir3/sir.png}\label{fig:images/chapter2/sir3/sir.png}}
+%     \hspace*{\fill}
+%     \subfigure[$\beta = 0.03, \gamma = 0.01, N = 40$]{\includegraphics[width=0.48\textwidth]{images/chapter2/sir_ref/sir_2.png}\label{fig:images/chapter2/sir_ref/sir_2.png}}
+%     \caption{Experiment 4 - SIR vs Experiment} \label{fig:experiment4-diagrams}
+% \end{figure}
+
+Figure \ref{fig:images/chapter2/experiment3.png} illustrates that the level of infection remains somewhat constant for the whole duration of the simulation.
+The corresponding SIR model's parameters for this experiment are $\beta = 0.12, \gamma = 0.04, N = 40$.
+% It correlates with the SIR model parameters $\beta = 0.03, \gamma = 0.01, N = 40$ as shown on figure \ref{fig:images/chapter2/experiment3.png}.
 Figures \ref{fig:images/chapter2/sir3/sir_1.png}, \ref{fig:images/chapter2/sir3/sir_79.png} and \ref{fig:images/chapter2/sir3/sir_128.png} show the progression of the simulation up until the last susceptible individual changes state.
 
-\begin{figure}[H]
+\begin{figure}[h]
     \centering
     \subfigure[Step 1]{\includegraphics[width=0.3\textwidth]{images/chapter2/sir3/sir_1.png}\label{fig:images/chapter2/sir3/sir_1.png}}
     \hspace*{\fill}
@@ -239,10 +286,56 @@ Figures \ref{fig:images/chapter2/sir3/sir_1.png}, \ref{fig:images/chapter2/sir3/
     \caption{Experiment 4} \label{fig:experiment3}
 \end{figure}
 
+\subsection{Experiment 5 - analysis of population density influence}
+
+In order to determine whether the solution is capable of scaling up to simulate bigger and more complex game worlds, the fifth experiment was conducted.
+Four population sizes have been chosen for analysis: 16, 32, 64 and 128.
+At each population size, three simulations of a hundred runs each were performed.
+Each simulation differed in the choice of the lifetime parameter.
+
+The choice of the lifetime parameter as the additional axis of analysis was made due to the assumption that at lower population densities there is a risk that agents may fail to reach another agent before they become removed from the simulation.
+Results of the experiment are presented on figure \ref{fig:experiment5}.
+The initial assumption was proven to be correct as it can be clearly seen that the simulations performed with lifetime parameter set to 8 show a clear change in the simulation dynamics only after the population size became 128.
+The combination of population size equal to 128 and the lifetime parameter set to 32 as presented on figure \ref{images/experiments/experiment_128_008_16.png} correlates with a much smaller population size of 16 and lifetime parameter value 16 on figure \ref{images/experiments/experiment_016_016_16.png}.
+
+Subsequent population increases when the lifetime parameter is above a certain threshold (enabling an agent to reach other agents without fail) do not change the dynamics of the simulation.
+While the rate of infection seems to increase slightly with the increase of population density, it can be attributed to the fact that it is much easier for any agent to find another susceptible agent nearby and reach them first.
+The overall shape of each curve remains the same irrespectibe of the population size after the lifetime parameter value was set above the threshold of 16.
+This experiment shows that the solution is capable of being used to simulate larger populations and that its dynamics remain constant irrespective of scale.
+
+\begin{figure}[h]
+    \centering
+    \subfigure[Population 16, Lifetime 8]{\includegraphics[width=0.3\textwidth]{images/experiments/experiment_016_008_16.png}}
+    \hspace*{\fill}
+    \subfigure[Population 16, Lifetime 16]{\includegraphics[width=0.3\textwidth]{images/experiments/experiment_016_016_16.png}\label{images/experiments/experiment_016_016_16.png}}
+    \hspace*{\fill}
+    \subfigure[Population 16, Lifetime 32]{\includegraphics[width=0.3\textwidth]{images/experiments/experiment_016_032_16.png}}
+
+    \subfigure[Population 32, Lifetime 8]{\includegraphics[width=0.3\textwidth]{images/experiments/experiment_032_008_16.png}}
+    \hspace*{\fill}
+    \subfigure[Population 32, Lifetime 16]{\includegraphics[width=0.3\textwidth]{images/experiments/experiment_032_016_16.png}}
+    \hspace*{\fill}
+    \subfigure[Population 32, Lifetime 32]{\includegraphics[width=0.3\textwidth]{images/experiments/experiment_032_032_16.png}}
+
+    \subfigure[Population 64, Lifetime 8]{\includegraphics[width=0.3\textwidth]{images/experiments/experiment_064_008_16.png}}
+    \hspace*{\fill}
+    \subfigure[Population 64, Lifetime 16]{\includegraphics[width=0.3\textwidth]{images/experiments/experiment_064_016_16.png}}
+    \hspace*{\fill}
+    \subfigure[Population 64, Lifetime 32]{\includegraphics[width=0.3\textwidth]{images/experiments/experiment_064_032_16.png}}
+
+    \subfigure[Population 128, Lifetime 8]{\includegraphics[width=0.3\textwidth]{images/experiments/experiment_128_008_16.png}\label{images/experiments/experiment_128_008_16.png}}
+    \hspace*{\fill}
+    \subfigure[Population 128, Lifetime 16]{\includegraphics[width=0.3\textwidth]{images/experiments/experiment_128_016_16.png}}
+    \hspace*{\fill}
+    \subfigure[Population 128, Lifetime 32]{\includegraphics[width=0.3\textwidth]{images/experiments/experiment_128_032_16.png}}
+
+    \caption{Experiment 5 - population density influence on simulation dynamics} \label{fig:experiment5}
+\end{figure}
+
 \section{Conclusions}
 
-The experiments have shown that a multi-agent system implemented using the SOAR cognitive architecture is capable of simulating epidemiological compartmental models.
-The presented solution correlates closely with mathematical models while relying solely on emergent behaviour that is modelled using independent behaviour rules.
-This answers the second and third research questions proposed in the thesis objectives.
-The experiments clearly show that the proposed multi-agent system is capable of simulating a compartmental epidemiological model such as SIR.
-Epidemiological models have application in information propagation modelling as previously described and so the solution presented here can be used to model human behaviour in games where each agent is independent and composed of individual behavior rules.
+The experiments show that the implemented multi-agent system is capable of producing simulation dynamics that correlate with those of the chosen epidemiological model.
+The system's parameter representing the lifetime of the infected individual (or in terms of information propagation the time when the individual is still interested in the information that it knows) is directly correlated with the recovery rate in the SIR model.
+While the individual rules act only on the agent itself, the whole system exhibits emergent behaviour of a real population that can be described using a real compartmental epidemiological model.
+This answers the second research question regarding the ability of the system to exhibit similar dynamics to that of the comparable mathematical model.
+Results clearly show that multi-agent systems can be used to simulate populations in which the information (and infection) propagation dynamics follow dynamics of epidemiological models used in modelling of real populations.
