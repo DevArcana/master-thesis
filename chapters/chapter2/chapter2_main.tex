@@ -45,7 +45,12 @@ The actual implementation of all simulations in this thesis is based on the Mono
 The ECS implementation used "a high-performance C\# based Archetype and Chunks Entity Component System (ECS) for game development and data-oriented programming" called Arch\cite{matthaeus2023arch}.
 The reason for choosing this project over others is due to the results of performance analysis done by Paillat Laszlo in their ECS benchmark\cite{laszlo2023arch}.
 
-% TODO: System configuration
+Because the system is using an entity-component-system architecture, all experiment configurations are expressed through code by means of changing the values of components present on entities.
+A $Sight$ component represents the sight of the agent and thus regulates how far it is able to see other agents.
+The $SightSystem$ is then responsible for gathering all entities possessing the $WorkingMemory$, $Position$ and $Sight$ components and calculating the visibility of all the agents.
+Two separate systems exist for processing inferences and behaviours called $InferenceSystem$ and $BehaviourSystem$ respectively.
+The component responsible for proposing descriptors is called $Behaviour$ while inferences are stored within the $Inference$ component.
+For the sake of implementation of the epidemiological model all agents possess the $Infection$ component that stores their current state as well as the lifetime after infection.
 
 \section{Implementation of infection model}
 
@@ -111,11 +116,42 @@ The configuration of the system for each experiment is possible by either changi
 The numerical parameters include the sight distance of the agents, their lifetime once infected and the size of the population which influences the density of agent's random distribution.
 For experiments 1-4 the sight of the agents is set at 8 tiles of distance and the population size is 40 agents.
 
-% TODO: Dlaczego nie optymalizujemy?
-
-% TODO: Visibility graph???
-
 % TODO: Range limited movement
+
+\subsection{Choosing parameters for the epidemiological model}
+
+Optimization of system's parameters to match the dynamics of the epidemiological model's arbitrary combination of parameters is out of the scope of this thesis.
+The epidemiological model exists only to compare the dynamics of the population's behaviour against and not to produce results that closely match the exact results obtained from the mathematical model.
+For this reason the choice of parameters for the epidemiological model was arbitrary and a matching combination of system's parameters was chosen by trail and error.
+
+In the case when a specific dynamics of a given combination of SIR model parameters is desired, the implementing person should manually optimize the system's parameters until the resultant simulation dynamics match the mathematical model.
+It is possible to find out the SIR model's parameters based on the results of a population's simulations however by solving the system of equations.
+In order to estimate the values for the parameters of the SIR model, a simple optimization technique for minimization of sum of squares of errors could be used.
+Nelder-Mead is a popular optimization algorithm used for unconstrained optimization problems such as this one\cite{singer2009nelder}.
+The implementation of this technique is outside the scope of this thesis.
+
+\subsection{Visibility and memorization of agents' positions}
+
+All agents that posses the $Sight$ component can perceive other agents in the simulation granted they are within the defined range.
+An agent remembers the positions of all agents that it has seen at least once.
+During each behaviour and inference processing step, the working memory contains both the list of remembered agents' positions as well as the list of currently visible agents and the remembered state of infection for each of them.
+If the agent sees another agent that it saw before, its old position and remembered infection state is overriden by the new position and infection state.
+Figure \ref{fig:images/visibility/agent47.png} shows a visualization of $Agent47$'s ability to perceive other agents in its range of sight.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\textwidth]{images/visibility/agent47.png}
+    \caption{Visualization of the agent's ability to perceive other agents in range of sight}\label{fig:images/visibility/agent47.png}
+\end{figure}
+
+After $Agent11$ leaves the range of $Agent47$'s sight, it is no longer perceived by them and instead a last remembered position remains in the $Agent47$'s working memory.
+Figure \ref{fig:images/visibility/agent47_moved.png} illustrates the state of $Agent47$'s perception after $Agent11$ left the periphery of their vision.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\textwidth]{images/visibility/agent47_moved.png}
+    \caption{Visualization of the agent's ability to remember agent's last position}\label{fig:images/visibility/agent47_moved.png}
+\end{figure}
 
 \subsection{Experiment 1 - semi-static agents}
 
@@ -339,6 +375,181 @@ This experiment shows that the solution is capable of being used to simulate lar
 
     \caption{Experiment 5 - population density influence on simulation dynamics} \label{fig:experiment5}
 \end{figure}
+
+\subsection{Experiment 6 - alternate map topologies}
+
+Simulation of information propagation without taking into account the constraints of the terrain or the shape of the map, is not going to be always representative of real world games and their simulated worlds.
+For this reason in this experiment there were created four distinct maps with varying toplogy and design.
+Figures \ref{fig:map1_design}, \ref{fig:map2_design}, \ref{fig:map3_design} and \ref{fig:map4_design} show the different map designs along with their in-simulation graphical representation, showing example distribution of agents on each map.
+Map presented on figure \ref{fig:map1_design} represents a complex system of caves with organic wall topology and many narrow corridors.
+The second map from figure \ref{fig:map2_design} is a reference map similar to the one used in previous experiments and is simply an empty square of 48 by 48 tiles in size.
+Map shown on figure \ref{fig:map3_design} is a connected system of two rooms where the only connection is a narrow corridor that limits the throughput of agents wanting to pass through it to the second half of the map.
+Finally, the fourth map visible on figure \ref{fig:map4_design} is a irregular combination of four rooms connected by one central room.
+The last map's design was made to determine if irregular but symmetrical design of the map impacts the dynamics of the simulation in a noticable way.
+
+\begin{figure}[H]
+    \centering
+
+    \subfigure[design]{\includegraphics[width=0.48\textwidth]{images/experiments2/map01.png}}
+    \hspace*{\fill}
+    \subfigure[in-simulation]{\includegraphics[width=0.48\textwidth]{images/experiments2/sir_map01.png}}
+
+    \caption{Experiment 6 - map 1}\label{fig:map1_design}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+
+    \subfigure[design]{\includegraphics[width=0.48\textwidth]{images/experiments2/map02.png}}
+    \hspace*{\fill}
+    \subfigure[in-simulation]{\includegraphics[width=0.48\textwidth]{images/experiments2/sir_map02.png}}
+
+    \caption{Experiment 6 - map 2}\label{fig:map2_design}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+
+    \subfigure[design]{\includegraphics[width=0.48\textwidth]{images/experiments2/map03.png}}
+    \hspace*{\fill}
+    \subfigure[in-simulation]{\includegraphics[width=0.48\textwidth]{images/experiments2/sir_map03.png}}
+
+    \caption{Experiment 6 - map 3}\label{fig:map3_design}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+
+    \subfigure[design]{\includegraphics[width=0.48\textwidth]{images/experiments2/map04.png}}
+    \hspace*{\fill}
+    \subfigure[in-simulation]{\includegraphics[width=0.48\textwidth]{images/experiments2/sir_map04.png}}
+
+    \caption{Experiment 6 - map 4}\label{fig:map4_design}
+\end{figure}
+
+% \begin{figure}[H]
+%     \centering
+
+%     \subfigure[Map 1]{\includegraphics[width=0.3\textwidth]{images/experiments2/map01.png}\label{fig:map1_design}}
+%     \hspace*{\fill}
+%     \subfigure[Map 1 - in-simulation]{\includegraphics[width=0.3\textwidth]{images/experiments2/sir_map01.png}}
+
+%     \subfigure[Map 2]{\includegraphics[width=0.3\textwidth]{images/experiments2/map02.png}\label{fig:map2_design}}
+%     \hspace*{\fill}
+%     \subfigure[Map 2 - in-simulation]{\includegraphics[width=0.3\textwidth]{images/experiments2/sir_map02.png}}
+
+%     \subfigure[Map 3]{\includegraphics[width=0.3\textwidth]{images/experiments2/map03.png}\label{fig:map3_design}}
+%     \hspace*{\fill}
+%     \subfigure[Map 3 - in-simulation]{\includegraphics[width=0.3\textwidth]{images/experiments2/sir_map03.png}}
+
+%     \subfigure[Map 4]{\includegraphics[width=0.3\textwidth]{images/experiments2/map04.png}\label{fig:map4_design}}
+%     \hspace*{\fill}
+%     \subfigure[Map 4 - in-simulation]{\includegraphics[width=0.3\textwidth]{images/experiments2/sir_map04.png}}
+
+%     \caption{Experiment 6 - alternate map topologies}\label{fig:maps}
+% \end{figure}
+
+The previous experiment proven that the density of population does not impact the dynamics of the simulation in a noticable way as long as the lifetime of the infected agent is above the threshold necessary for it to travel across to any other agent.
+For this reason four simulations of a hundred runs each were selected for comparison on figure \ref{fig:maps_comparison}.
+The simulation parameters chosen for this experiment were selected such as to minimize their impact on the dynamics of the simulation in each of the maps.
+The lifetime of the infected agents was set to 32 simulation steps and their sight has been set to 16 tiles.
+The population in each map is 64 agents, randomly and uniformly distributed across the map iside of the allowed (hollow) spaces.
+The rest of the simulation parametes follow the example of previous experiments.
+
+\begin{figure}[H]
+    \centering
+
+    \subfigure[Map 1]{\includegraphics[width=0.48\textwidth]{images/experiments2/map01_064_032_16.png}}
+    \hspace*{\fill}
+    \subfigure[Map 2]{\includegraphics[width=0.48\textwidth]{images/experiments2/map02_064_032_16.png}}
+
+    \subfigure[Map 3]{\includegraphics[width=0.48\textwidth]{images/experiments2/map03_064_032_16.png}}
+    \hspace*{\fill}
+    \subfigure[Map 4]{\includegraphics[width=0.48\textwidth]{images/experiments2/map04_064_032_16.png}}
+
+    \caption{Experiment 6 - comparison of simulation dynamics between maps}\label{fig:maps_comparison}
+\end{figure}
+
+It can be seen that the topology of each map changes slightly the dynamics of the simulation.
+It is worth nothing however that while the dynamics differ for each map, the general shape of each series remains comparable.
+The major difference is in the width of the shaded area showing the values contained between 25th percentile and 75th percentile.
+
+In order to determine the impact the lifetime parameter, a set of four simulation runs was conducted.
+Each map is impacted by the change of simulation parameters in a different way.
+Figures \ref{fig:map1_lifetime}, \ref{fig:map2_lifetime}, \ref{fig:map3_lifetime} and \ref{fig:map4_lifetime} show the comparison of four simulations, each with a different value of the lifetime parameter.
+
+\begin{figure}[H]
+    \centering
+
+    \subfigure[lifetime 8]{\includegraphics[width=0.48\textwidth]{images/experiments2/map01_064_008_16.png}}
+    \hspace*{\fill}
+    \subfigure[lifetime 16]{\includegraphics[width=0.48\textwidth]{images/experiments2/map01_064_016_16.png}}
+
+    \subfigure[lifetime 32]{\includegraphics[width=0.48\textwidth]{images/experiments2/map01_064_032_16.png}}
+    \hspace*{\fill}
+    \subfigure[lifetime 64]{\includegraphics[width=0.48\textwidth]{images/experiments2/map01_064_064_16.png}}
+
+    \caption{Experiment 6 - Map 1 lifetime influence}\label{fig:map1_lifetime}
+\end{figure}
+
+The first map shows heavy influence of the lifetime parameter that impacts the dynamics of the simulation.
+Because the system of caves is complex and narrow, the agents do not have enough to time to reach other agents and so the propagation stops.
+
+\begin{figure}[H]
+    \centering
+
+    \subfigure[lifetime 8]{\includegraphics[width=0.48\textwidth]{images/experiments2/map02_064_008_16.png}}
+    \hspace*{\fill}
+    \subfigure[lifetime 16]{\includegraphics[width=0.48\textwidth]{images/experiments2/map02_064_016_16.png}}
+
+    \subfigure[lifetime 32]{\includegraphics[width=0.48\textwidth]{images/experiments2/map02_064_032_16.png}}
+    \hspace*{\fill}
+    \subfigure[lifetime 64]{\includegraphics[width=0.48\textwidth]{images/experiments2/map02_064_064_16.png}}
+
+    \caption{Experiment 6 - Map 2 lifetime influence}\label{fig:map2_lifetime}
+\end{figure}
+
+The second map is a reference map that shows results similar to the ones already described in the preceding experiments.
+Figure \ref{fig:map2_lifetime} shows much smaller shaded areas when compared to the simulation illustrated on figure \ref{fig:map1_lifetime}.
+From this one can see that the complexity of the cave system in comparison with the reference map simulation impacts the repeatiblity and predicatbility of each simulation run.
+
+\begin{figure}[H]
+    \centering
+
+    \subfigure[lifetime 8]{\includegraphics[width=0.48\textwidth]{images/experiments2/map03_064_008_16.png}}
+    \hspace*{\fill}
+    \subfigure[lifetime 16]{\includegraphics[width=0.48\textwidth]{images/experiments2/map03_064_016_16.png}}
+
+    \subfigure[lifetime 32]{\includegraphics[width=0.48\textwidth]{images/experiments2/map03_064_032_16.png}}
+    \hspace*{\fill}
+    \subfigure[lifetime 64]{\includegraphics[width=0.48\textwidth]{images/experiments2/map03_064_064_16.png}}
+
+    \caption{Experiment 6 - Map 3 lifetime influence}\label{fig:map3_lifetime}
+\end{figure}
+
+Even though the third map contains a narrow passageway that should impact the simulation's dynamics, the only noticable difference between the reference simulation from figure \ref{fig:map2_lifetime} is the much less curved shape of the data series from figure \ref{fig:map3_lifetime}.
+This could be attributed to the narrow passageway in the middle of the map that impacts the speed of the infection spread in the inflection points.
+
+\begin{figure}[H]
+    \centering
+
+    \subfigure[lifetime 8]{\includegraphics[width=0.48\textwidth]{images/experiments2/map04_064_008_16.png}}
+    \hspace*{\fill}
+    \subfigure[lifetime 16]{\includegraphics[width=0.48\textwidth]{images/experiments2/map04_064_016_16.png}}
+
+    \subfigure[lifetime 32]{\includegraphics[width=0.48\textwidth]{images/experiments2/map04_064_032_16.png}}
+    \hspace*{\fill}
+    \subfigure[lifetime 64]{\includegraphics[width=0.48\textwidth]{images/experiments2/map04_064_064_16.png}\label{fig:map4_lifetime_d}}
+
+    \caption{Experiment 6 - Map 4 lifetime influence}\label{fig:map4_lifetime}
+\end{figure}
+
+The last simulation as shown on figure \ref{fig:map4_lifetime} shows a flat segment of the infected agents on subfigure \ref{fig:map4_lifetime_d}.
+This could be attributed to the symmetric but irregular shape of the map.
+The same situation does not appear in any of the previous simulations.
+
+In conclusion it can be seen that map topology affects the dynamics of the simulation and is affected by the values of the system's parameters.
+The general shape of the resultant simulation dynamics still show similarities to the SIR model which can also be interpreted as the model's applicability in non-homogeneous simulations.
 
 \section{Conclusions}
 
