@@ -551,6 +551,148 @@ The same situation does not appear in any of the previous simulations.
 In conclusion it can be seen that map topology affects the dynamics of the simulation and is affected by the values of the system's parameters.
 The general shape of the resultant simulation dynamics still show similarities to the SIR model which can also be interpreted as the model's applicability in non-homogeneous simulations.
 
+\subsection{Experiment 7 - limited range of movement}
+
+When all agents are constrainted to move only within a set distance from their original position the dynamics of information propagation change.
+For this experiment the range of the agent's movement is equal to its range of sight.
+Figures \ref{fig:map1_range}, \ref{fig:map2_range}, \ref{fig:map3_range} and \ref{fig:map4_range} show the impact on the range limit imposed on each agent on the dynamics of the propgation.
+
+\begin{figure}[H]
+    \centering
+
+    \subfigure[range 4]{\includegraphics[width=0.3\textwidth]{images/experiments3/map01_064_032_04.png}}
+    \hspace*{\fill}
+    \subfigure[range 8]{\includegraphics[width=0.3\textwidth]{images/experiments3/map01_064_032_08.png}}
+    \hspace*{\fill}
+    \subfigure[range 16]{\includegraphics[width=0.3\textwidth]{images/experiments3/map01_064_032_16.png}}
+
+    \caption{Experiment 6 - Map 1 limited range simulation}\label{fig:map1_range}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+
+    \subfigure[range 4]{\includegraphics[width=0.3\textwidth]{images/experiments3/map02_064_032_04.png}}
+    \hspace*{\fill}
+    \subfigure[range 8]{\includegraphics[width=0.3\textwidth]{images/experiments3/map02_064_032_08.png}}
+    \hspace*{\fill}
+    \subfigure[range 16]{\includegraphics[width=0.3\textwidth]{images/experiments3/map02_064_032_16.png}}
+
+    \caption{Experiment 6 - Map 2 limited range simulation}\label{fig:map2_range}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+
+    \subfigure[range 4]{\includegraphics[width=0.3\textwidth]{images/experiments3/map03_064_032_04.png}}
+    \hspace*{\fill}
+    \subfigure[range 8]{\includegraphics[width=0.3\textwidth]{images/experiments3/map03_064_032_08.png}}
+    \hspace*{\fill}
+    \subfigure[range 16]{\includegraphics[width=0.3\textwidth]{images/experiments3/map03_064_032_16.png}}
+
+    \caption{Experiment 6 - Map 3 limited range simulation}\label{fig:map3_range}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+
+    \subfigure[range 4]{\includegraphics[width=0.3\textwidth]{images/experiments3/map04_064_032_04.png}}
+    \hspace*{\fill}
+    \subfigure[range 8]{\includegraphics[width=0.3\textwidth]{images/experiments3/map04_064_032_08.png}}
+    \hspace*{\fill}
+    \subfigure[range 16]{\includegraphics[width=0.3\textwidth]{images/experiments3/map04_064_032_16.png}}
+
+    \caption{Experiment 6 - Map 4 limited range simulation}\label{fig:map4_range}
+\end{figure}
+
+The reference map from figure \ref{fig:map2_range} shows that the moment when first recovery of an agent starts, the infection rate starts rapidly falling down.
+This behaviour can be likewise noticed on all of the simulations in this experiment.
+The range constraint heavily impacts the dynamics of the simulation by greatly reducing the efficiency of propagation.
+
+\begin{figure}[H]
+    \centering
+
+    \subfigure[lifetime 8]{\includegraphics[width=0.48\textwidth]{images/experiments3/map01_064_008_08.png}}
+    \hspace*{\fill}
+    \subfigure[lifetime 16]{\includegraphics[width=0.48\textwidth]{images/experiments3/map01_064_016_08.png}}
+
+    \subfigure[lifetime 32]{\includegraphics[width=0.48\textwidth]{images/experiments3/map01_064_032_08.png}}
+    \hspace*{\fill}
+    \subfigure[lifetime 64]{\includegraphics[width=0.48\textwidth]{images/experiments3/map01_064_064_08.png}}
+
+    \caption{Experiment 6 - Map 1 limited lifetime influence on limited range simulation (range 8)}\label{fig:map1_lifetime_range}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+
+    \subfigure[lifetime 8]{\includegraphics[width=0.48\textwidth]{images/experiments3/map02_064_008_08.png}}
+    \hspace*{\fill}
+    \subfigure[lifetime 16]{\includegraphics[width=0.48\textwidth]{images/experiments3/map02_064_016_08.png}}
+
+    \subfigure[lifetime 32]{\includegraphics[width=0.48\textwidth]{images/experiments3/map02_064_032_08.png}}
+    \hspace*{\fill}
+    \subfigure[lifetime 64]{\includegraphics[width=0.48\textwidth]{images/experiments3/map02_064_064_08.png}}
+
+    \caption{Experiment 6 - Map 2 limited lifetime influence on limited range simulation (range 8)}\label{fig:map2_lifetime_range}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+
+    \subfigure[lifetime 8]{\includegraphics[width=0.48\textwidth]{images/experiments3/map03_064_008_08.png}}
+    \hspace*{\fill}
+    \subfigure[lifetime 16]{\includegraphics[width=0.48\textwidth]{images/experiments3/map03_064_016_08.png}}
+
+    \subfigure[lifetime 32]{\includegraphics[width=0.48\textwidth]{images/experiments3/map03_064_032_08.png}}
+    \hspace*{\fill}
+    \subfigure[lifetime 64]{\includegraphics[width=0.48\textwidth]{images/experiments3/map03_064_064_08.png}}
+
+    \caption{Experiment 6 - Map 3 limited lifetime influence on limited range simulation (range 8)}\label{fig:map3_lifetime_range}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+
+    \subfigure[lifetime 8]{\includegraphics[width=0.48\textwidth]{images/experiments3/map04_064_008_08.png}}
+    \hspace*{\fill}
+    \subfigure[lifetime 16]{\includegraphics[width=0.48\textwidth]{images/experiments3/map04_064_016_08.png}}
+
+    \subfigure[lifetime 32]{\includegraphics[width=0.48\textwidth]{images/experiments3/map04_064_032_08.png}}
+    \hspace*{\fill}
+    \subfigure[lifetime 64]{\includegraphics[width=0.48\textwidth]{images/experiments3/map04_064_064_08.png}}
+
+    \caption{Experiment 6 - Map 4 limited lifetime influence on limited range simulation (range 8)}\label{fig:map4_lifetime_range}
+\end{figure}
+
+In order to determine the impact of lifetime parameter, four additional experimentations were conducted on each map.
+The results are visible on figures \ref{fig:map1_lifetime_range}, \ref{fig:map2_lifetime_range}, \ref{fig:map3_lifetime_range} and \ref{fig:map4_lifetime_range}.
+
+It can be seen that in nearly all maps the lifetime parameter does not really impact the simulation outcome.
+The most heavily impacted map are the third and the fourth one, the results from which are on figures \ref{fig:map3_lifetime_range} and \ref{fig:map4_lifetime_range}.
+This could be attributed to the higher population density on these maps as the same population size is distributed on a smaller area.
+The conditions of this experiment are heavily impacted by population density as opposed to the previous experiments that relied mostly on the combination of agent's sight (but only up to a certain threshold) and lifetime of infected individuals.
+
+\begin{figure}[H]
+    \centering
+
+    \subfigure[map 1]{\includegraphics[width=0.48\textwidth]{images/experiments3/map01_064_032_08.png}}
+    \hspace*{\fill}
+    \subfigure[map 2]{\includegraphics[width=0.48\textwidth]{images/experiments3/map02_064_032_08.png}}
+
+    \subfigure[map 3]{\includegraphics[width=0.48\textwidth]{images/experiments3/map03_064_032_08.png}\label{fig:maps_limited_range_3}}
+    \hspace*{\fill}
+    \subfigure[map 4]{\includegraphics[width=0.48\textwidth]{images/experiments3/map04_064_032_08.png}\label{fig:maps_limited_range_4}}
+
+    \caption{Experiment 6 - comparison of maps' dynamics at lifetime 32 and range 8}\label{fig:maps_limited_range}
+\end{figure}
+
+Lastly, the figure \ref{fig:maps_limited_range} shows comparison of all four maps experiments run under the parameters of lifetime equal to 32 and range limited to 8 tiles.
+The results confirm the theory that this experiment is mostly influenced by population density as the only two maps with most defined propagation dynamics are those represented by figures \ref{fig:maps_limited_range_3} and \ref{fig:maps_limited_range_4}.
+One noteworthy aspect of the fourth map's result is the large shaded area on the graph that shows the high spread of values, even between 25th and 75th percentile.
+This can be attributed to random distribution producing unpredictable results that are amplified under the conditions of this experiment.
+% Additionally, a peculiar behaviour could be noticed where a combination of limited lifetime and range caused propagation in swirling motion.
+
 \section{Conclusions}
 
 The experiments show that the implemented multi-agent system is capable of producing simulation dynamics that correlate with those of the chosen epidemiological model.
