@@ -7,8 +7,15 @@ The major difference between the work done by Grey et al. and the solution descr
 For this reason the agents and their actions are adjusted to be compatible with the epidemiological models that can be used to model the propagation of information.
 The temporal structure used in the design of the simulation is based on the concept of turns.
 Because the interaction with a human player is not necessary to simulate the progression of a procedurally emergent plot, the turns are simply simulation steps.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1.0\textwidth]{images/chapter1/agent_think.drawio.png}
+    \caption{Example agent's thinking process}\label{fig:agent_think.drawio.png}
+\end{figure}
+
 Within a single turn all agents execute the aforementioned decision cycle, starting from receiving information regarding the state of the world around them, deciding on the action to perform and finally executing it.
-The simulation used for evaluation of the model presented in this work is limited to a set of actions that each agent may perform.
+The simulation used for evaluation of the model presented in this work is limited to a set of actions that each agent may perform:
 
 \begin{itemize}
     \item Idle - agent does nothing, stays idle for the whole turn
@@ -16,6 +23,7 @@ The simulation used for evaluation of the model presented in this work is limite
     \item Infect - agent infects another agent
 \end{itemize}
 
+These actions are mapped to corresponding operators, with exception of the first idle action that is represented by a lack of operator being proposed.
 Because all agents execute their actions concurrently, conflicts may occur which the simulation engine must resolve.
 For the sake of simplicity, a simple conflict resolution strategy was chosen where a random agent takes priority.
 The second agent is overridden to have been idle for that turn.
@@ -23,12 +31,6 @@ The second agent is overridden to have been idle for that turn.
 In terms of an infection model the agent needs to be aware of the position of agents in its field of view as well as their state of infection.
 Agents use inference to choose targets to follow and propose operators such as $Infect$ or $Walk$ dependent on the working memory.
 The whole process starting with perception and ending with proposed operators is illustrated in figure \ref{fig:agent_think.drawio.png}.
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=1.0\textwidth]{images/chapter1/agent_think.drawio.png}
-    \caption{Example agent's thinking process}\label{fig:agent_think.drawio.png}
-\end{figure}
 
 \section{Technical aspects of the implementation}
 
@@ -140,35 +142,21 @@ Figure \ref{fig:images/visibility/agent47.png} shows a visualization of $Agent47
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.5\textwidth]{images/visibility/agent47.png}
-    \caption{Visualization of the agent's ability to perceive other agents in range of sight}\label{fig:images/visibility/agent47.png}
+    \subfigure[Visualization of the agent's ability to perceive other agents in range of sight]{\includegraphics[width=0.48\textwidth]{images/visibility/agent47.png}\label{fig:images/visibility/agent47.png}}
+    \hspace*{\fill}
+    \subfigure[Visualization of the agent's ability to remember agent's last position]{\includegraphics[width=0.48\textwidth]{images/visibility/agent47_moved.png}\label{fig:images/visibility/agent47_moved.png}}
+
+    \caption{Visualization of agent's sight}
 \end{figure}
 
 After $Agent11$ leaves the range of $Agent47$'s sight, it is no longer perceived by them and instead a last remembered position remains in the $Agent47$'s working memory.
 Figure \ref{fig:images/visibility/agent47_moved.png} illustrates the state of $Agent47$'s perception after $Agent11$ left the periphery of their vision.
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.5\textwidth]{images/visibility/agent47_moved.png}
-    \caption{Visualization of the agent's ability to remember agent's last position}\label{fig:images/visibility/agent47_moved.png}
-\end{figure}
-
 \subsection{Experiment 1 - semi-static agents}
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.3\textwidth]{images/chapter2/sir_logic.drawio.png}
-    \caption{Flowchart representing logic expressed by agent behavior rules, terminal blocks represent operators being proposed by the agent}\label{fig:sir_logic.drawio.png}
-\end{figure}
 
 The simulation starts with a single agent being infected and the rest of the agents randomly distributed in a rectangular area.
 The initial state is visible on figure \ref{fig:images/chapter2/sir0/sir_1.png}.
 The first experiment assumes each agent can see other agents that are up to 8 tiles away from it and that no agent can ever become removed.
-Immediately in the second step of the simulation, the infected agent met up with an adjacent agent and infected them.
-Soon after two clusters of agents formed, each with agents trying to touch each other first before moving on.
-The two clusters are visible on figure \ref{fig:images/chapter2/sir0/sir_28.png}.
-After 71 simulation steps nearly all agents have been infected and strong clustering behavior is clearly visible (figure \ref{fig:images/chapter2/sir0/sir_71.png}).
-Figure \ref{fig:images/chapter2/sir0/sir_85.png} shows the final state of the simulation after 85 steps where all agents have become infected and there are no remaining survivors.
 
 \begin{figure}[H]
     \centering
@@ -183,17 +171,29 @@ Figure \ref{fig:images/chapter2/sir0/sir_85.png} shows the final state of the si
     \caption{Experiment 1} \label{fig:experiment0}
 \end{figure}
 
+Immediately in the second step of the simulation, the infected agent met up with an adjacent agent and infected them.
+Soon after two clusters of agents formed, each with agents trying to touch each other first before moving on.
+The two clusters are visible on figure \ref{fig:images/chapter2/sir0/sir_28.png}.
+After 71 simulation steps nearly all agents have been infected and strong clustering behavior is clearly visible (figure \ref{fig:images/chapter2/sir0/sir_71.png}).
+Figure \ref{fig:images/chapter2/sir0/sir_85.png} shows the final state of the simulation after 85 steps where all agents have become infected and there are no remaining survivors.
+
 Due to the behavior rule specifying that each agent should try to meet with each previously unmet agent that was seen at least once, the agents will form clusters and thus potentially separate themselves further away from other healthy individuals.
 While it might seem like a strange behavior in an epidemic model, it might make sense to consider it in terms of information propagation as humans have natural tendencies to form groups of interest.
 So far the simulation assumed that agents that were not infected would remain still and do nothing.
 This combined with the limited sight of the agents means that the simulation may stabilize in such a way that a survivor or group of survivors would remain undisturbed because of random distribution of agents.
-An example of this situation is visible in figure \ref{fig:images/chapter2/sir0/sir_255.png}.
+% An example of this situation is visible in figure \ref{fig:images/chapter2/sir0/sir_255.png}.
 A slight modification of the behavior rules will make them instead choose a random direction to go which should decrease possibility of the model stabilizing in a state where survivors remain in the simulation because no infected agent came close enough to them.
+
+% \begin{figure}[H]
+%     \centering
+%     \includegraphics[width=1.0\textwidth]{images/chapter2/sir0/sir_255.png}
+%     \caption{Experiment 1 - lone survivor}\label{fig:images/chapter2/sir0/sir_255.png}
+% \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1.0\textwidth]{images/chapter2/sir0/sir_255.png}
-    \caption{Experiment 1 - lone survivor}\label{fig:images/chapter2/sir0/sir_255.png}
+    \includegraphics[width=0.33\textwidth]{images/chapter2/sir_logic.drawio.png}
+    \caption{Flowchart representing logic expressed by agent behavior rules, terminal blocks represent operators being proposed by the agent}\label{fig:sir_logic.drawio.png}
 \end{figure}
 
 \subsection{Experiment 2 - roaming agents without recovery}
@@ -342,11 +342,6 @@ Results of the experiment are presented on figure \ref{fig:experiment5}.
 The initial assumption was proven to be correct as it can be clearly seen that the simulations performed with lifetime parameter set to 8 show a clear change in the simulation dynamics only after the population size became 128.
 The combination of population size equal to 128 and the lifetime parameter set to 32 as presented on figure \ref{images/experiments/experiment_128_008_16.png} correlates with a much smaller population size of 16 and lifetime parameter value 16 on figure \ref{images/experiments/experiment_016_016_16.png}.
 
-Subsequent population increases when the lifetime parameter is above a certain threshold (enabling an agent to reach other agents without fail) do not change the dynamics of the simulation.
-While the rate of infection seems to increase slightly with the increase of population density, it can be attributed to the fact that it is much easier for any agent to find another susceptible agent nearby and reach them first.
-The overall shape of each curve remains the same irrespective of the population size after the lifetime parameter value was set above the threshold of 16.
-This experiment shows that the solution is capable of being used to simulate larger populations and that its dynamics remain constant irrespective of scale.
-
 \begin{figure}[H]
     \centering
     \subfigure[Population 16, Lifetime 8]{\includegraphics[width=0.3\textwidth]{images/experiments/experiment_016_008_16.png}}
@@ -375,6 +370,11 @@ This experiment shows that the solution is capable of being used to simulate lar
 
     \caption{Experiment 5 - population density influence on simulation dynamics} \label{fig:experiment5}
 \end{figure}
+
+Subsequent population increases when the lifetime parameter is above a certain threshold (enabling an agent to reach other agents without fail) do not change the dynamics of the simulation.
+While the rate of infection seems to increase slightly with the increase of population density, it can be attributed to the fact that it is much easier for any agent to find another susceptible agent nearby and reach them first.
+The overall shape of each curve remains the same irrespective of the population size after the lifetime parameter value was set above the threshold of 16.
+This experiment shows that the solution is capable of being used to simulate larger populations and that its dynamics remain constant irrespective of scale.
 
 \subsection{Experiment 6 - alternate map topologies}
 
@@ -492,9 +492,6 @@ Figures \ref{fig:map1_lifetime}, \ref{fig:map2_lifetime}, \ref{fig:map3_lifetime
     \caption{Experiment 6 - Map 1 lifetime influence}\label{fig:map1_lifetime}
 \end{figure}
 
-The first map shows heavy influence of the lifetime parameter that impacts the dynamics of the simulation.
-Because the system of caves is complex and narrow, the agents do not have enough to time to reach other agents and so the propagation stops.
-
 \begin{figure}[H]
     \centering
 
@@ -509,8 +506,12 @@ Because the system of caves is complex and narrow, the agents do not have enough
     \caption{Experiment 6 - Map 2 lifetime influence}\label{fig:map2_lifetime}
 \end{figure}
 
+The first map shows heavy influence of the lifetime parameter that impacts the dynamics of the simulation.
+Because the system of caves is complex and narrow, the agents do not have enough to time to reach other agents and so the propagation stops.
+
 The second map is a reference map that shows results similar to the ones already described in the preceding experiments.
 Figure \ref{fig:map2_lifetime} shows much smaller shaded areas when compared to the simulation illustrated on figure \ref{fig:map1_lifetime}.
+
 From this one can see that the complexity of the cave system in comparison with the reference map simulation impacts the repeatability and predictability of each simulation run.
 
 \begin{figure}[H]
@@ -605,6 +606,7 @@ Figures \ref{fig:map1_range}, \ref{fig:map2_range}, \ref{fig:map3_range} and \re
     \caption{Experiment 6 - Map 4 limited range simulation}\label{fig:map4_range}
 \end{figure}
 
+\pagebreak
 The reference map from figure \ref{fig:map2_range} shows that the moment when first recovery of an agent starts, the infection rate starts rapidly falling down.
 This behavior can be likewise noticed on all of the simulations in this experiment.
 The range constraint heavily impacts the dynamics of the simulation by greatly reducing the efficiency of propagation.
@@ -692,6 +694,8 @@ The results confirm the theory that this experiment is mostly influenced by popu
 One noteworthy aspect of the fourth map's result is the large shaded area on the graph that shows the high spread of values, even between 25th and 75th percentile.
 This can be attributed to random distribution producing unpredictable results that are amplified under the conditions of this experiment.
 % Additionally, a peculiar behavior could be noticed where a combination of limited lifetime and range caused propagation in swirling motion.
+
+\pagebreak
 
 \section{Conclusions}
 

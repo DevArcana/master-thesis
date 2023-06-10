@@ -16,16 +16,16 @@ The second step is divided into two sub-steps, the first executes inference rule
 Operators modify the state of the world, for example by moving the agent, taking the contents of a container, opening doors or interacting with another agent.
 This constitutes the last step of the cycle and allows the agent to go back to the first step and update its working memory in preparation for the next step.
 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.4\textwidth]{images/chapter1/agent.drawio.png}
+    \caption{Conceptual model of an agent}\label{fig:agent.drawio.png}
+\end{figure}
+
 This architecture is versatile in that it can be used to model even very complex behaviors.
 In order to avoid conflicts in the proposed operators by production rules that try to solve different goals, a goal token can be inserted into the working memory and used as a dependency in the production rules.
 This way an agent may have a rule that changes the goal of the agent and thus modifies its next sequence of actions.
 The general model of an agent can be seen on figure \ref{fig:agent.drawio.png}.
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.6\textwidth]{images/chapter1/agent.drawio.png}
-    \caption{Conceptual model of an agent}\label{fig:agent.drawio.png}
-\end{figure}
 
 \section{Perceive}
 
@@ -110,13 +110,16 @@ Because of the complexity of this approach exceeding the scope of this thesis, f
 
 Because the multi-agent system described in this thesis needs to be able to simulate propagation of information in a virtual population of simulated game characters (represented by individual agents), the system needs to be able to express the possible interactions between agents.
 For the sake of modeling information propagation, an epidemiological model was chosen.
-For this reason the list of possible agent interactions is constrained to the following list:
+In the chosen model there are only two possible agent interactions.
+An agent may choose to walk in their chosen direction or it may attempt to infect another agent (propagate information it carries).
+Under the architecture described above it means that there are two operators that an agent may propose each turn:
 
 \begin{itemize}
     \item infect
     \item walk
 \end{itemize}
 
+Note that because of the defined strategy for rejection handling of proposed operators it is fine for the agents that carry the information to always propose the infect operator and the walk operator as only one will be accepted in the end.
 The system should be able to represent an agent possessing limited field of vision expressed by the maximum sight distance under which it becomes aware of other agents.
 The state of infection of another agent should also be available to the agent when it is able to visually perceive the other agent.
 
@@ -134,6 +137,10 @@ It walks towards it and eventually notices agent $A_2$ which means it now knows 
 After infecting the second agent, it is left with no more susceptible agents that it knows the position of and thus roams around randomly again.
 
 It should be worth noting that at each moment the infected agent should be proposing the $Infect$ operator which during evaluation will be rejected if there are no adjacent agents to infect.
+This behavior depends on the implemented operator conflict resolution strategy.
+As was described in the previous sections, many operators can be proposed simultaneously but only a single one can be accepted and evaluated successfully during a single simulation time-step.
+In order to simplify the implementation described in this thesis, a fallback strategy was used which relies on the ordering of proposed operators.
+A single production rule can propose an ordered list of operators and while they may be evaluated simultaneously, the evaluation needs to eventually happen for all of the operators in order until one is accepted or all are rejected.
 This means that the behavior rule does not need to take into account the actual position of the other agents to try and infect them.
 
 Because this operator will be rejected, another operator proposed by the same rule will be evaluated.
