@@ -4,7 +4,18 @@ The thesis contains description of the solution for implementation of an epidemi
 Epidemiological models have application in information propagation as described previously and so they can be used to model how information travels across a population based on a set of parameters such as the rate of spread.
 The results show visible correlation between the mathematical representation of the SIR model and the data obtained from the simulation of the multi-agent system.
 This means that games could utilize multi-agent systems and a cognitive architecture such as SOAR to obtain immersive simulation of each agent.
-The main benefit of the adapted architecture was the composability of the behavior rules which enabled emergent behaviour as opposed to a hierarchical description of decision trees and other similar approaches.
+The main benefit of the adapted architecture was the composability of the behavior rules which enabled emergent behavior as opposed to a hierarchical description of decision trees and other similar approaches.
+
+In conclusion, the proposed approach exhibits potential for usage in game development but also great complexity and a new set of challenges that are yet to be solved.
+In the thesis objectives two research questions have been proposed.
+The experimentation and research done during the writing of this thesis lead to the following answers to each of the research questions:
+
+\begin{description}
+    \item[RQ1] Can a solution using a multi-agent system with cognitive architecture be used in a game to simulate information propagation?
+    \item[] A multi-agent system using cognitive architecture can be used in a game to simulate information propagation as each agent can have their own state of knowledge and by interacting with other agents can share parts of it and receive new information in return. The independence of each agent additionally yields itself well to scalability of the simulation as on a larger scale emergent behaviors of the whole system can be seen. In this thesis it was proven that such a simulated population follows the dynamics of the chosen epidemiological model which is also used in modelling of information propagation.
+    \item[RQ2] Are the resulting information propagation dynamics consistent with the dynamics of the epidemiological model?
+    \item[] The results of experiments performed in the previous chapter indicate that the simulated population follows the dynamics of SIR epidemiological compartmental model in terms of information propagation. It was shown that the system's parameters correlate with the SIR model's parameters.
+\end{description}
 
 \section{Future work}
 
@@ -28,38 +39,25 @@ In general, the introduction of social networks would greatly increase the compl
 \subsection{Performance}
 
 Another aspect that was out of the scope of this thesis was performance considerations of the implementation of the described architecture.
-For this reason future work could be related to stress testing of the approach and analysis of implementation techniques used to improve the viability of adaption of this solution in games where performance concerns stem from the scale of the simulated world and the complexity of desirable agent behaviour.
-Additionally, research related to modelling of scripted behaviour as a set of independent behaviour rules could be done to facilitate transition from scripted to emergent behaviour.
+For this reason future work could be related to stress testing of the approach and analysis of implementation techniques used to improve the viability of adaption of this solution in games where performance concerns stem from the scale of the simulated world and the complexity of desirable agent behavior.
+Additionally, research related to modeling of scripted behavior as a set of independent behavior rules could be done to facilitate transition from scripted to emergent behavior.
 
-\subsection{Scripted behaviours}
+\subsection{Scripted behaviors}
 
-In game design relying solely on emergent behaviour might prove to be difficult when the designer wishes to express a certain complicated sequence of events which might be hard to define in terms of behaviour and inference rules.
+In game design relying solely on emergent behavior might prove to be difficult when the designer wishes to express a certain complicated sequence of events which might be hard to define in terms of behavior and inference rules.
 In that case it is possible to define a special working memory element called $ScriptSequence_N$ where $N$ is the stage of execution, meaning that the agent which is about to execute the scripted sequence of actions will have the WME $ScriptSequence_0$.
-Then, a general guard clause should be built in all the behaviour and inference rules to avoid execution if any WME present is prefixed with $ScriptSequence$.
+Then, a general guard clause should be built in all the behavior and inference rules to avoid execution if any WME present is prefixed with $ScriptSequence$.
 Finally, each step of the scripted sequence should be defined as a behavior rule that executed if the $ScriptSequence_N$ matches with the step of the script expressed by said rule.
 The $OnSuccess$ callback should be then used to modify the state of the working memory and advance the sequence by one.
-This makes it possible to embed scripted behaviours in an otherwise emergent behaviour based system of agents.
+This makes it possible to embed scripted behaviors in an otherwise emergent behavior based system of agents.
 
-One can identify two kinds scripted behaviours.
+One can identify two kinds scripted behaviors.
 The first kind are static scripts which assume the state of the world to be known and constant at the moment of execution.
-These could be used to orchestrate cut-scenes and enable cinametic behaviour to be embedded in the game.
-The second kind are behaviour sequences which are simply complex behaviour patterns that are spread across many simulation steps.
-Behaviour patterns are human designed patterns of behaviour as opposed to emergent patterns.
+These could be used to orchestrate cut-scenes and enable cinematic behavior to be embedded in the game.
+The second kind are behavior sequences which are simply complex behavior patterns that are spread across many simulation steps.
+Behavior patterns are human designed patterns of behavior as opposed to emergent patterns.
 This kind of scripts should take into consideration the possibility of failure at any moment as the state of the world when such a sequence is triggered is not necessarily known and thus it may be that a proposed operator will fail and be rejected.
 In such a case it is up to the designer to determine whether an alternative path should be taken or the sequence should be abandoned altogether.
 
 In general, scripted sequences are an important aspect of any game and the ability to express them within the constraints of the proposed solution is necessary for it to be considered a viable option to be used in any real game.
-Thus, work can be done in this aspect to determine how an emergent behaviour based solution can be used to easily express arbitrary scripted sequences of actions.
-
-\section{Conclusions}
-
-In conclusion, the proposed approach exhibits potential for usage in game development but also great complexity and a new set of challenges that are yet to be solved.
-In the thesis objectives two research questions have been proposed.
-The experimentation and research done during the writing of this thesis lead to the following answers to each of the research questions:
-
-\begin{description}
-    \item[RQ1] Can a solution using a multi-agent system with cognitive architecture be used in a game to simulate information propagation?
-    \item[] A multi-agent system using cognitive architecture can be used in a game to simulate information propagation as each agent can have their own state of knowledge and by interacting with other agents can share parts of it and receive new information in return. The independence of each agent additionally yields itself well to scalability of the simulation as on a larger scale emergent behaviours of the whole system can be seen. In this thesis it was proven that such a simulated population follows the dynamics of the chosen epidemiological model which is also used in modelling of information propagation.
-    \item[RQ2] Are the resulting information propagation dynamics consistent with the dynamics of the epidemiological model?
-    \item[] The results of experiments performed in the previous chapter indicate that the simulated population follows the dynamics of SIR epidemiological compartmental model in terms of information propagation. It was shown that the system's parameters correlate with the SIR model's parameters.
-\end{description}
+Thus, work can be done in this aspect to determine how an emergent behavior based solution can be used to easily express arbitrary scripted sequences of actions.

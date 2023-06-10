@@ -22,7 +22,7 @@ The situation calculus is a logical language for representing changes\cite{lin20
 According to Levesque, in situation calculus "the foundational axioms for situations provide a purely qualitative notion of time whose only temporal concept is sequential action occurrence: an action occurs before or after another within"\cite{levesque1998foundations}.
 The event calculus is a formalism for reasoning about action and change \cite{mueller2008event}.
 Similarly to the situation calculus, the event calculus uses the concept of actions (called "events") and fluents.
-The main difference is that events can be external and happen at specific time points which makes it essential for modelling plot state where a plot event can happen in isolation.
+The main difference is that events can be external and happen at specific time points which makes it essential for modeling plot state where a plot event can happen in isolation.
 Event calculus was introduced first in 1986 by Kowalski and Sergot \cite{kowalski1986logic}.
 It was then simplified in 1992 \cite{kakas1992abductive}.
 In general, the ontology of event calculus includes the definitions of fluents and actions.
@@ -30,17 +30,17 @@ Fluents describe the state of the plot and can change in time as a result of an 
 This approach can be used to model and reason about flow of events but no example of its application in game development has been found in literature.
 One of the major limitations of event calculus is its rigidity and inability to produce generative content as it is only used to describe already existing sequences of events.
 
-A plot in a game can be implemented using a script by the game designer or it can emerge naturally during gameplayer based on the interactions between individual elements in game.
+A plot in a game can be implemented using a script by the game designer or it can emerge naturally during gameplay based on the interactions between individual elements in game.
 The former approach is usually implemented in role playing games as game designers and writers collaborate to bring to life the creative vision for a given imaginary world.
 On the other hand, games such as Dwarf Fortress use simulation of individual interactions between game elements to formulate a plot \cite{adams2015simulation}.
-This in turn leads to a phenomenon called emergent behavior where an interaction of simple elements produces a complex behaviour \cite{adams2019emergent}.
+This in turn leads to a phenomenon called emergent behavior where an interaction of simple elements produces a complex behavior \cite{adams2019emergent}.
 Emergence in game design is not a new concept and is used frequently in the game development industry \cite{sweetser2008emergence}.
 While it can increase immersiveness and replayability, it also increases the overall complexity of both gameplay and development.
 
-Games that lean heavily towards utilization of emergent behaviours usually depend on multi-agent simulation where each agent represents either a non-playable character (NPC) or the player themselves.
-Agents that are controlled by the game and not the player have builtin interaction rules and behaviours that allow them to act in a way that is expected and realistic in a given scenario.
+Games that lean heavily towards utilization of emergent behaviors usually depend on multi-agent simulation where each agent represents either a non-playable character (NPC) or the player themselves.
+Agents that are controlled by the game and not the player have builtin interaction rules and behaviors that allow them to act in a way that is expected and realistic in a given scenario.
 Agent-based simulation (ABS) has been used for a long time already and can be applied to any given game genre including some well known zero-player games such as Game of Life \cite{chan2010simulation}.
-In these simulations agents have their own mememory and ability to process information, eventaully integrating it into knowledge that is used for choosing the response to any situation that can happen within the rules of the game.
+In these simulations agents have their own memory and ability to process information, eventually integrating it into knowledge that is used for choosing the response to any situation that can happen within the rules of the game.
 
 % What is data, information, knowledge?
 
@@ -91,7 +91,7 @@ Zhao et al.\cite{zhao2012sihr} have developed the SIHR model where H stands for 
 The authors stress the importance of forgetting and remembering in trying to model the spread of information.
 Another variation worth noting is the SCIR model consisting of \emph{Susceptible}, \emph{Contacted}, \emph{Infected} and \emph{Refractory}\cite{xiong2012scir}.
 Both models use complex systems in order to simulate information propagation.
-Other attempts at modelling information propagation are networks\cite{rodriguez2013} and cellular automata\cite{silva2020}.
+Other attempts at modeling information propagation are networks\cite{rodriguez2013} and cellular automata\cite{silva2020}.
 Most literature dealing with the topic refers to social media, blogs and internet as the main medium of information exchange.
 Relatively few works analyze the mechanisms behind word-of-mouth communication.
 In 2003 at the "Symposium on Applications and the Internet", Takeuchi, S. and Kamahara, J. and Shimojo, S. and Miyahara, H. have presented their work titled "Human-network-based filtering: the information propagation model based on word-of-mouth communication" which deals with simulating how certain information is spread based on the filters of interest\cite{takeuchi1183031}.
@@ -102,7 +102,7 @@ Silva et al.\cite{silva2020} propose the application of cellular automata to mod
 When trying to model how information propagates in a given system, it is often helpful to try and list its characteristics.
 Grabowski and Zając followed the steps of Langefors and others while describing the following set of information characteristics:
 \begin{itemize}
-    \item Completedness - information must inlude context necessary for its interpretation
+    \item Completeness - information must include context necessary for its interpretation
     \item Versatility - information should be interpretable from multiple viewpoints
     \item Accuracy - it should not be too vague nor too specific
     \item Financially viable - it should be useful in business context
@@ -110,9 +110,9 @@ Grabowski and Zając followed the steps of Langefors and others while describing
 These show clearly how most work done previously in this domain of knowledge related to the business context.
 
 It is apparent that information as utilized in agent-based simulation games is different than the concept used in information theory and derived works.
-Social agents that interact with each other and simulate conversations, emotional state and organic behaviour have been analyzed since well before the development of artificial intelligence and language models.
+Social agents that interact with each other and simulate conversations, emotional state and organic behavior have been analyzed since well before the development of artificial intelligence and language models.
 A notable example is the work done by Grey et al. in 2011 titled "Procedural quests: A focus for agent interaction in role-playing-games"\cite{grey2011procedural}.
-The author describes the problems with contemporary games and their shallow plot propagation mechanisms and proposes their approach of modelling plot and its propagation using a social multi-agent system.
+The author describes the problems with contemporary games and their shallow plot propagation mechanisms and proposes their approach of modeling plot and its propagation using a social multi-agent system.
 Very recently many articles have been published that utilize the developments in the area of language models and natural language processing in general.
 Park et al.\cite{park2023generative} have used the GPT-4 model\cite{openai2023gpt4} to simulate a small village populated by characters each with individual personality and motivations.
 The characters held conversations, organized meetings and socialized in their free time.
@@ -130,7 +130,7 @@ There are two major types of time structures in games:
 
 The first kind of temporal structures is easy to reason about and model because it is computationally less intensive than simulating the world and in turn the evolution of plot state as often as possible (or at the very least very frequently to keep the illusion of continuity).
 The second kind is much often encountered in contemporary video games which often include physics, weather and daytime simulation as well.
-For the sake of simulating propagation of plot events, one can choose to artifically divide the continuous time structure of the game into discrete simulation steps with fixed timestep or rely on the event based model.
+For the sake of simulating propagation of plot events, one can choose to artificially divide the continuous time structure of the game into discrete simulation steps with fixed time-step or rely on the event based model.
 An example of such event would be two characters meeting which would trigger the simulation of plot state evolution between them.
 The second approach is hard to measure and model without introducing a framework of simulation capable of simulating arbitrary routines of actors within the game world.
 For this reason and because the first approach can be adapted to the second scenario as well, the approach described in the subsequent sections deals only with discrete time structures.
@@ -139,21 +139,21 @@ In conclusion it can be seen that the use of agent-based simulation in game deve
 Artificial intelligence and its derivatives drive the current state of the art in this area.
 Alternative approaches such as proposed back in 2011 by Grey\cite{grey2011procedural} should be explored to compete with the indeterministic nature of language models or perhaps to become the benchmarks against them.
 
-In multi-agent simulation agents within the system are trated as independent entities interacting with each other.
+In multi-agent simulation agents within the system are treated as independent entities interacting with each other.
 Both the player and any non-playable characters can be called agents.
 Each agent is independent from the rest and is able to act based on the subset of the plot available to them.
-The actual implementation of each agent's behaviour can be as simple as a hardcoded line of dialogue and as complex as a set of rules enabling emergent behaviour.
+The actual implementation of each agent's behavior can be as simple as a hardcoded line of dialogue and as complex as a set of rules enabling emergent behavior.
 General plot of the game as experienced by the player is the sum of interactions and sub-plots of the individual agents in the game.
 Grey et al.\cite{grey2011procedural} proposed a solution using agent-based simulation to create procedural quests.
 This work focuses on extension of the original approach using a SOAR cognitive architecture\cite{rosenbloom1993soar}.
-In order to produce natural interactions between agents, the implementation must not be reliant on user-defined scripts and scenarios and instead should allow expression of the agents' behaviour using a set of independent rules.
+In order to produce natural interactions between agents, the implementation must not be reliant on user-defined scripts and scenarios and instead should allow expression of the agents' behavior using a set of independent rules.
 
 According to Langley et al.\cite{langley2009cognitive} a cognitive architecture specifies the underlying infrastructure for an intelligent system.
 The authors describe the distinction between the agent's architecture and its memory and beliefs that can change over time, even proposing an analogy to a building with furniture in it, indicating that while the architecture of the building is constant, the elements within are not.
 Among the architectures described by the authors are the following examples:
 
 \begin{description}
-    \item[ACT] Modular architecture focused on modelling human behaviour. Notable feature of this architecture is that each production rule is associated with a utility function that calculates the potential benefit from execution of the action.
+    \item[ACT] Modular architecture focused on modeling human behavior. Notable feature of this architecture is that each production rule is associated with a utility function that calculates the potential benefit from execution of the action.
     \item[SOAR] Architecture consisting of production rules and operators that influence the external or internal state of the agent.
     \item[ICARUS] ICARUS splits the memory into concepts, percepts and skills. The concepts and percepts describe the situation while skills allow for choosing an action to take. Skills represent goal concepts they aim to achieve. All memories are stored in a hierarchical way.
     \item[PRODIGY] This architecture defines the concept of domain rules that encode the conditions under which actions can be executed as well as control rules that define which actions are to be selected or rejected.
@@ -164,7 +164,7 @@ In this architecture the agents hold certain beliefs about its state, has desire
 
 All cognitive architectures can be used to solve similar problems, albeit each with a different approach.
 In this thesis the SOAR (State, Operator, And Representation) architecture was chosen \cite{laird2019soar}.
-It allows the agents to have a set of rules that determine their behaviour as well as represent the state of the world as perceived by the agent in its working memory.
+It allows the agents to have a set of rules that determine their behavior as well as represent the state of the world as perceived by the agent in its working memory.
 The simplicity and straightforwardness of SOAR is one of the main reasons for choosing this particular cognitive architecture.
 Additionally, architectures that rely on utility functions that calculate the applicability of a production rule were excluded due to the fact that definition of utility for many aspects of simulation of a virtual character in game is adding extra complexity.
 Another beneficial property of SOAR is the ability to express the production rules as independent and non-hierarchical.
@@ -174,13 +174,13 @@ The latter limitation is avoidable as probabilistic decision trees can be used \
 
 SOAR is a cognitive architecture that is designed to simulate human thinking and problem-solving processes.
 At its core, SOAR is a symbolic, production-based system that uses rules to guide behavior.
-All production rules in this architecture are independent and concerned with a single specific behaviour or inference that the agent can perform.
-The memory can store hierarchical information but the rules that govern the agent's behaviour are not hierarchical themselves.
+All production rules in this architecture are independent and concerned with a single specific behavior or inference that the agent can perform.
+The memory can store hierarchical information but the rules that govern the agent's behavior are not hierarchical themselves.
 
 This architecture consists of two major components:
 
 \begin{itemize}
-    \item Procedural memory (production memory) - set of production rules that take working memory elements and propose operators (behaviours) or modify the state of working memory (inferences)
+    \item Procedural memory (production memory) - set of production rules that take working memory elements and propose operators (behaviors) or modify the state of working memory (inferences)
     \item Working memory - fact based knowledge represented by a symbolic graph structure describing the current state of the world
 \end{itemize}
 
@@ -190,7 +190,7 @@ Unlike many traditional production systems however, all rules that match against
 This means that the list of rules is not ordered and conflicting operators may be proposed.
 In such cases the usual strategy is to create a substate of the working memory with a new goal of conflict resolution.
 
-The SOAR architecture has been successfuly utilized in creation of video game AI agents.
+The SOAR architecture has been successfully utilized in creation of video game AI agents.
 Examples include the application of this architecture to create an autonomous agent designed for playing Quake\cite{laird2001knows}, StarCraft\cite{turner2013soar-sc} and Descent 3\cite{van1999developing}.
 Michael van Lent and John Laird in their work "Developing an Artificial Intelligence Engine"\cite{van1999developing} describe a decision cycle in an inference machine:
 Based on this fact, the SOAR architecture was chosen as the basis for implementation of the multi-agent system.
