@@ -1,18 +1,20 @@
 \Chapter{Conclusions and Future}\label{chapter:conclusions}
 
 The thesis contains description of the solution for implementation of an epidemiological compartmental model using a multi-agent system with the SOAR cognitive architecture.
-Epidemiological models have application in information propagation as described previously and so they can be used to model how information travels across a population based on a set of parameters such as the rate of spread.
+Epidemiological models have application in information propagation as described previously and so they can be used to model how plot events are propagated across a population based on a set of parameters such as the rate of spread.
+This allows simulation of how plot state that is distributed across a multi-agent system evolves with time due to the propagation of plot events.
 The results show visible correlation between the mathematical representation of the SIR model and the data obtained from the simulation of the multi-agent system.
 This means that games could utilize multi-agent systems and a cognitive architecture such as SOAR to obtain immersive simulation of each agent.
 The main benefit of the adapted architecture was the composability of the behavior rules which enabled emergent behavior as opposed to a hierarchical description of decision trees and other similar approaches.
 
 In conclusion, the proposed approach exhibits potential for usage in game development but also great complexity and a new set of challenges that are yet to be solved.
-In the thesis objectives two research questions have been proposed.
-The experimentation and research done during the writing of this thesis lead to the following answers to each of the research questions:
+On the other hand, the decentralized approach allowed for expressing the complexity of propagating plot events in a population without having to rely on a single central system for simulating the current state of the plot.
+In the thesis objectives two Research Questions have been proposed.
+The experimentation and research done during the writing of this thesis lead to the following answers to each of the Research Questions:
 
 \begin{description}
-    \item[RQ1] Can a solution using a multi-agent system with cognitive architecture be used in a game to simulate information propagation?
-    \item[] A multi-agent system using cognitive architecture can be used in a game to simulate information propagation as each agent can have their own state of knowledge and by interacting with other agents can share parts of it and receive new information in return. The independence of each agent additionally yields itself well to scalability of the simulation as on a larger scale emergent behaviors of the whole system can be seen. In this thesis it was proven that such a simulated population follows the dynamics of the chosen epidemiological model which is also used in modelling of information propagation.
+    \item[RQ1] Can a solution using a multi-agent system with cognitive architecture be used in a game to simulate plot event propagation?
+    \item[] A multi-agent system using cognitive architecture can be used in a game to simulate plot event propagation as each agent can have their own state of knowledge acting as the representation of known plot state and by interacting with other agents can share parts of it and receive new information in return, effectively propagating plot events. The independence of each agent additionally yields itself well to scalability of the simulation as on a larger scale emergent behaviors of the whole system can be seen. In this thesis it was proven that such a simulated population follows the dynamics of the chosen epidemiological model which is also used in modeling of information propagation.
     \item[RQ2] Are the resulting information propagation dynamics consistent with the dynamics of the epidemiological model?
     \item[] The results of experiments performed in the previous chapter indicate that the simulated population follows the dynamics of SIR epidemiological compartmental model in terms of information propagation. It was shown that the system's parameters correlate with the SIR model's parameters.
 \end{description}
@@ -20,7 +22,7 @@ The experimentation and research done during the writing of this thesis lead to 
 \section{Future work}
 
 It can be seen that the potential of the adapted architecture is still unexplored in full.
-The area of emergent behavior in multi-agent systems is wide and this thesis analyses only the aspect related to propagation of information among a population of agents.
+The area of emergent behavior in multi-agent systems is wide and this thesis analyses only the aspect related to propagation of plot events among a population of agents.
 Many aspects of complexity present in a multi-agent system, more so in one using a cognitive architecture are beyond the scope of this thesis.
 Below are examples of few interesting directions of further development.
 

@@ -2,19 +2,19 @@
 % Start with stories
 Since ancient times humans loved stories.
 Some stories describe historical events, others are works of fiction.
-Some inspire and teach, others let one escape from hardships of day to day life.
+Some inspire and teach, others let one escape from hardships of day-to-day life.
 All stories have one thing in common.
 One thing differentiates them from other written forms.
 That thing is the existence of a plot.
 % Define plot
-Plot is a collection of events, usually in chronological order.
+Plot is an organized collection of events (usually in chronological order).
 A plot can be realistic, based in history or it can be entirely made up.
 It can be said that it is the plot that makes the story.
-It contains all the characters, their actions and thoughts as well as events within the story.
+It brings together all the characters, their actions and thoughts as well as events within the story.
 
 % How were stories told
 Before people invented the first writing system stories were being told mouth-to-mouth.
-Oral traditions continued even after the era of the written word.
+Oral traditions continued even during the era of the written word.
 Most people have heard the tales of Odysseus and his epic journey.
 It is commonly attributed to the ancient poet Homer.
 His work inspired both ancient and contemporary historians\cite{marincola2007odysseus}.
@@ -47,7 +47,7 @@ Authors such as Chris Crawford\cite{crawford2013interactive} have written about 
 In 1930 Doris Webster and Mary Alden Hopkins wrote a book titled "Consider the Consequences!".
 According to the authors the book had multiple endings which depended on the "taste of the individual reader" \cite{webster1930consequences}.
 These game books as they have been named (these days also referred to as "Choose Your Own Adventure" type stories\cite{kraft1981cyoa}) have evolved alongside tabletop roleplaying games.
-One notable example of the genre is "Dungeons and Dragons", a game of which many people have heard even if they haven't played it themselves \cite{gygax1974dungeons}.
+One notable example of the genre is "Dungeons and Dragons", a game of which many people have heard even if they have not played it themselves \cite{gygax1974dungeons}.
 In the current day, the genre is very diverse and consists of a multitude of games, some commercially available, others entirely fan-made.
 
 %
@@ -70,6 +70,7 @@ Interactive storytelling can be a powerful tool for creating memorable and impac
 
 Especially in the case of aforementioned tabletop roleplaying games, the players have nearly infinite freedom of expression and ability to influence the world limited only by their creativity.
 This works only because the world exists in the minds of the players and all interactions can be simulated in the head of the player acting as the game master (a person responsible for coordinating the players actions and telling the interactive story).
+
 The advent of computer games brought unparalleled ability for artists to allow others to become immersed in their fictional worlds.
 Current advances in computer graphics make it possible to display life-like images of the game world.
 No longer does a player need to rely solely on their imagination to be able to immersive themselves in the story.
@@ -87,7 +88,7 @@ The same holds for choices made by the player during the game.
 If a major political figure is taken captive the player may make a choice to free them and earn their trust or allow the bandits to keep them incarcerated.
 Such a choice should affect the rest of the world and its impact should be growing stronger as time passes to eventually die out.
 In reality however, most games do not feature such a complex interaction system.
-There are exceptions to this such as "The Witcher 3" which allows the player to influence the state of the world by making decisions in certain points of the game \cite{vickery2018directing}.
+There are exceptions to this such as "The Witcher 3" or "Fallout 2" which allows the player to influence the state of the world by making decisions in certain points of the game \cite{vickery2018directing}.
 Even then, the narrative in such games always follows one of the predetermined branches.
 % Interactive media
 % lepsze utożsamianie się z bohaterem, możliwość kszatłtowania historii, w momencie gdy mamy wpływ, stajemy się bohaterem
@@ -106,13 +107,15 @@ As we grow old we look back on the choices we made and judge them by the standar
 This simple fact means that there is no objectivity in how humans perceive reality.
 Some situations or statements are simply more common in interpretation that others and thus we call them facts.
 Others we refer to as opinions and some can be called delusions.
+
 In games, the player is often tasked with accomplishing a goal which puts the future of the world at stake.
 The choices made by the player should feel impactful to the overall narrative or the player will feel disengaged from the story, breaking immersion.
 Often, choices can be morally ambiguous and the player should face the consequences of their actions in one way or another.
 In society crimes are punishable on the basis of proof.
 Proof is knowledge backed up by evidence, ergo a type of transferrable information.
 An eyewitness of a crime can be untrustworthy and thus a crime might not be punished.
-In games this mechanism is often simplified and a crime is detected and propagated across all the land if the player is briefly witnessed even by a single person.
+
+Within a simplified game world this mechanism is often simplified and a crime is detected and unfortunately propagated across all the land if the player is briefly witnessed even by a single person.
 The same goes for other player choices and game events.
 People start referencing in-game events in dialogues instantly after they happen as if seemingly everyone became aware of them instantaneously.
 This can break immersion and player expectations.
@@ -130,13 +133,18 @@ Generalizations of behavior help in this instance as some situations can be hand
 Others are more subtle and require careful scripting work to be believable and engaging.
 
 Instead of relying on scripting and handling every possible situation via a predefined reaction, the concept of emergent behavior can be used.
+The individual interactions that can be represented in a game still need to be manually scripted but the overall behavior of both single agents as well as whole groups of agents will emerge naturally.
 In order for emergent behavior to be possible, an entity exhibiting it needs to be independent and aware of the context in which it exists.
 For this reason a multi-agent system is used to simulate each virtual character as a separate agent with their own behaviors facilitated by a cognitive architecture.
+
+Each agent can be said to possess the knowledge about some plot events.
+The behaviors of all agents form the combined plot state of the game world.
+
 % The main topic of research in this thesis is the applicability of a multi-agent system with cognitive architecture in implementation and simulation of an epidemiological compartmental model simulating the propagation of information.
-The main goal of the thesis is design and implementation of an information propagation model in games.
+The main goal of the thesis is design and implementation of an plot event propagation model in games.
 For this reason a multi-agent system is used.
 Each agent is implemented using cognitive architecture.
-The information propagation is simulated using an epidemiological model.
+The plot propagation is simulated using an epidemiological model interpreted in terms of information propagation.
 
 % Propagation of knowledge or in general information is often too simplified in games.
 % Player actions should generate information that can be perceived, interpreted and propagated naturally by the other agents in the simulated game world.
@@ -158,16 +166,19 @@ The information propagation is simulated using an epidemiological model.
 \section*{Thesis Objectives}
 \addcontentsline{toc}{section}{Thesis Objectives}
 
-The objectives of this thesis include implementation and description of a multi-agent system using a cognitive architecture that can facilitate each agent having their own behavior.
-For the simulation of information propagation an epidemiological compartmental model is used.
+The objectives of this thesis include the design and implementation of a formal model for storing plot state of a game world and of a mechanism for propagation of plot events.
+It is actually argued that instead of a centralized model trying to handle plot events' propagation, it can be attained as an emergent property of a multi-agent system.
+The agents possess knowledge about the state of the plot and by interacting with each other cause propagation of plot events.
+To facilitate the agent's complex behavior, cognitive architecture is used.
+For the simulation of plot event propagation an epidemiological compartmental model is used.
 The implementation of the multi-agent system is compared with the epidemiological model.
 The title of the thesis refers to plot state and plot events.
 The plot state is understood as the state of the population, divided into the compartments defined by the chosen epidemiological model.
 The plot event is the act of an an agent transferring the information (infecting) another agent.
-The thesis aims to answer the following research questions:
+The thesis aims to answer the following Research Questions:
 
 \begin{description}
-    \item[RQ1] Can a solution using a multi-agent system with cognitive architecture be used in a game to simulate information propagation?
+    \item[RQ1] Can a solution using a multi-agent system with cognitive architecture be used in a game to simulate plot event propagation?
     \item[RQ2] Are the resulting information propagation dynamics consistent with the dynamics of the epidemiological model?
 \end{description}
 

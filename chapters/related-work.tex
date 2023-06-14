@@ -48,11 +48,12 @@ To understand how agents work with information, the concept of information and i
 The earliest work discussing information and similar concepts comes from Shannon in 1948\cite{shannon1948mathematical}.
 The author however never defines the term itself and simply proposes models for quantitative analysis.
 Approach described back then was more related to data than it was to information.
-The distinction was made clear by Langefors in 1973\cite{langefors1973theoretical}.
-Langefors proposed an approach putting the users of information first and proposed the following equation to describe the interaction of time, data, knowledge and information:
-$$
-    I = i(D, S,t)
-$$
+The distinction was made clear by Langefors\cite{langefors1973theoretical}, who proposed an approach putting the users of information first and proposed the following equation to describe the interaction of time, data, knowledge and information:
+\begin{equation}
+    $$
+        I = i(D, S,t)
+    $$
+\end{equation}
 where:
 \begin{variables}
     $I$ & information \\
@@ -61,10 +62,10 @@ where:
     $S$ & knowledge \\
     $t$ & time
 \end{variables}
-In 1989, Ackoff\cite{ackoff1989data} defined the hierarchy of the human mind as consisting of wisdom at the very top and descending into understanding, knowledge, information and further into data.
+Ackoff\cite{ackoff1989data} defined the hierarchy of the human mind as consisting of wisdom at the very top and descending into understanding, knowledge, information and further into data.
 The more popularized variant of this hierarchy being DIKW (data, information, knowledge, wisdom), became widespread in literature regarding knowledge management\cite{skyrme2007knowledge}.
 There have been many attempts to define the distinction between these terms as well as the terms themselves.
-One notable example was done by Grabowski and Zając in 2009\cite{mariusz2009dane}.
+One notable example was done by Grabowski and Zając\cite{mariusz2009dane}.
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.5\textwidth]{images/od_nadawcy_do_odbiorcy.png}
@@ -84,6 +85,7 @@ Surowiecki said "under the right circumstances, groups are remarkably intelligen
 To understand how knowledge is gained within a population one should analyze the way information itself is propagated.
 In fact, people have already noticed that certain facts, stories or news share similarities with viral infections in how they spread across the whole population and eventually die out.
 One such example is the work done by Liu et al.\cite{liu2016} where the authors describe how information spread can be explained using epidemiological models.
+
 Truly, the simplest of such models called SIR\cite{weiss2013sir} can be used to describe in simple terms how a population can be partitioned into groups of \emph{Susceptible} (people who haven't encountered the viral information yet), \emph{Infected} (those who know the news and are willing to share it) and \emph{Removed} (everyone who either lost interest or simply never exhibited it).
 There are however differences between infectious diseases and information.
 For this reason variations of the SIR model became born.
@@ -91,6 +93,7 @@ Zhao et al.\cite{zhao2012sihr} have developed the SIHR model where H stands for 
 The authors stress the importance of forgetting and remembering in trying to model the spread of information.
 Another variation worth noting is the SCIR model consisting of \emph{Susceptible}, \emph{Contacted}, \emph{Infected} and \emph{Refractory}\cite{xiong2012scir}.
 Both models use complex systems in order to simulate information propagation.
+
 Other attempts at modeling information propagation are networks\cite{rodriguez2013} and cellular automata\cite{silva2020}.
 Most literature dealing with the topic refers to social media, blogs and internet as the main medium of information exchange.
 Relatively few works analyze the mechanisms behind word-of-mouth communication.
@@ -111,7 +114,7 @@ These show clearly how most work done previously in this domain of knowledge rel
 
 It is apparent that information as utilized in agent-based simulation games is different than the concept used in information theory and derived works.
 Social agents that interact with each other and simulate conversations, emotional state and organic behavior have been analyzed since well before the development of artificial intelligence and language models.
-A notable example is the work done by Grey et al. in 2011 titled "Procedural quests: A focus for agent interaction in role-playing-games"\cite{grey2011procedural}.
+A notable example is the work "Procedural quests: A focus for agent interaction in role-playing-games" done by Grey et al. on agent applicability to procedural quests\cite{grey2011procedural}.
 The author describes the problems with contemporary games and their shallow plot propagation mechanisms and proposes their approach of modeling plot and its propagation using a social multi-agent system.
 Very recently many articles have been published that utilize the developments in the area of language models and natural language processing in general.
 Park et al.\cite{park2023generative} have used the GPT-4 model\cite{openai2023gpt4} to simulate a small village populated by characters each with individual personality and motivations.
@@ -137,7 +140,7 @@ For this reason and because the first approach can be adapted to the second scen
 
 In conclusion it can be seen that the use of agent-based simulation in game development is a growing field of research.
 Artificial intelligence and its derivatives drive the current state of the art in this area.
-Alternative approaches such as proposed back in 2011 by Grey\cite{grey2011procedural} should be explored to compete with the indeterministic nature of language models or perhaps to become the benchmarks against them.
+Alternative approaches such as proposed by Grey\cite{grey2011procedural} should be explored to compete with the indeterministic nature of language models or perhaps to become the benchmarks against them.
 
 In multi-agent simulation agents within the system are treated as independent entities interacting with each other.
 Both the player and any non-playable characters can be called agents.
@@ -159,7 +162,7 @@ Among the architectures described by the authors are the following examples:
     \item[PRODIGY] This architecture defines the concept of domain rules that encode the conditions under which actions can be executed as well as control rules that define which actions are to be selected or rejected.
 \end{description}
 
-Another notable example in the space of cognitive architectures is belief-desire-intention (BDI) described by Georgeff in 1992\cite{georgeff1992abstract}.
+Another notable example in the space of cognitive architectures is belief-desire-intention (BDI) described by Georgeff\cite{georgeff1992abstract}.
 In this architecture the agents hold certain beliefs about its state, has desire to act in a certain way and possesses intention that guarantees that it does not act randomly.
 
 All cognitive architectures can be used to solve similar problems, albeit each with a different approach.

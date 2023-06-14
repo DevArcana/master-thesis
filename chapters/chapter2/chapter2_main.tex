@@ -11,16 +11,16 @@ Because the interaction with a human player is not necessary to simulate the pro
 \begin{figure}[H]
     \centering
     \includegraphics[width=1.0\textwidth]{images/chapter1/agent_think.drawio.png}
-    \caption{Example agent's thinking process}\label{fig:agent_think.drawio.png}
+    \caption{Example of an agent's thinking process}\label{fig:agent_think.drawio.png}
 \end{figure}
 
 Within a single turn all agents execute the aforementioned decision cycle, starting from receiving information regarding the state of the world around them, deciding on the action to perform and finally executing it.
 The simulation used for evaluation of the model presented in this work is limited to a set of actions that each agent may perform:
 
 \begin{itemize}
-    \item Idle - agent does nothing, stays idle for the whole turn
-    \item Move - agent may decide to move in one of the four cardinal directions by a single tile
-    \item Infect - agent infects another agent
+    \item Idle - the agent does nothing, stays idle for the whole turn
+    \item Move - the agent may decide to move in one of the four cardinal directions by a single tile
+    \item Infect - the agent infects another agent
 \end{itemize}
 
 These actions are mapped to corresponding operators, with exception of the first idle action that is represented by a lack of operator being proposed.
@@ -146,7 +146,7 @@ Figure \ref{fig:images/visibility/agent47.png} shows a visualization of $Agent47
     \hspace*{\fill}
     \subfigure[Visualization of the agent's ability to remember agent's last position]{\includegraphics[width=0.48\textwidth]{images/visibility/agent47_moved.png}\label{fig:images/visibility/agent47_moved.png}}
 
-    \caption{Visualization of agent's sight}
+    \caption{Visualization of an agent's sight}
 \end{figure}
 
 After $Agent11$ leaves the range of $Agent47$'s sight, it is no longer perceived by them and instead a last remembered position remains in the $Agent47$'s working memory.
@@ -155,7 +155,7 @@ Figure \ref{fig:images/visibility/agent47_moved.png} illustrates the state of $A
 \subsection{Experiment 1 - semi-static agents}
 
 The simulation starts with a single agent being infected and the rest of the agents randomly distributed in a rectangular area.
-The initial state is visible on figure \ref{fig:images/chapter2/sir0/sir_1.png}.
+The initial state is visible in figure \ref{fig:images/chapter2/sir0/sir_1.png}.
 The first experiment assumes each agent can see other agents that are up to 8 tiles away from it and that no agent can ever become removed.
 
 \begin{figure}[H]
@@ -173,7 +173,7 @@ The first experiment assumes each agent can see other agents that are up to 8 ti
 
 Immediately in the second step of the simulation, the infected agent met up with an adjacent agent and infected them.
 Soon after two clusters of agents formed, each with agents trying to touch each other first before moving on.
-The two clusters are visible on figure \ref{fig:images/chapter2/sir0/sir_28.png}.
+The two clusters are visible in figure \ref{fig:images/chapter2/sir0/sir_28.png}.
 After 71 simulation steps nearly all agents have been infected and strong clustering behavior is clearly visible (figure \ref{fig:images/chapter2/sir0/sir_71.png}).
 Figure \ref{fig:images/chapter2/sir0/sir_85.png} shows the final state of the simulation after 85 steps where all agents have become infected and there are no remaining survivors.
 
@@ -201,8 +201,8 @@ A slight modification of the behavior rules will make them instead choose a rand
 After modification of the behavior rules to make susceptible individuals move around randomly as well as addition of a new rule that prevents the infected agent from targeting other infected agents the clustering behavior is gone.
 Figure \ref{fig:images/chapter2/sir1/sir_123.png} shows the final state of the experiment with the new ruleset.
 The distribution of the agents is more homogeneous than before, even though slight clustering still occurs.
-The population size plotted against time on figure \ref{fig:images/chapter2/sir1/sir.png} matches with the SIR model plotted on figure \ref{fig:images/chapter2/experiment2.png} with parameters $\beta = 0.1, \gamma = 0.0, N = 40$.
-The new rules produce behavior as illustrated by flowchart shown on figure \ref{fig:sir_logic2.drawio.png}.
+The population size plotted against time is compared in figure \ref{fig:images/chapter2/experiment2.png} with SIR model parameters $\beta = 0.1, \gamma = 0.0, N = 40$.
+The new rules produce behavior as illustrated by flowchart shown in figure \ref{fig:sir_logic2.drawio.png}.
 
 \begin{figure}[H]
     \centering
@@ -226,9 +226,9 @@ The new rules produce behavior as illustrated by flowchart shown on figure \ref{
     \caption{Experiment 2 - population size over time}\label{fig:images/chapter2/experiment2.png}
 \end{figure}
 
-The initial state of the experiment shown on figure \ref{fig:images/chapter2/experiment2.png} is the same as with every other experiment.
+The initial state of the experiment shown in figure \ref{fig:images/chapter2/experiment2.png} is the same as with every other experiment.
 The agents are randomly distributed and form three visually identifiable segments.
-After the simulation starts infected agents quickly form a cluster in the bottom right corner as visible on figure \ref{fig:images/chapter2/sir1/sir_33.png}.
+After the simulation starts infected agents quickly form a cluster in the bottom right corner as visible in figure \ref{fig:images/chapter2/sir1/sir_33.png}.
 Soon after the cluster disperses and the agents move on to infect the rest of the population.
 Finally, after 128 simulation steps, the whole population is infected and there are no more remaining survivors (figure \ref{fig:images/chapter2/sir1/sir_123.png}).
 
@@ -272,9 +272,9 @@ In terms of information propagation an agent becoming removed from the simulatio
 % Experiment 3
 
 A rather interesting observation made during testing was that because of the random distribution of agents, when the $\gamma$ parameter was greater than zero, it was often the case that a single individual survived.
-Example of this situation is shown on figures \ref{fig:images/chapter2/sir2/sir_1.png}, \ref{fig:images/chapter2/sir2/sir_53.png} and \ref{fig:images/chapter2/sir2/sir_123.png}.
+Example of this situation is shown in figures \ref{fig:images/chapter2/sir2/sir_1.png}, \ref{fig:images/chapter2/sir2/sir_53.png} and \ref{fig:images/chapter2/sir2/sir_123.png}.
 In this particular example the agents' lifetime upon infection became limited to just 24 simulation steps.
-The population size change in time is shown on figure \ref{fig:images/chapter2/sir2/sir.png}.
+The population size change in time is shown in figure \ref{fig:images/chapter2/sir2/sir.png}.
 
 % \begin{figure}[H]
 %     \centering
@@ -316,7 +316,7 @@ The next experiment shows an example of a simulation where infection rate is bal
 
 Figure \ref{fig:images/chapter2/experiment3.png} illustrates that the level of infection remains somewhat constant for the whole duration of the simulation.
 The corresponding SIR model's parameters for this experiment are $\beta = 0.12, \gamma = 0.04, N = 40$.
-% It correlates with the SIR model parameters $\beta = 0.03, \gamma = 0.01, N = 40$ as shown on figure \ref{fig:images/chapter2/experiment3.png}.
+% It correlates with the SIR model parameters $\beta = 0.03, \gamma = 0.01, N = 40$ as shown in figure \ref{fig:images/chapter2/experiment3.png}.
 Figures \ref{fig:images/chapter2/sir3/sir_1.png}, \ref{fig:images/chapter2/sir3/sir_79.png} and \ref{fig:images/chapter2/sir3/sir_128.png} show the progression of the simulation up until the last susceptible individual changes state.
 
 \begin{figure}[H]
@@ -330,7 +330,7 @@ Figures \ref{fig:images/chapter2/sir3/sir_1.png}, \ref{fig:images/chapter2/sir3/
     \caption{Experiment 4} \label{fig:experiment3}
 \end{figure}
 
-\subsection{Experiment 5 - analysis of population density influence}
+\subsection{Experiment 5 - influence of population density}
 
 In order to determine whether the solution is capable of scaling up to simulate bigger and more complex game worlds, the fifth experiment was conducted.
 Four population sizes have been chosen for analysis: 16, 32, 64 and 128.
@@ -338,9 +338,9 @@ At each population size, three simulations of a hundred runs each were performed
 Each simulation differed in the choice of the lifetime parameter.
 
 The choice of the lifetime parameter as the additional axis of analysis was made due to the assumption that at lower population densities there is a risk that agents may fail to reach another agent before they become removed from the simulation.
-Results of the experiment are presented on figure \ref{fig:experiment5}.
+Results of the experiment are presented in figure \ref{fig:experiment5}.
 The initial assumption was proven to be correct as it can be clearly seen that the simulations performed with lifetime parameter set to 8 show a clear change in the simulation dynamics only after the population size became 128.
-The combination of population size equal to 128 and the lifetime parameter set to 32 as presented on figure \ref{images/experiments/experiment_128_008_16.png} correlates with a much smaller population size of 16 and lifetime parameter value 16 on figure \ref{images/experiments/experiment_016_016_16.png}.
+The combination of population size equal to 128 and the lifetime parameter set to 32 as presented in figure \ref{images/experiments/experiment_128_008_16.png} correlates with a much smaller population size of 16 and lifetime parameter value 16 in figure \ref{images/experiments/experiment_016_016_16.png}.
 
 \begin{figure}[H]
     \centering
@@ -376,15 +376,15 @@ While the rate of infection seems to increase slightly with the increase of popu
 The overall shape of each curve remains the same irrespective of the population size after the lifetime parameter value was set above the threshold of 16.
 This experiment shows that the solution is capable of being used to simulate larger populations and that its dynamics remain constant irrespective of scale.
 
-\subsection{Experiment 6 - alternate map topologies}
+\subsection{Experiment 6 - alternative map topologies}
 
 Simulation of information propagation without taking into account the constraints of the terrain or the shape of the map, is not going to be always representative of real world games and their simulated worlds.
 For this reason in this experiment there were created four distinct maps with varying topology and design.
 Figures \ref{fig:map1_design}, \ref{fig:map2_design}, \ref{fig:map3_design} and \ref{fig:map4_design} show the different map designs along with their in-simulation graphical representation, showing example distribution of agents on each map.
-Map presented on figure \ref{fig:map1_design} represents a complex system of caves with organic wall topology and many narrow corridors.
+Map presented in figure \ref{fig:map1_design} represents a complex system of caves with organic wall topology and many narrow corridors.
 The second map from figure \ref{fig:map2_design} is a reference map similar to the one used in previous experiments and is simply an empty square of 48 by 48 tiles in size.
-Map shown on figure \ref{fig:map3_design} is a connected system of two rooms where the only connection is a narrow corridor that limits the throughput of agents wanting to pass through it to the second half of the map.
-Finally, the fourth map visible on figure \ref{fig:map4_design} is a irregular combination of four rooms connected by one central room.
+Map shown in figure \ref{fig:map3_design} is a connected system of two rooms where the only connection is a narrow corridor that limits the throughput of agents wanting to pass through it to the second half of the map.
+Finally, the fourth map visible in figure \ref{fig:map4_design} is a irregular combination of four rooms connected by one central room.
 The last map's design was made to determine if irregular but symmetrical design of the map impacts the dynamics of the simulation in a noticable way.
 
 \begin{figure}[H]
@@ -450,7 +450,7 @@ The last map's design was made to determine if irregular but symmetrical design 
 % \end{figure}
 
 The previous experiment proven that the density of population does not impact the dynamics of the simulation in a noticeable way as long as the lifetime of the infected agent is above the threshold necessary for it to travel across to any other agent.
-For this reason four simulations of a hundred runs each were selected for comparison on figure \ref{fig:maps_comparison}.
+For this reason four simulations of a hundred runs each were selected for comparison in figure \ref{fig:maps_comparison}.
 The simulation parameters chosen for this experiment were selected such as to minimize their impact on the dynamics of the simulation in each of the maps.
 The lifetime of the infected agents was set to 32 simulation steps and their sight has been set to 16 tiles.
 The population in each map is 64 agents, randomly and uniformly distributed across the map inside of the allowed (hollow) spaces.
@@ -510,7 +510,7 @@ The first map shows heavy influence of the lifetime parameter that impacts the d
 Because the system of caves is complex and narrow, the agents do not have enough to time to reach other agents and so the propagation stops.
 
 The second map is a reference map that shows results similar to the ones already described in the preceding experiments.
-Figure \ref{fig:map2_lifetime} shows much smaller shaded areas when compared to the simulation illustrated on figure \ref{fig:map1_lifetime}.
+Figure \ref{fig:map2_lifetime} shows much smaller shaded areas when compared to the simulation illustrated in figure \ref{fig:map1_lifetime}.
 
 From this one can see that the complexity of the cave system in comparison with the reference map simulation impacts the repeatability and predictability of each simulation run.
 
@@ -545,7 +545,7 @@ This could be attributed to the narrow passageway in the middle of the map that 
     \caption{Experiment 6 - Map 4 lifetime influence}\label{fig:map4_lifetime}
 \end{figure}
 
-The last simulation as shown on figure \ref{fig:map4_lifetime} shows a flat segment of the infected agents on subfigure \ref{fig:map4_lifetime_d}.
+The last simulation as shown in figure \ref{fig:map4_lifetime} shows a flat segment of the infected agents on subfigure \ref{fig:map4_lifetime_d}.
 This could be attributed to the symmetric but irregular shape of the map.
 The same situation does not appear in any of the previous simulations.
 
@@ -668,10 +668,10 @@ The range constraint heavily impacts the dynamics of the simulation by greatly r
 \end{figure}
 
 In order to determine the impact of lifetime parameter, four additional experimentations were conducted on each map.
-The results are visible on figures \ref{fig:map1_lifetime_range}, \ref{fig:map2_lifetime_range}, \ref{fig:map3_lifetime_range} and \ref{fig:map4_lifetime_range}.
+The results are visible in figures \ref{fig:map1_lifetime_range}, \ref{fig:map2_lifetime_range}, \ref{fig:map3_lifetime_range} and \ref{fig:map4_lifetime_range}.
 
 It can be seen that in nearly all maps the lifetime parameter does not really impact the simulation outcome.
-The most heavily impacted map are the third and the fourth one, the results from which are on figures \ref{fig:map3_lifetime_range} and \ref{fig:map4_lifetime_range}.
+The most heavily impacted map are the third and the fourth one, the results from which are in figures \ref{fig:map3_lifetime_range} and \ref{fig:map4_lifetime_range}.
 This could be attributed to the higher population density on these maps as the same population size is distributed on a smaller area.
 The conditions of this experiment are heavily impacted by population density as opposed to the previous experiments that relied mostly on the combination of agent's sight (but only up to a certain threshold) and lifetime of infected individuals.
 
